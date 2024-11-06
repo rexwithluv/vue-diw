@@ -77,20 +77,24 @@
 
                 <!-- Checkbox "Histórico" -->
                 <div class="col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-text">
-                            <input v-model="isChecked" type="checkbox" name="historico" id="historico"
-                                class="form-check-input mt-0" />
-                        </div>
-                        <label class="input-group-text">Mostrar clientes que se han dado de baja</label>
+                    <div class="form-check">
+                        <input v-model="isChecked" type="checkbox" name="historico" id="historico"
+                            class="form-check-input" />
+                        <label class="form-check-label">Mostrar clientes que se han dado de
+                            baja</label>
                     </div>
                 </div>
 
                 <!-- Botones -->
-                <div class="d-flex justify-content-center gap-4 mt-4">
-                    <button type="submit" class="btn btn-primary" @click.prevent="grabarCliente">Guardar</button>
-                    <button type="submit" class="btn btn-warning" @click.prevent="grabarCliente">Modificar</button>
-                    <button type="submit" class="btn btn-danger" @click.prevent="grabarCliente">Eliminar</button>
+                <div class="col-md-12 d-flex justify-content-center">
+                    <div class="pt-3 pb-4 d-flex gap-4">
+                        <button type="submit" class="btn btn-primary px-4"
+                            @click.prevent="grabarCliente">Guardar</button>
+                        <button type="submit" class="btn btn-warning px-4"
+                            @click.prevent="grabarCliente">Modificar</button>
+                        <button type="submit" class="btn btn-danger px-4"
+                            @click.prevent="grabarCliente">Eliminar</button>
+                    </div>
                 </div>
             </form>
         </div>
