@@ -1,6 +1,4 @@
 <template>
-    <NavBar></NavBar>
-
     <h2 class="text-center fw-bold py-3">Gestión clientes</h2>
 
     <div class="container-fluid px-4">
@@ -139,14 +137,9 @@
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
 import Swal from 'sweetalert2';
 export default {
     name: "TablaClientes",
-    components: {
-        NavBar
-    },
-
 
     data() {
         return {
