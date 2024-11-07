@@ -1,9 +1,7 @@
 <template>
-    <h2 class="text-center fw-bold py-3">Gestión clientes</h2>
-
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
-            <form @submit.prevent="grabarCliente" class="row m-auto gx-4 gy-3 border rounded bg-light">
+            <form class="row m-auto gx-4 gy-3 border rounded bg-light">
 
                 <!-- DNI y fecha alta -->
                 <div class="col-md-6">
@@ -15,8 +13,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <label class="input-group-text">Fecha de alta</label>
-                        <input type="date" class="form-control" placeholder="Fecha alta" v-model="cliente.fechaAlta">
+                        <label class="input-group-text label-width">Fecha de alta</label>
+                        <input type="date" class="form-control" placeholder="Fecha alta" v-model="cliente.alta">
                     </div>
                 </div>
 
@@ -55,8 +53,9 @@
                         <label class="input-group-text">Provincia</label>
                         <select name="provincia" id="provincia" class="form-select" v-model="cliente.provincia">
                             <option value="">Selecciona una provincia</option>
-                            <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">
-                                {{ provincia.nm }}</option>
+                            <option v-for="provincia in provincias" :key="provincia.id" :value="provincia.id">
+                                {{ provincia.nm }}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -65,18 +64,17 @@
                         <label class="input-group-text">Municipio</label>
                         <select name="municipio" id="municipio" class="form-select" v-model="cliente.municipio">
                             <option value="">Selecciona una opción</option>
-                            <option v-for="municipio in municipiosFiltrados" :key="municipio.id" :value="municipio">{{
-                                municipio.nm
-                                }}
+                            <option v-for="municipio in municipiosFiltrados" :key="municipio.id" :value="municipio.id">
+                                {{ municipio.nm }}
                             </option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Checkbox "Histórico" -->
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-check">
-                        <input v-model="isChecked" type="checkbox" name="historico" id="historico"
+                        <input v-model="verHistorico" type="checkbox" name="historico" id="historico"
                             class="form-check-input" />
                         <label class="form-check-label">Mostrar clientes que se han dado de
                             baja</label>
@@ -86,12 +84,22 @@
                 <!-- Botones -->
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="pt-3 pb-4 d-flex gap-4">
-                        <button type="submit" class="btn btn-primary px-4"
-                            @click.prevent="grabarCliente">Guardar</button>
-                        <button type="submit" class="btn btn-warning px-4"
-                            @click.prevent="grabarCliente">Modificar</button>
-                        <button type="submit" class="btn btn-danger px-4"
-                            @click.prevent="grabarCliente">Eliminar</button>
+                        <button type="button" class="btn btn-primary px-3" @click.prevent="grabarCliente()">
+                            <i class="bi bi-floppy-fill me-1"></i>
+                            Guardar
+                        </button>
+                        <button type="button" class="btn btn-primary px-3" @click.prevent="grabarCliente()">
+                            <i class="bi bi-pencil-fill me-1"></i>
+                            Modificar
+                        </button>
+                        <button type="button" class="btn btn-primary px-3" @click.prevent="grabarCliente()">
+                            <i class="bi bi-trash-fill me-1"></i>
+                            Eliminar
+                        </button>
+                        <button type="button" class="btn btn-primary px-3" @click.prevent="limpiarFormulario()">
+                            <i class="bi bi-eraser-fill me-1"></i>
+                            Limpiar
+                        </button>
                     </div>
                 </div>
             </form>
@@ -99,7 +107,7 @@
     </div>
 
     <!-- tabla -->
-    <div class="container-fluid border my-2">
+    <div class="container-fluid my-3">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead class="table-info rounded-header">
@@ -108,7 +116,7 @@
                         <th scope="col" class="w-25">Apellidos</th>
                         <th scope="col" class="w-25">Nombre</th>
                         <th scope="col" class="w-20 text-center">Email</th>
-                        <th scope="col" class="w-10 text-center">Fecha Baja</th>
+                        <th v-if="verHistorico" scope="col" class="w-10 text-center">Fecha Baja</th>
                         <th scope="col" class="pale-yellow">Acciones</th>
                     </tr>
                 </thead>
@@ -118,14 +126,11 @@
                         <td class="align-middle">{{ cliente.apellidos }}</td>
                         <td class="align-middle">{{ cliente.nombre }}</td>
                         <td class="align-middle">{{ cliente.email }}</td>
-                        <td class="align-middle">{{ cliente.baja }}</td>
+                        <td v-if="verHistorico" class="align-middle">{{ cliente.baja }}</td>
                         <td class="text-center align-middle pale-yellow">
                             <div>
-                                <button class="btn btn-warning m-2" @click="seleccionaCliente(cliente)">
+                                <button class="btn btn-warning m-2" @click.prevent="seleccionarCliente(cliente)">
                                     <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button class="btn btn-danger m-2" @click="deleteCliente(cliente.dni)">
-                                    <i class="bi bi-trash"></i>
                                 </button>
                             </div>
                         </td>
@@ -158,7 +163,7 @@ export default {
             provincias: [],
             municipios: [],
             errores: [],
-            isChecked: false,
+            verHistorico: false,
         }
     },
 
@@ -172,14 +177,14 @@ export default {
     // Propiedades computadas que se calculan en tiempo real, reactivas a cambios
     computed: {
         clientesFiltrados() {
-            //Filtra clientes que tienen fecha de baja vacia si isChecked es false
-            return this.isChecked ? this.clientes : this.clientes.filter(cliente => !cliente.baja); //lo hace todo
+            //Filtra clientes que tienen fecha de baja vacia si verHistorico es false
+            return this.verHistorico ? this.clientes : this.clientes.filter(cliente => !cliente.baja); //lo hace todo
         },
         municipiosFiltrados() {
-            if (!this.cliente.provincia || !this.cliente.provincia.id) {
+            if (!this.cliente.provincia) {
                 return [];
             }
-            return this.municipios.filter((municipio) => municipio.id.startsWith(this.cliente.provincia.id));
+            return this.municipios.filter((municipio) => municipio.id.startsWith(this.cliente.provincia));
         },
     },
 
@@ -214,27 +219,59 @@ export default {
                 const response = await fetch("http://localhost:3000/clientes");
                 if (!response.ok) {
                     throw new Error("Error en la solicitud: " + response.statusText);
+
                 }
-                this.clientes = await response.json();
+                this.clientes = (await response.json()).sort((a, b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
+
             } catch (error) {
                 console.log(error);
             }
         },
 
         // Método del formulario por defecto
-        grabarCliente() {
-            this.clientes.push({ ...this.cliente })
-            this.cliente = {
-                dni: '',
-                alta: '',
-                apellidos: '',
-                nombre: '',
-                direccion: '',
-                email: '',
-                provincia: '',
-                municipio: '',
-                baja: '',
+        async grabarCliente() {
+            if (this.cliente.dni && this.cliente.apellidos) {
+                try {
+                    this.cliente.baja = "";
+
+                    const response = await fetch("http://localhost:3000/clientes");
+                    if (!response.ok) {
+                        throw new Error("Error al obtener los clientes: " + response.statusText);
+                    }
+
+                    const clientesExistentes = await response.json();
+                    const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
+                    if (clienteExistente) {
+                        this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
+                    } else {
+                        const crearResponse = await fetch("http://localhost:3000/clientes", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(this.cliente)
+                        });
+
+                        if (!crearResponse.ok) {
+                            throw new Error("Error al guardar el cliente: " + crearResponse.statusText);
+                        }
+
+                        const nuevoCliente = await crearResponse.json();
+                        this.clientes.push(nuevoCliente);
+                        this.mostrarAlerta("Aviso", "Cliente guardado", "success");
+                        this.getClientes;
+                    }
+                } catch (error) {
+                    console.log(error);
+                    this.mostrarAlerta("Error", "No se pudo grabar el cliente.", "error");
+                }
+            } else {
+                this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
             }
+        },
+
+        seleccionarCliente(cliente) {
+            this.cliente = cliente;
         },
 
         // Alerta usada en las validaciones
@@ -268,6 +305,7 @@ export default {
             return true;
         },
 
+        //
         validarDni(dni) {
             if (dni.length === 0) {
                 return true;
@@ -296,6 +334,20 @@ export default {
 
             return true;
         },
+
+        limpiarFormulario() {
+            this.cliente = {
+                dni: '',
+                alta: '',
+                apellidos: '',
+                nombre: '',
+                direccion: '',
+                email: '',
+                provincia: '',
+                municipio: '',
+                baja: '',
+            };
+        }
     },
 }
 
