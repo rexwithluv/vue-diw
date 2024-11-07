@@ -124,7 +124,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="cliente in clientesFiltrados" :key="cliente.id">
-                        <td class="align-middle text-center">{{ cliente.dni }}</td>
+                        <td class="align-middle text-center">{{ ocultarDni(cliente.dni) }}</td>
                         <td class="align-middle text-center">{{ cliente.apellidos }}</td>
                         <td class="align-middle text-center">{{ cliente.nombre }}</td>
                         <td class="align-middle text-center">{{ cliente.email }}</td>
@@ -187,7 +187,7 @@ export default {
                 return [];
             }
             return this.municipios.filter((municipio) => municipio.id.startsWith(this.cliente.provincia));
-        }
+        },
     },
 
     // Métodos de los de toda la vida
@@ -245,6 +245,7 @@ export default {
             };
         },
 
+        // Métodos que se llaman desde los botones del formulario
         async grabarCliente() {
             if (this.cliente.dni && this.cliente.apellidos) {
                 try {
@@ -287,6 +288,7 @@ export default {
             }
         },
 
+        // Método que llama los botones de la tabla
         seleccionarCliente(cliente) {
             this.cliente = cliente;
         },
@@ -349,6 +351,14 @@ export default {
 
             return true;
         },
+
+        // A la hora de mostrar el DNI en la tabla
+        ocultarDni(dni) {
+            const HIDDEN_CHAR = "*";
+            const OCULTAR_HASTA = 6;
+
+            return Array.from(dni).map((char, i) => i < OCULTAR_HASTA ? HIDDEN_CHAR : char).join("");
+        }
     },
 }
 
