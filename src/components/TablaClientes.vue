@@ -1,69 +1,98 @@
 <template>
-    <div>
-        <NavBar></NavBar>
-    </div>
-    <div class="row">
-        <h4 class="text-center front-weight-bold my-3">Gestión clientes</h4>
-    </div>
-    <div class="container-fluid border p-4">
+    <h2 class="text-center fw-bold py-3">Gestión clientes</h2>
+
+    <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
-            <form @submit.prevent="grabarCliente" class="form-in-line">
+            <form @submit.prevent="grabarCliente" class="row m-auto gx-4 gy-3 border rounded bg-light">
 
-                <div class="input-group mb-3 border rounded py-2 px-3 bg-light">
-                    <label class="input-group-text">DNI/NIE</label>
-                    <input type="text" class="form-control" placeholder="DNI-NIE" @blur="validarDni(cliente.dni)"
-                        v-model="cliente.dni">
-
-                    <label class="input-group-text ">Fecha de alta</label>
-                    <input type="date" class="form-control" placeholder="Fecha alta" v-model="cliente.fechaAlta">
-                </div>
-
-                <div class="input-group mb-3 border rounded py-2 px-3 bg-light">
-                    <label class="input-group-text">Apellidos</label>
-                    <input type="text" class="form-control" placeholder="Apellidos" v-model="cliente.apellidos">
-
-                    <label class="input-group-text">Nombre</label>
-                    <input type="text" class="form-control" placeholder="Nombre" v-model="cliente.nombre">
-                </div>
-
-                <div class="input-group mb-3 border rounded py-2 px-3 bg-light">
-                    <label class="input-group-text">Dirección</label>
-                    <input type="text" class="form-control" placeholder="Dirección" v-model="cliente.direccion">
-
-                    <label class="input-group-text">Email</label>
-                    <input type="text" class="form-control" placeholder="Email" @blur="validarCorreo(cliente.email)"
-                        v-model="cliente.email">
-                </div>
-
-                <div class="input-group mb-3 border rounded py-2 px-3 bg-light">
-                    <label class="input-group-text">Provincia</label>
-                    <select name="provincia" id="provincia" class="form-select" v-model="cliente.provincia">
-                        <option value="">Selecciona una provincia</option>
-                        <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">
-                            {{ provincia.nm }}</option>
-                    </select>
-
-                    <label class="input-group-text">Municipio</label>
-                    <select name="municipio" id="municipio" class="form-select" v-model="cliente.municipio">
-                        <option value="">Selecciona una opción</option>
-                        <option v-for="municipio in municipios" :key="municipio.id" :value="municipio">{{ municipio.nm
-                            }}
-                        </option>
-                    </select>
-                </div>
-
-                <div class="input-group mb-3 border rounded py-2 px-3 bg-light">
-                    <div class="input-group-text ">
-                        <input v-model="isChecked" type="checkbox" name="historico" id="historico"
-                            class="form-check-input mt-0" />
+                <!-- DNI y fecha alta -->
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">DNI/NIE</label>
+                        <input type="text" class="form-control" placeholder="DNI-NIE" @blur="validarDni(cliente.dni)"
+                            v-model="cliente.dni">
                     </div>
-                    <label class="input-group-text">Quiero que se muestren clientes que se han dado de baja</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Fecha de alta</label>
+                        <input type="date" class="form-control" placeholder="Fecha alta" v-model="cliente.fechaAlta">
+                    </div>
                 </div>
 
-                <div class="d-flex justify-content-center gap-4 mt-4">
-                    <button type="submit" class="btn btn-primary" @click.prevent="grabarCliente">Guardar</button>
-                    <button type="submit" class="btn btn-warning" @click.prevent="grabarCliente">Modificar</button>
-                    <button type="submit" class="btn btn-danger" @click.prevent="grabarCliente">Eliminar</button>
+                <!-- Nombre y apellidos -->
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" v-model="cliente.nombre">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Apellidos</label>
+                        <input type="text" class="form-control" placeholder="Apellidos" v-model="cliente.apellidos">
+                    </div>
+                </div>
+
+                <!-- Dirección e email -->
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <label class="input-group-text">Dirección</label>
+                        <input type="text" class="form-control" placeholder="Dirección" v-model="cliente.direccion">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <label class="input-group-text">Email</label>
+                        <input type="text" class="form-control" placeholder="Email" @blur="validarCorreo(cliente.email)"
+                            v-model="cliente.email">
+                    </div>
+                </div>
+
+                <!-- Provincia y municipio -->
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Provincia</label>
+                        <select name="provincia" id="provincia" class="form-select" v-model="cliente.provincia">
+                            <option value="">Selecciona una provincia</option>
+                            <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">
+                                {{ provincia.nm }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Municipio</label>
+                        <select name="municipio" id="municipio" class="form-select" v-model="cliente.municipio">
+                            <option value="">Selecciona una opción</option>
+                            <option v-for="municipio in municipiosFiltrados" :key="municipio.id" :value="municipio">{{
+                                municipio.nm
+                                }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Checkbox "Histórico" -->
+                <div class="col-md-12">
+                    <div class="form-check">
+                        <input v-model="isChecked" type="checkbox" name="historico" id="historico"
+                            class="form-check-input" />
+                        <label class="form-check-label">Mostrar clientes que se han dado de
+                            baja</label>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="col-md-12 d-flex justify-content-center">
+                    <div class="pt-3 pb-4 d-flex gap-4">
+                        <button type="submit" class="btn btn-primary px-4"
+                            @click.prevent="grabarCliente">Guardar</button>
+                        <button type="submit" class="btn btn-warning px-4"
+                            @click.prevent="grabarCliente">Modificar</button>
+                        <button type="submit" class="btn btn-danger px-4"
+                            @click.prevent="grabarCliente">Eliminar</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -84,7 +113,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cliente in filtroClientes" :key="cliente.id">
+                    <tr v-for="cliente in clientesFiltrados" :key="cliente.id">
                         <td class="align-middle">{{ cliente.dni }}</td>
                         <td class="align-middle">{{ cliente.apellidos }}</td>
                         <td class="align-middle">{{ cliente.nombre }}</td>
@@ -108,14 +137,9 @@
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
 import Swal from 'sweetalert2';
 export default {
     name: "TablaClientes",
-    components: {
-        NavBar
-    },
-
 
     data() {
         return {
@@ -134,7 +158,7 @@ export default {
             provincias: [],
             municipios: [],
             errores: [],
-            isChecked: false
+            isChecked: false,
         }
     },
 
@@ -145,9 +169,9 @@ export default {
         this.getMunicipios();
     },
 
-    // Funciones que se ejecutan en tiempo real, sensibles a cambios
+    // Propiedades computadas que se calculan en tiempo real, reactivas a cambios
     computed: {
-        filtroClientes() {
+        clientesFiltrados() {
             //Filtra clientes que tienen fecha de baja vacia si isChecked es false
             return this.isChecked ? this.clientes : this.clientes.filter(cliente => !cliente.baja); //lo hace todo
         },
@@ -161,6 +185,8 @@ export default {
 
     // Métodos de los de toda la vida
     methods: {
+
+        // Getters para los select
         async getProvincias() {
             try {
                 const response = await fetch("http://localhost:3000/provincias");
@@ -172,7 +198,17 @@ export default {
                 console.log(error);
             }
         },
-
+        async getMunicipios() {
+            try {
+                const response = await fetch("http://localhost:3000/municipios");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+                }
+                this.municipios = await response.json();
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async getClientes() {
             try {
                 const response = await fetch("http://localhost:3000/clientes");
@@ -185,18 +221,7 @@ export default {
             }
         },
 
-        async getMunicipios() {
-            try {
-                const response = await fetch("http://localhost:3000/municipios");
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
-                }
-                this.municipios = await response.json();
-            } catch (error) {
-                console.log(error);
-            }
-        },
-
+        // Método del formulario por defecto
         grabarCliente() {
             this.clientes.push({ ...this.cliente })
             this.cliente = {
@@ -211,6 +236,22 @@ export default {
                 baja: '',
             }
         },
+
+        // Alerta usada en las validaciones
+        mostrarAlerta(titulo, mensaje, icono) {
+            Swal.fire({
+                title: titulo,
+                text: mensaje,
+                icon: icono,
+                customClass: {
+                    container: "custom-alert-container",
+                    popup: "custom-alert-popup",
+                    modal: "custom-alert-modal",
+                },
+            });
+        },
+
+        // Validaciones
         validarCorreo(email) {
             if (email.length === 0) {
                 return true;
@@ -254,19 +295,6 @@ export default {
             }
 
             return true;
-        },
-
-        mostrarAlerta(titulo, mensaje, icono) {
-            Swal.fire({
-                title: titulo,
-                text: mensaje,
-                icon: icono,
-                customClass: {
-                    container: "custom-alert-container",
-                    popup: "custom-alert-popup",
-                    modal: "custom-alert-modal",
-                },
-            });
         },
     },
 }
