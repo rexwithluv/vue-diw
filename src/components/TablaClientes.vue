@@ -88,15 +88,15 @@
                             <i class="bi bi-floppy-fill me-1"></i>
                             Guardar
                         </button>
-                        <button type="button" class="btn btn-primary px-3" @click.prevent="grabarCliente()">
+                        <button type="button" class="btn btn-warning px-3" @click.prevent="grabarCliente()">
                             <i class="bi bi-pencil-fill me-1"></i>
                             Modificar
                         </button>
-                        <button type="button" class="btn btn-primary px-3" @click.prevent="grabarCliente()">
+                        <button type="button" class="btn btn-danger px-3" @click.prevent="grabarCliente()">
                             <i class="bi bi-trash-fill me-1"></i>
                             Eliminar
                         </button>
-                        <button type="button" class="btn btn-primary px-3" @click.prevent="limpiarFormulario()">
+                        <button type="button" class="btn btn-secondary px-3" @click.prevent="limpiarFormulario()">
                             <i class="bi bi-eraser-fill me-1"></i>
                             Limpiar
                         </button>
@@ -106,28 +106,30 @@
         </div>
     </div>
 
-    <!-- tabla -->
-    <div class="container-fluid my-3">
+    <!-- Tabla -->
+    <h2 class="text-center fw-bold mt-4">Tabla clientes</h2>
+
+    <div class="my-3">
         <div class="table-responsive">
-            <table class="table table-striped">
-                <thead class="table-info rounded-header">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <th scope="col" class="w-15 text-center">DNI</th>
-                        <th scope="col" class="w-25">Apellidos</th>
-                        <th scope="col" class="w-25">Nombre</th>
-                        <th scope="col" class="w-20 text-center">Email</th>
-                        <th v-if="verHistorico" scope="col" class="w-10 text-center">Fecha Baja</th>
-                        <th scope="col" class="pale-yellow">Acciones</th>
+                        <th scope="col" class="bg-info-subtle text-center">DNI</th>
+                        <th scope="col" class="bg-info-subtle text-center">Apellidos</th>
+                        <th scope="col" class="bg-info-subtle text-center">Nombre</th>
+                        <th scope="col" class="bg-info-subtle text-center">Email</th>
+                        <th v-if="verHistorico" scope="col" class="bg-info-subtle text-center">Fecha Baja</th>
+                        <th scope="col" class="bg-warning-subtle text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="cliente in clientesFiltrados" :key="cliente.id">
-                        <td class="align-middle">{{ cliente.dni }}</td>
-                        <td class="align-middle">{{ cliente.apellidos }}</td>
-                        <td class="align-middle">{{ cliente.nombre }}</td>
-                        <td class="align-middle">{{ cliente.email }}</td>
-                        <td v-if="verHistorico" class="align-middle">{{ cliente.baja }}</td>
-                        <td class="text-center align-middle pale-yellow">
+                        <td class="align-middle text-center">{{ cliente.dni }}</td>
+                        <td class="align-middle text-center">{{ cliente.apellidos }}</td>
+                        <td class="align-middle text-center">{{ cliente.nombre }}</td>
+                        <td class="align-middle text-center">{{ cliente.email }}</td>
+                        <td v-if="verHistorico" class="align-middle text-center">{{ cliente.baja }}</td>
+                        <td class="text-center align-middle text-center pale-yellow">
                             <div>
                                 <button class="btn btn-warning m-2" @click.prevent="seleccionarCliente(cliente)">
                                     <i class="fas fa-pencil-alt"></i>
@@ -185,7 +187,7 @@ export default {
                 return [];
             }
             return this.municipios.filter((municipio) => municipio.id.startsWith(this.cliente.provincia));
-        },
+        }
     },
 
     // Métodos de los de toda la vida
@@ -228,7 +230,21 @@ export default {
             }
         },
 
-        // Método del formulario por defecto
+        // Limpiar formulario
+        limpiarFormulario() {
+            this.cliente = {
+                dni: '',
+                alta: '',
+                apellidos: '',
+                nombre: '',
+                direccion: '',
+                email: '',
+                provincia: '',
+                municipio: '',
+                baja: '',
+            };
+        },
+
         async grabarCliente() {
             if (this.cliente.dni && this.cliente.apellidos) {
                 try {
@@ -260,6 +276,7 @@ export default {
                         this.clientes.push(nuevoCliente);
                         this.mostrarAlerta("Aviso", "Cliente guardado", "success");
                         this.getClientes;
+                        this.limpiarFormulario();
                     }
                 } catch (error) {
                     console.log(error);
@@ -304,8 +321,6 @@ export default {
             }
             return true;
         },
-
-        //
         validarDni(dni) {
             if (dni.length === 0) {
                 return true;
@@ -334,20 +349,6 @@ export default {
 
             return true;
         },
-
-        limpiarFormulario() {
-            this.cliente = {
-                dni: '',
-                alta: '',
-                apellidos: '',
-                nombre: '',
-                direccion: '',
-                email: '',
-                provincia: '',
-                municipio: '',
-                baja: '',
-            };
-        }
     },
 }
 
