@@ -88,11 +88,11 @@
                             <i class="bi bi-floppy-fill me-1"></i>
                             Guardar
                         </button>
-                        <button type="button" class="btn btn-warning px-3" @click.prevent="grabarCliente()">
+                        <button type="button" class="btn btn-warning px-3" @click.prevent="">
                             <i class="bi bi-pencil-fill me-1"></i>
                             Modificar
                         </button>
-                        <button type="button" class="btn btn-danger px-3" @click.prevent="grabarCliente()">
+                        <button type="button" class="btn btn-danger px-3" @click.prevent="">
                             <i class="bi bi-trash-fill me-1"></i>
                             Eliminar
                         </button>
