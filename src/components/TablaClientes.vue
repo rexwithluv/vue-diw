@@ -289,8 +289,42 @@ export default {
         },
 
         // Método que llama los botones de la tabla
-        seleccionarCliente(cliente) {
-            this.cliente = cliente;
+        async seleccionarCliente(cliente) {
+            try {
+                this.limpiarFormulario();
+                const response = await fetch("http://localhost:3000/clientes");
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+
+                // Clientes 
+                const clientes = await response.json();
+
+                const clienteEncontrado = clientes.find(c => c.dni === cliente.dni);
+
+                if (clienteEncontrado) {
+                    // Convertir la fecha de alta al formato dd/mm/yyyy
+                    // Asignar el objeto completo de provincia y municipio
+                    if (this.cliente.provincia) {
+                        this.cliente.provincia = this.provincias.find(p => p.nm === this.cliente.provincia).nm;
+                        if (this.cliente.provincia) {
+                            console.log("Provincia encontrada", this.cliente.provincia);
+
+                        }
+                    }
+
+                    this.cliente = { ...clienteEncontrado };
+                    console.log("Cliente encontrado", this.cliente.municipio);
+                    if (this.cliente.alta) {
+                        this.cliente.alta = this.cliente.alta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
+                    }
+                } else {
+                    this.mostrarAlerta('Error', 'Cliente no encontrado en el servidor.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo cargar el cliente desde el servidor.', 'error');
+            }
         },
 
         // Alerta usada en las validaciones
