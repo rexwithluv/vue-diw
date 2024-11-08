@@ -132,7 +132,7 @@
                         <td class="text-center align-middle text-center pale-yellow">
                             <div>
                                 <button class="btn btn-warning m-2" @click.prevent="seleccionarCliente(cliente)">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    <i class="bi bi-pencil-fill"></i>
                                 </button>
                             </div>
                         </td>
