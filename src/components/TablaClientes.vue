@@ -7,8 +7,8 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">DNI/NIE</label>
-                        <input type="text" class="form-control" placeholder="DNI-NIE" @blur="validarDni(cliente.dni)"
-                            v-model="cliente.dni">
+                        <input type="text" class="form-control" placeholder="DNI-NIE" :disabled="bloquearDni"
+                            @blur="validarDni(cliente.dni)" v-model="cliente.dni">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -92,7 +92,7 @@
                             <i class="bi bi-pencil-fill me-1"></i>
                             Modificar
                         </button>
-                        <button type="button" class="btn btn-danger px-3" @click.prevent="">
+                        <button type="button" class="btn btn-danger px-3" @click.prevent="eliminarCliente()">
                             <i class="bi bi-trash-fill me-1"></i>
                             Eliminar
                         </button>
@@ -166,6 +166,7 @@ export default {
             municipios: [],
             errores: [],
             verHistorico: false,
+            bloquearDni: false,
         }
     },
 
@@ -243,6 +244,15 @@ export default {
                 municipio: '',
                 baja: '',
             };
+            this.bloquearDni = false;
+        },
+
+        // Obtener la fecha de hoy
+        obtenerFechaHoy() {
+            const fecha = new Date();
+            const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
+            const fechaFormateada = new Intl.DateTimeFormat("es-ES", opciones).format(fecha);
+            return fechaFormateada;
         },
 
         // Métodos que se llaman desde los botones del formulario
@@ -287,6 +297,39 @@ export default {
                 this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
             }
         },
+        async eliminarCliente() {
+            try {
+                const response = await fetch("http://localhost:3000/clientes");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+                }
+
+                const clientes = await response.json();
+                const clienteExistente = clientes.find(cliente => cliente.dni === this.cliente.dni);
+                if (clienteExistente) {
+                    const fechaHoy = this.obtenerFechaHoy();  // Usamos la nueva función simplificada para obtener la fecha
+
+                    clienteExistente.baja = fechaHoy;
+
+                    // Enviar la actualización al servidor
+                    await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(clienteExistente),
+                    });
+
+                    this.mostrarAlerta("Aviso", "Cliente dado de baja correctamente", "success");
+                    this.getClientes();
+                } else {
+                    this.mostrarAlerta("Error", "Cliente no encontrado", "error")
+                }
+            } catch (error) {
+                console.log(error);
+                this.mostrarAlerta("Error", "no se pudo dar de baja al cliente.", "error");
+            }
+        },
 
         // Método que llama los botones de la tabla
         async seleccionarCliente(cliente) {
@@ -297,7 +340,7 @@ export default {
                     throw new Error('Error en la solicitud: ' + response.statusText);
                 }
 
-                // Clientes 
+                // Clientes
                 const clientes = await response.json();
 
                 const clienteEncontrado = clientes.find(c => c.dni === cliente.dni);
@@ -314,7 +357,8 @@ export default {
                     }
 
                     this.cliente = { ...clienteEncontrado };
-                    console.log("Cliente encontrado", this.cliente.municipio);
+                    this.bloquearDni = true;
+
                     if (this.cliente.alta) {
                         this.cliente.alta = this.cliente.alta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
                     }
