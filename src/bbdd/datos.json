@@ -32718,7 +32718,73 @@
       "email": "maria.garcia@email.com",
       "provincia": "28",
       "municipio": "28079",
-      "baja": "11/11/2024"
+      "baja": "",
+      "telefono": "785412569"
+    },
+    {
+      "id": "3132",
+      "dni": "52369874L",
+      "alta": "2023-03-22",
+      "apellidos": "Martínez López",
+      "nombre": "Carlos",
+      "direccion": "Avenida del Parque 7, 1ºA",
+      "email": "carlos.martinez@email.com",
+      "provincia": "08",
+      "municipio": "08019",
+      "baja": "",
+      "telefono": "698741230"
+    },
+    {
+      "id": "3133",
+      "dni": "75314689K",
+      "alta": "2023-05-10",
+      "apellidos": "Fernández Sánchez",
+      "nombre": "Ana",
+      "direccion": "Plaza Mayor 3, 2ºC",
+      "email": "ana.fernandez@email.com",
+      "provincia": "41",
+      "municipio": "41091",
+      "baja": "",
+      "telefono": "632147895"
+    },
+    {
+      "id": "3134",
+      "dni": "21456987H",
+      "alta": "2023-07-05",
+      "apellidos": "López González",
+      "nombre": "Javier",
+      "direccion": "Calle del Sol 22, 4ºD",
+      "email": "javier.lopez@email.com",
+      "provincia": "46",
+      "municipio": "46250",
+      "baja": "",
+      "telefono": "745896321"
+    },
+    {
+      "id": "3135",
+      "dni": "63258741M",
+      "alta": "2023-09-18",
+      "apellidos": "Pérez Ruiz",
+      "nombre": "Laura",
+      "direccion": "Paseo de la Castellana 101, 5ºE",
+      "email": "laura.perez@email.com",
+      "provincia": "28",
+      "municipio": "28006",
+      "baja": "",
+      "telefono": "612398745"
+    },
+    {
+      "id": "3136",
+      "dni": "96325874N",
+      "alta": "2023-11-30",
+      "apellidos": "Gómez Torres",
+      "nombre": "Miguel",
+      "direccion": "Rambla Catalunya 55, 3ºF",
+      "email": "miguel.gomez@email.com",
+      "provincia": "08",
+      "municipio": "08007",
+      "baja": "",
+      "telefono": "698532147"
     },
     {
       "id": "3132",
@@ -32730,19 +32796,8 @@
       "email": "antonio.lopez@email.com",
       "provincia": "41",
       "municipio": "41091",
-      "baja": ""
-    },
-    {
-      "id": "3133",
-      "dni": "76543210T",
-      "alta": "2023-03-10",
-      "apellidos": "Fernández Sánchez",
-      "nombre": "Laura",
-      "direccion": "Plaza España 3, 1ºA",
-      "email": "laura.fernandez@email.com",
-      "provincia": "08",
-      "municipio": "08019",
-      "baja": "11/11/2024"
+      "baja": "",
+      "telefono": "658741254"
     },
     {
       "id": "3134",
@@ -32754,7 +32809,8 @@
       "email": "carlos.ruiz@email.com",
       "provincia": "46",
       "municipio": "46250",
-      "baja": ""
+      "baja": "",
+      "telefono": "758965412"
     },
     {
       "id": "3135",
@@ -32766,7 +32822,8 @@
       "email": "ana.martinez@email.com",
       "provincia": "28",
       "municipio": "28079",
-      "baja": ""
+      "baja": "",
+      "telefono": "785698541"
     },
     {
       "id": "47f3",
@@ -32778,7 +32835,33 @@
       "email": "maria.novoa@email.com",
       "provincia": "36",
       "municipio": "36057",
+      "baja": "13/11/2024"
+    },
+    {
+      "id": "fabe",
+      "dni": "76543210T",
+      "alta": "",
+      "apellidos": "Fernández Ruiz",
+      "nombre": "Laura",
+      "direccion": "Avenida Gran Vía 56, SN",
+      "email": "laura.fernandez@email.com",
+      "telefono": "654789654",
+      "provincia": "01",
+      "municipio": "01002",
       "baja": ""
+    },
+    {
+      "id": "ddd8",
+      "dni": "48773487D",
+      "alta": "",
+      "apellidos": "Rojas",
+      "nombre": "Juan Pablo",
+      "direccion": "Avenida de Castelao 6, 4ºA",
+      "email": "jpjp@email.com",
+      "provincia": "36",
+      "municipio": "36001",
+      "baja": "",
+      "telefono": "658745896"
     }
   ]
 }

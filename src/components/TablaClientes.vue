@@ -32,18 +32,26 @@
                     </div>
                 </div>
 
-                <!-- Dirección e email -->
+                <!-- Dirección, email y teléfono -->
                 <div class="col-md-12">
                     <div class="input-group">
                         <label class="input-group-text">Dirección</label>
                         <input type="text" class="form-control" placeholder="Dirección" v-model="cliente.direccion">
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="text" class="form-control" placeholder="Email" @blur="validarCorreo(cliente.email)"
                             v-model="cliente.email">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <label class="input-group-text">Teléfono</label>
+                        <input type="text" class="form-control" placeholder="Teléfono"
+                            @blur="validarTelefono(cliente.telefono)" v-model="cliente.telefono">
+
                     </div>
                 </div>
 
@@ -86,9 +94,9 @@
                     <div class="pt-3 pb-4 d-flex gap-4">
                         <button type="button" class="btn btn-primary px-3" @click.prevent="grabarCliente()">
                             <i class="bi bi-floppy-fill me-1"></i>
-                            Guardar
+                            Alta
                         </button>
-                        <button type="button" class="btn btn-warning px-3" @click.prevent="">
+                        <button type="button" class="btn btn-warning px-3" @click.prevent="modificarCliente()">
                             <i class="bi bi-pencil-fill me-1"></i>
                             Modificar
                         </button>
@@ -118,6 +126,7 @@
                         <th scope="col" class="bg-info-subtle text-center">Apellidos</th>
                         <th scope="col" class="bg-info-subtle text-center">Nombre</th>
                         <th scope="col" class="bg-info-subtle text-center">Email</th>
+                        <th scope="col" class="bg-info-subtle text-center">Teléfono</th>
                         <th v-if="verHistorico" scope="col" class="bg-info-subtle text-center">Fecha Baja</th>
                         <th scope="col" class="bg-warning-subtle text-center">Acciones</th>
                     </tr>
@@ -128,6 +137,7 @@
                         <td class="align-middle text-center">{{ cliente.apellidos }}</td>
                         <td class="align-middle text-center">{{ cliente.nombre }}</td>
                         <td class="align-middle text-center">{{ cliente.email }}</td>
+                        <td class="align-middle text-center">{{ cliente.telefono }}</td>
                         <td v-if="verHistorico" class="align-middle text-center">{{ cliente.baja }}</td>
                         <td class="text-center align-middle text-center pale-yellow">
                             <div>
@@ -157,6 +167,7 @@ export default {
                 nombre: '',
                 direccion: '',
                 email: '',
+                telefono: "",
                 provincia: '',
                 municipio: '',
                 baja: '',
@@ -268,7 +279,28 @@ export default {
 
                     const clientesExistentes = await response.json();
                     const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
-                    if (clienteExistente) {
+                    if (clienteExistente && clienteExistente.baja !== "") {
+                        // Quitamos la fecha de baja
+                        clienteExistente.baja = "";
+                        const crearResponse = await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(clienteExistente)
+                        });
+
+                        if (!crearResponse.ok) {
+                            throw new Error("Error al dar de alta el cliente: " + crearResponse.statusText);
+                        }
+
+                        const nuevoCliente = await crearResponse.json();
+                        this.clientes.push(nuevoCliente);
+                        this.mostrarAlerta("Aviso", "Cliente dado de alta correctamente", "success");
+                        this.getClientes();
+                        this.limpiarFormulario();
+                    }
+                    else if (clienteExistente) {
                         this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
                     } else {
                         const crearResponse = await fetch("http://localhost:3000/clientes", {
@@ -286,7 +318,7 @@ export default {
                         const nuevoCliente = await crearResponse.json();
                         this.clientes.push(nuevoCliente);
                         this.mostrarAlerta("Aviso", "Cliente guardado", "success");
-                        this.getClientes;
+                        this.getClientes();
                         this.limpiarFormulario();
                     }
                 } catch (error) {
@@ -328,6 +360,33 @@ export default {
             } catch (error) {
                 console.log(error);
                 this.mostrarAlerta("Error", "no se pudo dar de baja al cliente.", "error");
+            }
+        },
+        async modificarCliente() {
+            if (this.cliente.dni) {
+                try {
+                    // Buscar el cliente actual por su DNI en el servidor
+                    const response = await fetch(`http://localhost:3000/clientes/${this.cliente.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(this.cliente),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Error al modificar el cliente: " + response.statusText);
+                    }
+
+                    // Mostrar alerta de éxito
+                    this.mostrarAlerta("Aviso", "Cliente modificado con éxito", "success");
+                    this.getClientes();
+                } catch (error) {
+                    console.log(error);
+                    this.mostrarAlerta("Error", "No se pudo modificar el cliente", "error");
+                }
+            } else {
+                this.mostrarAlerta("Error", "Debe seleccionar un cliente para modificar", "error");
             }
         },
 
@@ -429,6 +488,13 @@ export default {
 
             return true;
         },
+        validarTelefono(telefono) {
+            const regex = /^[67]\d{8}$/gi;
+            if (!regex.test(telefono)) {
+                Swal.fire('Error', 'El teléfono es incorrecto', 'error');
+                return false;
+            }
+        },
 
         // A la hora de mostrar el DNI en la tabla
         ocultarDni(dni) {
@@ -442,4 +508,6 @@ export default {
 
 </script>
 
-<style></style>
+<style>
+    
+</style>
