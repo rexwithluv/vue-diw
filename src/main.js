@@ -8,6 +8,7 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 import "sweetalert2/dist/sweetalert2.min.css"
 
 import "@fortawesome/fontawesome-free/css/all.min.css"
+import router from './router'
 
-createApp(App).mount('#app')
+createApp(App).use(router).mount('#app')
 
