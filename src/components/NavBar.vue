@@ -10,13 +10,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                        <router-link class="nav-link active">Inicio</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Clientes</a>
+                        <router-link class="nav-link active">Clientes</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Artículos</a>
+                        <router-link class="nav-link active">Artículos</router-link>
                     </li>
                 </ul>
 
@@ -37,4 +37,8 @@ export default {
     name: "NavBar"
 }
 </script>
-<style scoped></style>
+<style scoped>
+.nav-link.active {
+    color: #FAD02E;
+}
+</style>
