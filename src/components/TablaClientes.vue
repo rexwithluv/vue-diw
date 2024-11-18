@@ -1,4 +1,5 @@
 <template>
+    <NavBar></NavBar>
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
             <form class="row m-auto gx-4 gy-3 border rounded bg-light">
@@ -154,9 +155,13 @@
 </template>
 
 <script>
+import NavBar from './NavBar.vue';
 import Swal from 'sweetalert2';
 export default {
     name: "TablaClientes",
+    components: {
+        NavBar
+    },
 
     data() {
         return {
@@ -508,6 +513,4 @@ export default {
 
 </script>
 
-<style>
-    
-</style>
+<style></style>
