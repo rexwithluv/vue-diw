@@ -16,6 +16,9 @@
                         <router-link to="/clientes" class="nav-link active">Clientes</router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link to="/empleo" class="nav-link active">Empleo</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link to="/contacto" class="nav-link active">Contacto</router-link>
                     </li>
                 </ul>
@@ -28,8 +31,6 @@
             </div>
         </div>
     </nav>
-
-    <h2 class="text-center fw-bold py-3">Gestión clientes</h2>
 </template>
 
 <script>

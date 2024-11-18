@@ -3,6 +3,7 @@ import PaginaInicio from '@/components/PaginaInicio.vue'
 import TablaClientes from '@/components/TablaClientes.vue'
 import TablaContacto from '@/components/TablaContacto.vue'
 import NotFound from '@/components/NotFound.vue'
+import TablaEmpleo from '@/components/TablaEmpleo.vue'
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: '/contacto',
     name: 'contacto',
     component: TablaContacto
+  },
+  {
+    path: "/empleo",
+    name: "empleo",
+    component: TablaEmpleo
   },
   {
     path: '/:pathMatch(.*)*',

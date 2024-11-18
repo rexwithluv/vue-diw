@@ -1,5 +1,7 @@
 <template>
     <NavBar></NavBar>
+    <h2 class="text-center fw-bold py-3">Gestión clientes</h2>
+
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
             <form class="row m-auto gx-4 gy-3 border rounded bg-light">
@@ -118,7 +120,7 @@
     <!-- Tabla -->
     <h2 class="text-center fw-bold mt-4">Tabla clientes</h2>
 
-    <div class="my-3">
+    <div class="my-3 mx-2">
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
@@ -133,7 +135,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cliente in clientesFiltrados" :key="cliente.id">
+                    <tr v-for="cliente in clientesPorPagina" :key="cliente.id">
                         <td class="align-middle text-center">{{ ocultarDni(cliente.dni) }}</td>
                         <td class="align-middle text-center">{{ cliente.apellidos }}</td>
                         <td class="align-middle text-center">{{ cliente.nombre }}</td>
@@ -151,7 +153,23 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Paginación en la tabla -->
+        <div class="d-flex justify-content-center my-">
+            <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
+
+            <button class="btn btn-primary" :disabled="currentPage * perPage >= clientes.length"
+                @click="siguientePagina">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
     </div>
+
+
 </template>
 
 <script>
@@ -183,6 +201,8 @@ export default {
             errores: [],
             verHistorico: false,
             bloquearDni: false,
+            currentPage: 1,
+            pageSize: 5,
         }
     },
 
@@ -198,6 +218,12 @@ export default {
         clientesFiltrados() {
             //Filtra clientes que tienen fecha de baja vacia si verHistorico es false
             return this.verHistorico ? this.clientes : this.clientes.filter(cliente => !cliente.baja); //lo hace todo
+        },
+        clientesPorPagina() {
+            // slice para extraer un fragmento de un array de 5 elementos
+            const clientesFiltrados = this.clientesFiltrados;
+            const indiceInicial = (this.currentPage - 1) * this.pageSize;
+            return clientesFiltrados.slice(indiceInicial, indiceInicial + this.pageSize);
         },
         municipiosFiltrados() {
             if (!this.cliente.provincia) {
@@ -507,6 +533,18 @@ export default {
             const OCULTAR_HASTA = 6;
 
             return Array.from(dni).map((char, i) => i < OCULTAR_HASTA ? HIDDEN_CHAR : char).join("");
+        },
+
+        // Métodos para la paginación en la tabla
+        siguientePagina() {
+            if (this.currentPage * this.pageSize < this.clientes.length) {
+                this.currentPage++;
+            }
+        },
+        paginaAnterior() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
         }
     },
 }

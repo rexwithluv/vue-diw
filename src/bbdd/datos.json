@@ -32833,9 +32833,10 @@
       "nombre": "María",
       "direccion": "Avenida Balaídos 56, 1ªA",
       "email": "maria.novoa@email.com",
+      "telefono": "654789654",
       "provincia": "36",
       "municipio": "36057",
-      "baja": "13/11/2024"
+      "baja": ""
     },
     {
       "id": "fabe",
