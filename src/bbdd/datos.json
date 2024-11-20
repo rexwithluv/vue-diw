@@ -32707,6 +32707,28 @@
       "nm": "Melilla"
     }
   ],
+  "departamentos": [
+    {
+      "id": "1",
+      "nombre": "Ventas"
+    },
+    {
+      "id": "2",
+      "nombre": "Compras"
+    },
+    {
+      "id": "3",
+      "nombre": "IT"
+    },
+    {
+      "id": "4",
+      "nombre": "Logística"
+    },
+    {
+      "id": "5",
+      "nombre": "Jurídico"
+    }
+  ],
   "clientes": [
     {
       "id": "3131",
@@ -32866,12 +32888,6 @@
     }
   ],
   "candidatos": [
-    {
-      "id": "8b54",
-      "apellidos": "Sola",
-      "nombre": "Soledad",
-      "email": "solitasola@email.com",
-      "telefono": "685274152"
-    }
+    
   ]
 }

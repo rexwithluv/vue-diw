@@ -9,13 +9,15 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">Apellidos</label>
-                        <input type="text" class="form-control" placeholder="Apellidos" v-model="apellidos" required>
+                        <input type="text" class="form-control" placeholder="Apellidos" v-model="candidato.apellidos"
+                            required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre" v-model="nombre" required>
+                        <input type="text" class="form-control" placeholder="Nombre" v-model="candidato.nombre"
+                            required>
                     </div>
                 </div>
 
@@ -23,15 +25,67 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
-                        <input type="email" class="form-control" placeholder="Email" v-model="email"
-                            @blur="validarCorreo(this.email)" required>
+                        <input type="email" class="form-control" placeholder="Email" v-model="candidato.email"
+                            @blur="validarCorreo(this.candidato.email)" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">Móvil</label>
-                        <input type="text" class="form-control" placeholder="Móvil" v-model="telefono"
-                            @blur="validarTelefono(this.telefono)" required>
+                        <input type="text" class="form-control" placeholder="Móvil" v-model="candidato.telefono"
+                            @blur="validarTelefono(this.candidato.telefono)" required>
+                    </div>
+                </div>
+
+                <!-- Categoría y modalidad -->
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Departamento</label>
+                        <select name="departamento" id="departamento" class="form-select"
+                            v-model="candidato.departamento">
+                            <option value="" disabled>Departamento</option>
+                            <option v-for="departamento in departamentos" :key="departamento.id"
+                                :value="departamento.id">
+                                {{ departamento.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Modalidad</label>
+                        <div class="form-control">
+
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="modalidad" value="remoto"
+                                    v-model="candidato.modalidad">
+                                <label class="form-check-label">Remoto</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="modalidad" value="hibrido"
+                                    v-model="candidato.modalidad">
+                                <label class="form-check-label">Híbrido</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="modalidad" value="presencial"
+                                    v-model="candidato.modalidad">
+                                <label class="form-check-label">Presencial</label>
+                            </div>
+                        </div>
+
+                        <!-- <div class="input-group-text">
+                            <input type="radio" :value="remoto" name="modalidad" v-model="candidato.modalidad">
+                            <span>Remoto</span>
+
+                            <input type="radio" :value="hibrido" name="modalidad" v-model="candidato.modalidad">
+                            <span>Híbrido</span>
+
+                            <input type="radio" :value="presencial" name="modalidad" v-model="candidato.modalidad">
+                            <span>Presencial</span>
+                        </div> -->
+
                     </div>
                 </div>
 
@@ -43,6 +97,7 @@
                     </div>
                 </div>
 
+                <!-- Botón enviar -->
                 <div class="col-md-12">
                     <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarCandidato()">
                         Mandar CV
@@ -61,14 +116,36 @@ export default {
 
     data() {
         return {
-            apellidos: '',
-            nombre: '',
-            email: '',
-            telefono: "",
+            candidato: {
+                apellidos: '',
+                nombre: '',
+                email: '',
+                telefono: "",
+                modalidad: "",
+                departamento: "",
+            },
+            departamentos: [],
         }
     },
 
+    mounted() {
+        this.getDepartamentos();
+    },
+
     methods: {
+
+        // Getters
+        async getDepartamentos() {
+            try {
+                const response = await fetch("http://localhost:3000/departamentos");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+                }
+                this.departamentos = await response.json();
+            } catch (error) {
+                console.log(error);
+            }
+        },
 
         // Alerta usada en las validaciones
         mostrarAlerta(titulo, mensaje, icono) {
@@ -116,7 +193,7 @@ export default {
 
         // Enviar candidatura
         async guardarCandidato() {
-            if (this.apellidos && this.nombre && this.email && this.telefono) {
+            if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
                 try {
                     const response = await fetch("http://localhost:3000/candidatos");
                     if (!response.ok) {
@@ -128,7 +205,7 @@ export default {
                         headers: {
                             "Content-Type": "application/json"
                         },
-                        body: JSON.stringify(this)
+                        body: JSON.stringify(this.candidato)
                     });
 
                     if (!guardarResponse.ok) {
@@ -137,10 +214,15 @@ export default {
 
                     this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
 
-                    this.apellidos = "";
-                    this.nombre = "";
-                    this.email = "";
-                    this.movil = "";
+                    this.candidato = {
+                        apellidos: "",
+                        nombre: "",
+                        email: "",
+                        movil: "",
+                        departamento: "",
+                        modalidad: "",
+                    }
+
 
                 } catch (error) {
                     console.log(error);
