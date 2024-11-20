@@ -32864,5 +32864,14 @@
       "baja": "",
       "telefono": "658745896"
     }
+  ],
+  "candidatos": [
+    {
+      "id": "8b54",
+      "apellidos": "Sola",
+      "nombre": "Soledad",
+      "email": "solitasola@email.com",
+      "telefono": "685274152"
+    }
   ]
 }

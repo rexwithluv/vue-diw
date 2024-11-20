@@ -173,13 +173,9 @@
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
 import Swal from 'sweetalert2';
 export default {
     name: "TablaClientes",
-    components: {
-        NavBar
-    },
 
     data() {
         return {

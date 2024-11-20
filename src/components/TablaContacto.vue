@@ -1,16 +1,11 @@
 <template>
-    <NavBar />
-    <p>Página inicio</p>
+    <p>Página contacto</p>
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
-
 export default {
     name: "PaginaInicio",
-    components: {
-        NavBar
-    }
+
 }
 </script>
 

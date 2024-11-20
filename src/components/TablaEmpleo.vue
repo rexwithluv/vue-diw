@@ -1,5 +1,4 @@
 <template>
-    <NavBar></NavBar>
     <h2 class="text-center fw-bold py-3">Trabaja con nosotros</h2>
 
     <div class="container-fluid px-4">
@@ -10,13 +9,13 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">Apellidos</label>
-                        <input type="text" class="form-control" placeholder="Apellidos" v-model="apellidos">
+                        <input type="text" class="form-control" placeholder="Apellidos" v-model="apellidos" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre" v-model="nombre">
+                        <input type="text" class="form-control" placeholder="Nombre" v-model="nombre" required>
                     </div>
                 </div>
 
@@ -25,14 +24,14 @@
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="email" class="form-control" placeholder="Email" v-model="email"
-                            @blur="validarCorreo(this.email)">
+                            @blur="validarCorreo(this.email)" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <label class="input-group-text">Móvil</label>
                         <input type="text" class="form-control" placeholder="Móvil" v-model="telefono"
-                            @blur="validarTelefono(this.telefono)">
+                            @blur="validarTelefono(this.telefono)" required>
                     </div>
                 </div>
 
@@ -43,19 +42,22 @@
                         <input type="file" class="form-control" placeholder="CV en formato PDF">
                     </div>
                 </div>
+
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarCandidato()">
+                        Mandar CV
+                    </button>
+                </div>
+
             </form>
         </div>
     </div>
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
 import Swal from 'sweetalert2';
 export default {
     name: "TablaEmpleo",
-    components: {
-        NavBar
-    },
 
     data() {
         return {
@@ -67,6 +69,7 @@ export default {
     },
 
     methods: {
+
         // Alerta usada en las validaciones
         mostrarAlerta(titulo, mensaje, icono) {
             Swal.fire({
@@ -96,7 +99,7 @@ export default {
                 )
                 return false;
             }
-            
+
             return true;
         },
         validarTelefono(telefono) {
@@ -108,6 +111,43 @@ export default {
             if (!regex.test(telefono)) {
                 Swal.fire('Error', 'El teléfono es incorrecto', 'error');
                 return false;
+            }
+        },
+
+        // Enviar candidatura
+        async guardarCandidato() {
+            if (this.apellidos && this.nombre && this.email && this.telefono) {
+                try {
+                    const response = await fetch("http://localhost:3000/candidatos");
+                    if (!response.ok) {
+                        throw new Error("Error al obtener los candidatos: " + response.statusText);
+                    }
+
+                    const guardarResponse = await fetch(`http://localhost:3000/candidatos`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(this)
+                    });
+
+                    if (!guardarResponse.ok) {
+                        throw new Error("Error al guardar la candidatura: " + guardarResponse.statusText);
+                    }
+
+                    this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
+
+                    this.apellidos = "";
+                    this.nombre = "";
+                    this.email = "";
+                    this.movil = "";
+
+                } catch (error) {
+                    console.log(error);
+                    this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
+                }
+            } else {
+                this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
             }
         },
     },
