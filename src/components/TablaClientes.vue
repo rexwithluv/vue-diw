@@ -1,6 +1,9 @@
 <template>
     <NavBar></NavBar>
-    <h2 class="text-center fw-bold py-3">Gestión clientes</h2>
+    <h2 class="text-center fw-bold py-3">
+        <i class="bi bi-people-fill"></i>
+        Gestión clientes
+    </h2>
 
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
@@ -162,7 +165,7 @@
 
             <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
 
-            <button class="btn btn-primary" :disabled="currentPage * perPage >= clientes.length"
+            <button class="btn btn-primary" :disabled="currentPage * perPage >= clientesFiltrados.length"
                 @click="siguientePagina">
                 <i class="bi bi-chevron-right"></i>
             </button>

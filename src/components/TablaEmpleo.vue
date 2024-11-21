@@ -74,18 +74,7 @@
                                 <label class="form-check-label">Presencial</label>
                             </div>
                         </div>
-
-                        <!-- <div class="input-group-text">
-                            <input type="radio" :value="remoto" name="modalidad" v-model="candidato.modalidad">
-                            <span>Remoto</span>
-
-                            <input type="radio" :value="hibrido" name="modalidad" v-model="candidato.modalidad">
-                            <span>Híbrido</span>
-
-                            <input type="radio" :value="presencial" name="modalidad" v-model="candidato.modalidad">
-                            <span>Presencial</span>
-                        </div> -->
-
+                        
                     </div>
                 </div>
 

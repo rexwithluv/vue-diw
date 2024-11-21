@@ -32888,6 +32888,23 @@
     }
   ],
   "candidatos": [
-    
+    {
+      "id": "939e",
+      "apellidos": "Pardo",
+      "nombre": "Patricia",
+      "email": "paty@email.com",
+      "telefono": "685296314",
+      "modalidad": "hibrido",
+      "departamento": "3"
+    },
+    {
+      "id": "7311",
+      "apellidos": "Soledad",
+      "nombre": "Sola",
+      "email": "solita@email.com",
+      "telefono": "685274152",
+      "modalidad": "remoto",
+      "departamento": "3"
+    }
   ]
 }
