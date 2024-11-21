@@ -15,6 +15,9 @@
                         <label class="input-group-text">DNI/NIE</label>
                         <input type="text" class="form-control" placeholder="DNI-NIE" :disabled="bloquearDni"
                             @blur="validarDni(cliente.dni)" v-model="cliente.dni">
+                        <button type="button" class="btn btn-primary" @click="buscarDNI(cliente.dni)">
+                            <i class="bi bi-search"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -140,8 +143,8 @@
                 <tbody>
                     <tr v-for="cliente in clientesPorPagina" :key="cliente.id">
                         <td class="align-middle text-center">{{ ocultarDni(cliente.dni) }}</td>
-                        <td class="align-middle text-center">{{ cliente.apellidos }}</td>
-                        <td class="align-middle text-center">{{ cliente.nombre }}</td>
+                        <td class="align-middle text-start">{{ cliente.apellidos }}</td>
+                        <td class="align-middle text-start">{{ cliente.nombre }}</td>
                         <td class="align-middle text-center">{{ cliente.email }}</td>
                         <td class="align-middle text-center">{{ cliente.telefono }}</td>
                         <td v-if="verHistorico" class="align-middle text-center">{{ cliente.baja }}</td>
@@ -431,9 +434,7 @@ export default {
 
                 // Clientes
                 const clientes = await response.json();
-
                 const clienteEncontrado = clientes.find(c => c.dni === cliente.dni);
-
                 if (clienteEncontrado) {
                     // Convertir la fecha de alta al formato dd/mm/yyyy
                     // Asignar el objeto completo de provincia y municipio
@@ -441,7 +442,6 @@ export default {
                         this.cliente.provincia = this.provincias.find(p => p.nm === this.cliente.provincia).nm;
                         if (this.cliente.provincia) {
                             console.log("Provincia encontrada", this.cliente.provincia);
-
                         }
                     }
 
@@ -458,6 +458,29 @@ export default {
                 console.error(error);
                 this.mostrarAlerta('Error', 'No se pudo cargar el cliente desde el servidor.', 'error');
             }
+        },
+
+        // Para filtrar por DNI
+        async buscarDNI(dni) {
+            try {
+                const response = await fetch("http://localhost:3000/clientes");
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+
+                const clientes = await response.json();
+                const clienteEncontrado = clientes.find(c => c.dni === dni);
+                if (clienteEncontrado) {
+                    this.cliente = { ...clienteEncontrado };
+                    this.bloquearDni = true;
+                } else {
+                    this.mostrarAlerta('Error', 'Cliente no encontrado en el servidor.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta("Error", "No se pudo cargar el cliente desde el servidor", "error");
+            }
+
         },
 
         // Alerta usada en las validaciones

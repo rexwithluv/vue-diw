@@ -32797,7 +32797,7 @@
     },
     {
       "id": "3136",
-      "dni": "96325874N",
+      "dni": "96325874Z",
       "alta": "2023-11-30",
       "apellidos": "Gómez Torres",
       "nombre": "Miguel",
@@ -32823,7 +32823,7 @@
     },
     {
       "id": "3134",
-      "dni": "34567890P",
+      "dni": "34567890F",
       "alta": "2023-04-05",
       "apellidos": "Ruiz Gómez",
       "nombre": "Carlos",
@@ -32849,7 +32849,7 @@
     },
     {
       "id": "47f3",
-      "dni": "83786676E",
+      "dni": "83786676Z",
       "alta": "2024-09-10",
       "apellidos": "Novoa",
       "nombre": "María",
@@ -32861,30 +32861,17 @@
       "baja": ""
     },
     {
-      "id": "fabe",
-      "dni": "76543210T",
-      "alta": "",
-      "apellidos": "Fernández Ruiz",
+      "id": "22e7",
+      "dni": "X6798488P",
+      "alta": "2005-08-16",
+      "apellidos": "Pausini",
       "nombre": "Laura",
-      "direccion": "Avenida Gran Vía 56, SN",
-      "email": "laura.fernandez@email.com",
-      "telefono": "654789654",
-      "provincia": "01",
-      "municipio": "01002",
+      "direccion": "Avenida de su Casa, Nº 5",
+      "email": "laurita@email.com",
+      "telefono": "685263945",
+      "provincia": "40",
+      "municipio": "40056",
       "baja": ""
-    },
-    {
-      "id": "ddd8",
-      "dni": "48773487D",
-      "alta": "",
-      "apellidos": "Rojas",
-      "nombre": "Juan Pablo",
-      "direccion": "Avenida de Castelao 6, 4ºA",
-      "email": "jpjp@email.com",
-      "provincia": "36",
-      "municipio": "36001",
-      "baja": "",
-      "telefono": "658745896"
     }
   ],
   "candidatos": [
