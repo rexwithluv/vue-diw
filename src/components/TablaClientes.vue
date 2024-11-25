@@ -462,25 +462,28 @@ export default {
 
         // Para filtrar por DNI
         async buscarDNI(dni) {
-            try {
-                const response = await fetch("http://localhost:3000/clientes");
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud: ' + response.statusText);
-                }
+            if (dni.length === 0) {
+                try {
+                    const response = await fetch("http://localhost:3000/clientes");
+                    if (!response.ok) {
+                        throw new Error('Error en la solicitud: ' + response.statusText);
+                    }
 
-                const clientes = await response.json();
-                const clienteEncontrado = clientes.find(c => c.dni === dni);
-                if (clienteEncontrado) {
-                    this.cliente = { ...clienteEncontrado };
-                    this.bloquearDni = true;
-                } else {
-                    this.mostrarAlerta('Error', 'Cliente no encontrado en el servidor.', 'error');
+                    const clientes = await response.json();
+                    const clienteEncontrado = clientes.find(c => c.dni === dni);
+                    if (clienteEncontrado) {
+                        this.cliente = { ...clienteEncontrado };
+                        this.bloquearDni = true;
+                    } else {
+                        this.mostrarAlerta('Error', 'Cliente no encontrado en el servidor.', 'error');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    this.mostrarAlerta("Error", "No se pudo cargar el cliente desde el servidor", "error");
                 }
-            } catch (error) {
-                console.error(error);
-                this.mostrarAlerta("Error", "No se pudo cargar el cliente desde el servidor", "error");
+            } else {
+                this.mostrarAlerta("Error", "El DNI está vacío.", "error");
             }
-
         },
 
         // Alerta usada en las validaciones
