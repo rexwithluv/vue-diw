@@ -90,7 +90,7 @@
                 <div class="col-12 text-start">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" v-model="candidato.acepta">
-                        <label class="form-check-label">He leído y acpeto las <router-link to="/politica-privacidad"
+                        <label class="form-check-label">He leído y acepto las <router-link to="/politica-privacidad"
                                 class="link">Políticas de privacidad</router-link></label>
                     </div>
                 </div>
