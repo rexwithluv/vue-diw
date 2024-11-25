@@ -6,14 +6,14 @@
             <form class="row gy-3 pb-3 border rounded bg-light">
 
                 <!-- Apellidos y nombre -->
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Apellidos</label>
                         <input type="text" class="form-control" placeholder="Apellidos" v-model="candidato.apellidos"
                             required>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Nombre</label>
                         <input type="text" class="form-control" placeholder="Nombre" v-model="candidato.nombre"
@@ -22,14 +22,14 @@
                 </div>
 
                 <!-- Email y móvil -->
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="email" class="form-control" placeholder="Email" v-model="candidato.email"
                             @blur="validarCorreo(this.candidato.email)" required>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Móvil</label>
                         <input type="text" class="form-control" placeholder="Móvil" v-model="candidato.telefono"
@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- Categoría y modalidad -->
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Departamento</label>
                         <select name="departamento" id="departamento" class="form-select"
@@ -51,7 +51,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Modalidad</label>
                         <div class="form-control">
@@ -74,21 +74,31 @@
                                 <label class="form-check-label">Presencial</label>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
                 <!-- CV => Curriculum Vitae -->
-                <div class="col-md-12">
+                <div class="col-12">
                     <div class="input-group">
                         <label class="input-group-text">CV (PDF)</label>
                         <input type="file" class="form-control" placeholder="CV en formato PDF">
                     </div>
                 </div>
 
+                <!-- Acepta condiciones -->
+                <div class="col-12 text-start">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" v-model="candidato.acepta">
+                        <label class="form-check-label">He leído y acpeto las <router-link to="/politica-privacidad"
+                                class="link">Políticas de privacidad</router-link></label>
+                    </div>
+                </div>
+
                 <!-- Botón enviar -->
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarCandidato()">
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarCandidato()"
+                        :disabled="!candidato.acepta">
                         Mandar CV
                     </button>
                 </div>
@@ -112,6 +122,7 @@ export default {
                 telefono: "",
                 modalidad: "",
                 departamento: "",
+                acepta: false,
             },
             departamentos: [],
         }

@@ -32882,7 +32882,8 @@
       "email": "paty@email.com",
       "telefono": "685296314",
       "modalidad": "hibrido",
-      "departamento": "3"
+      "departamento": "3",
+      "acepta": true
     },
     {
       "id": "7311",
@@ -32891,7 +32892,18 @@
       "email": "solita@email.com",
       "telefono": "685274152",
       "modalidad": "remoto",
-      "departamento": "3"
+      "departamento": "3",
+      "acepta": true
+    },
+    {
+      "id": "d343",
+      "apellidos": "Germán",
+      "nombre": "Palomares",
+      "email": "moroso@email.com",
+      "telefono": "685296356",
+      "modalidad": "remoto",
+      "departamento": "1",
+      "acepta": true
     }
   ]
 }

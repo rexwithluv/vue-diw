@@ -10,7 +10,7 @@
             <form class="row m-auto gx-4 gy-3 border rounded bg-light">
 
                 <!-- DNI y fecha alta -->
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">DNI/NIE</label>
                         <input type="text" class="form-control" placeholder="DNI-NIE" :disabled="bloquearDni"
@@ -20,7 +20,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text label-width">Fecha de alta</label>
                         <input type="date" class="form-control" placeholder="Fecha alta" v-model="cliente.alta">
@@ -28,13 +28,13 @@
                 </div>
 
                 <!-- Nombre y apellidos -->
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Nombre</label>
                         <input type="text" class="form-control" placeholder="Nombre" v-model="cliente.nombre">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Apellidos</label>
                         <input type="text" class="form-control" placeholder="Apellidos" v-model="cliente.apellidos">
@@ -42,20 +42,20 @@
                 </div>
 
                 <!-- Dirección, email y teléfono -->
-                <div class="col-md-12">
+                <div class="col-12">
                     <div class="input-group">
                         <label class="input-group-text">Dirección</label>
                         <input type="text" class="form-control" placeholder="Dirección" v-model="cliente.direccion">
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="text" class="form-control" placeholder="Email" @blur="validarCorreo(cliente.email)"
                             v-model="cliente.email">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-4">
                     <div class="input-group">
                         <label class="input-group-text">Teléfono</label>
                         <input type="text" class="form-control" placeholder="Teléfono"
@@ -65,7 +65,7 @@
                 </div>
 
                 <!-- Provincia y municipio -->
-                <div class="col-md-6">
+                <div class="col-5">
                     <div class="input-group">
                         <label class="input-group-text">Provincia</label>
                         <select name="provincia" id="provincia" class="form-select" v-model="cliente.provincia">
@@ -76,7 +76,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Municipio</label>
                         <select name="municipio" id="municipio" class="form-select" v-model="cliente.municipio">
@@ -87,9 +87,14 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-secondary" @click.prevent="limpiarFormulario()">
+                        <i class="bi bi-eraser-fill"></i>
+                    </button>
+                </div>
 
                 <!-- Checkbox "Histórico" -->
-                <div class="col-md-6">
+                <div class="col-12">
                     <div class="form-check">
                         <input v-model="verHistorico" type="checkbox" name="historico" id="historico"
                             class="form-check-input" />
@@ -99,7 +104,7 @@
                 </div>
 
                 <!-- Botones -->
-                <div class="col-md-12 d-flex justify-content-center">
+                <div class="col-12 d-flex justify-content-center">
                     <div class="pt-3 pb-4 d-flex gap-4">
                         <button type="button" class="btn btn-primary px-3" @click.prevent="grabarCliente()">
                             <i class="bi bi-floppy-fill me-1"></i>
@@ -112,10 +117,6 @@
                         <button type="button" class="btn btn-danger px-3" @click.prevent="eliminarCliente()">
                             <i class="bi bi-trash-fill me-1"></i>
                             Eliminar
-                        </button>
-                        <button type="button" class="btn btn-secondary px-3" @click.prevent="limpiarFormulario()">
-                            <i class="bi bi-eraser-fill me-1"></i>
-                            Limpiar
                         </button>
                     </div>
                 </div>
