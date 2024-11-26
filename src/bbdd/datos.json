@@ -32729,124 +32729,7 @@
       "nombre": "Jurídico"
     }
   ],
-  "clientes": [
-    {
-      "id": "3131",
-      "dni": "48762315R",
-      "alta": "2023-01-15",
-      "apellidos": "García Rodríguez",
-      "nombre": "María",
-      "direccion": "Calle Mayor 15, 3ºB",
-      "email": "maria.garcia@email.com",
-      "provincia": "28",
-      "municipio": "28079",
-      "baja": "",
-      "telefono": "785412569"
-    },
-    {
-      "id": "3132",
-      "dni": "52369874L",
-      "alta": "2023-03-22",
-      "apellidos": "Martínez López",
-      "nombre": "Carlos",
-      "direccion": "Avenida del Parque 7, 1ºA",
-      "email": "carlos.martinez@email.com",
-      "provincia": "08",
-      "municipio": "08019",
-      "baja": "",
-      "telefono": "698741230"
-    },
-    {
-      "id": "3133",
-      "dni": "75314689K",
-      "alta": "2023-05-10",
-      "apellidos": "Fernández Sánchez",
-      "nombre": "Ana",
-      "direccion": "Plaza Mayor 3, 2ºC",
-      "email": "ana.fernandez@email.com",
-      "provincia": "41",
-      "municipio": "41091",
-      "baja": "",
-      "telefono": "632147895"
-    },
-    {
-      "id": "3134",
-      "dni": "21456987H",
-      "alta": "2023-07-05",
-      "apellidos": "López González",
-      "nombre": "Javier",
-      "direccion": "Calle del Sol 22, 4ºD",
-      "email": "javier.lopez@email.com",
-      "provincia": "46",
-      "municipio": "46250",
-      "baja": "",
-      "telefono": "745896321"
-    },
-    {
-      "id": "3135",
-      "dni": "63258741M",
-      "alta": "2023-09-18",
-      "apellidos": "Pérez Ruiz",
-      "nombre": "Laura",
-      "direccion": "Paseo de la Castellana 101, 5ºE",
-      "email": "laura.perez@email.com",
-      "provincia": "28",
-      "municipio": "28006",
-      "baja": "",
-      "telefono": "612398745"
-    },
-    {
-      "id": "3136",
-      "dni": "96325874Z",
-      "alta": "2023-11-30",
-      "apellidos": "Gómez Torres",
-      "nombre": "Miguel",
-      "direccion": "Rambla Catalunya 55, 3ºF",
-      "email": "miguel.gomez@email.com",
-      "provincia": "08",
-      "municipio": "08007",
-      "baja": "",
-      "telefono": "698532147"
-    },
-    {
-      "id": "3132",
-      "dni": "23456789E",
-      "alta": "2023-02-20",
-      "apellidos": "López Martínez",
-      "nombre": "Antonio",
-      "direccion": "Avenida de la Constitución 7",
-      "email": "antonio.lopez@email.com",
-      "provincia": "41",
-      "municipio": "41091",
-      "baja": "",
-      "telefono": "658741254"
-    },
-    {
-      "id": "3134",
-      "dni": "34567890F",
-      "alta": "2023-04-05",
-      "apellidos": "Ruiz Gómez",
-      "nombre": "Carlos",
-      "direccion": "Calle Gran Vía 25, 4ºC",
-      "email": "carlos.ruiz@email.com",
-      "provincia": "46",
-      "municipio": "46250",
-      "baja": "",
-      "telefono": "758965412"
-    },
-    {
-      "id": "3135",
-      "dni": "87654321X",
-      "alta": "2023-05-12",
-      "apellidos": "Martínez Pérez",
-      "nombre": "Ana",
-      "direccion": "Paseo de la Castellana 100",
-      "email": "ana.martinez@email.com",
-      "provincia": "28",
-      "municipio": "28079",
-      "baja": "",
-      "telefono": "785698541"
-    },
+  "usuarios": [
     {
       "id": "47f3",
       "dni": "83786676Z",
@@ -32858,7 +32741,8 @@
       "telefono": "654789654",
       "provincia": "36",
       "municipio": "36057",
-      "baja": ""
+      "baja": "",
+      "tipo": "usuario"
     },
     {
       "id": "22e7",
@@ -32871,38 +32755,56 @@
       "telefono": "685263945",
       "provincia": "40",
       "municipio": "40056",
-      "baja": ""
+      "baja": "",
+      "tipo": "usuario"
+    },
+    {
+      "id": "990f",
+      "dni": "87654321X",
+      "alta": "2001-12-12",
+      "apellidos": "Ana",
+      "nombre": "Martínez Pérez",
+      "direccion": "Avenida Casita 4ºA",
+      "email": "anita@email.com",
+      "telefono": "685296314",
+      "provincia": "27",
+      "municipio": "27014",
+      "baja": "",
+      "tipo": "usuario"
     }
   ],
   "candidatos": [
     {
-      "id": "939e",
-      "apellidos": "Pardo",
-      "nombre": "Patricia",
-      "email": "paty@email.com",
-      "telefono": "685296314",
+      "id": "04d1",
+      "apellidos": "Palomares",
+      "nombre": "Germán",
+      "email": "moroso@email.com",
+      "telefono": "685274151",
+      "departamento": "4",
       "modalidad": "hibrido",
-      "departamento": "3",
+      "comentarios": "Soy Germán Palomares y esto es Disney Chanel!",
       "acepta": true
     },
     {
-      "id": "7311",
+      "id": "a869",
       "apellidos": "Soledad",
       "nombre": "Sola",
-      "email": "solita@email.com",
-      "telefono": "685274152",
-      "modalidad": "remoto",
-      "departamento": "3",
+      "email": "solitasola@email.com",
+      "telefono": "752841524",
+      "departamento": "5",
+      "modalidad": "presencial",
+      "comentarios": "Esto sola, moriré sola, me enterrarán sola, todo sola, SOLA!",
       "acepta": true
     },
     {
-      "id": "d343",
-      "apellidos": "Germán",
-      "nombre": "Palomares",
-      "email": "moroso@email.com",
-      "telefono": "685296356",
-      "modalidad": "remoto",
+      "id": "946a",
+      "apellidos": "Pérez",
+      "nombre": "Ernesto",
+      "email": "frailejon@email.com",
+      "telefono": "789689654",
       "departamento": "1",
+      "modalidad": "remoto",
+      "comentarios": "Hola, mi nombre es Frailejon Ernesto Pérez",
       "acepta": true
     }
   ]

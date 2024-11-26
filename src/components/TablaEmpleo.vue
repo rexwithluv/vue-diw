@@ -1,5 +1,5 @@
 <template>
-    <h2 class="text-center fw-bold py-3">Trabaja con nosotros</h2>
+    <h2 class="text-center fw-bold py-4 mb-3">Trabaja con nosotros</h2>
 
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
@@ -78,6 +78,15 @@
                     </div>
                 </div>
 
+                <!-- Comentarios -->
+                <div class="col-12">
+                    <div class="input-group">
+                        <label class="input-group-text text-align-top">Comentarios: </label>
+                        <textarea class="form-control" placeholder="Comentarios (máximo 256 caracteres)" maxlength="256"
+                            v-model="candidato.comentarios"></textarea>
+                    </div>
+                </div>
+
                 <!-- CV => Curriculum Vitae -->
                 <div class="col-12">
                     <div class="input-group">
@@ -120,8 +129,9 @@ export default {
                 nombre: '',
                 email: '',
                 telefono: "",
-                modalidad: "",
                 departamento: "",
+                modalidad: "",
+                comentarios: "",
                 acepta: false,
             },
             departamentos: [],
@@ -218,9 +228,11 @@ export default {
                         apellidos: "",
                         nombre: "",
                         email: "",
-                        movil: "",
+                        telefono: "",
                         departamento: "",
                         modalidad: "",
+                        comentarios: "",
+                        acepta: false,
                     }
 
 
@@ -236,4 +248,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.text-align-top {
+    align-items: baseline;
+}
+</style>
