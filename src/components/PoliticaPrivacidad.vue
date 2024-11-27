@@ -1,7 +1,7 @@
 <template>
     <h3 class="text-center fw-bold py-3">
-        Política de privacidad &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <router-link to="/">
+        Política de privacidad
+        <router-link to="/" class="ms-5">
             <i class="fas fa-reply"></i>
         </router-link>
     </h3>

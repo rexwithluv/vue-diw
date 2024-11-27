@@ -1,7 +1,7 @@
 <template>
     <h2 class="text-center fw-bold py-4 mb-3">
         <i class="fas fa-file-alt"></i>
-        Trabaja con nosotros &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Trabaja con nosotros
         <router-link to="/" class="ms-5">
             <i class="fas fa-reply"></i>
         </router-link>

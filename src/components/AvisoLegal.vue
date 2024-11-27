@@ -1,7 +1,7 @@
 <template>
     <h3 class="text-center fw-bold py-3">
-        Aviso legal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <router-link to="/">
+        Aviso legal
+        <router-link to="/" class="ms-5">
             <i class="fas fa-reply"></i>
         </router-link>
     </h3>
