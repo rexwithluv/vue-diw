@@ -32731,11 +32731,11 @@
   ],
   "tiposUsuario": [
     {
-      "id": 1,
+      "id": "1",
       "tipo": "usuario"
     },
     {
-      "id": 2,
+      "id": "2",
       "tipo": "admin"
     }
   ],
@@ -32841,28 +32841,6 @@
   ],
   "candidatos": [
     {
-      "id": "04d1",
-      "apellidos": "Palomares",
-      "nombre": "Germán",
-      "email": "moroso@email.com",
-      "telefono": "685274151",
-      "departamento": "4",
-      "modalidad": "hibrido",
-      "comentarios": "Soy Germán Palomares y esto es Disney Chanel!",
-      "acepta": true
-    },
-    {
-      "id": "a869",
-      "apellidos": "Soledad",
-      "nombre": "Sola",
-      "email": "solitasola@email.com",
-      "telefono": "752841524",
-      "departamento": "5",
-      "modalidad": "presencial",
-      "comentarios": "Esto sola, moriré sola, me enterrarán sola, todo sola, SOLA!",
-      "acepta": true
-    },
-    {
       "id": "946a",
       "apellidos": "Pérez",
       "nombre": "Ernesto",
@@ -32871,6 +32849,28 @@
       "departamento": "1",
       "modalidad": "remoto",
       "comentarios": "Hola, mi nombre es Frailejon Ernesto Pérez",
+      "acepta": true
+    },
+    {
+      "id": "6391",
+      "apellidos": "Azul",
+      "nombre": "Alejandro",
+      "email": "alejandrito@email.com",
+      "telefono": "696396352",
+      "departamento": "4",
+      "modalidad": "hibrido",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "a3d5",
+      "apellidos": "Steven",
+      "nombre": "Universe",
+      "email": "steven@email.com",
+      "telefono": "774174177",
+      "departamento": "5",
+      "modalidad": "hibrido",
+      "comentarios": "",
       "acepta": true
     }
   ]

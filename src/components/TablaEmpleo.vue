@@ -121,6 +121,59 @@
             </form>
         </div>
     </div>
+
+    <!-- Tabla -->
+    <h2 class="text-center fw-bold mt-4">Tabla candidatos</h2>
+
+    <div class="my-3 mx-2">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" class="bg-info-subtle text-center">Apellidos</th>
+                        <th scope="col" class="bg-info-subtle text-center">Nombre</th>
+                        <th scope="col" class="bg-info-subtle text-center">Teléfono</th>
+                        <th scope="col" class="bg-info-subtle text-center">Email</th>
+                        <th scope="col" class="bg-info-subtle text-center">Departamento</th>
+                        <th scope="col" class="bg-info-subtle text-center">Modalidad</th>
+                        <th scope="col" class="bg-warning-subtle text-center">Gestión</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="candidato in candidatosPorPagina" :key="candidato.id">
+                        <td class="align-middle text-start">{{ candidato.apellidos }}</td>
+                        <td class="align-middle text-start">{{ candidato.nombre }}</td>
+                        <td class="align-middle text-center">{{ candidato.telefono }}</td>
+                        <td class="align-middle text-center">{{ candidato.email }}</td>
+                        <td class="align-middle text-center">{{ candidato.departamento }} </td>
+                        <td class="align-middle text-center">{{ candidato.modalidad }}</td>
+                        <td class="text-center align-middle pale-yellow">
+                            <button class="btn btn-warning m-2" @click.prevent="seleccionarCandidato(candidato)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="btn btn-danger m-2" @click.prevent="eliminarCandidato(candidato)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginación en la tabla -->
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior()">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
+
+            <button class="btn btn-primary" :disabled="currentPage * pageSize >= candidatos.length"
+                @click="siguientePagina()">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -141,11 +194,24 @@ export default {
                 acepta: false,
             },
             departamentos: [],
+            candidatos: [],
+
+            // Para la paginación
+            currentPage: 1,
+            pageSize: 5,
         }
     },
 
     mounted() {
         this.getDepartamentos();
+        this.getCandidatos();
+    },
+
+    computed: {
+        candidatosPorPagina() {
+            const indiceInicial = (this.currentPage - 1) * this.pageSize;
+            return this.candidatos.slice(indiceInicial, indiceInicial + this.pageSize);
+        }
     },
 
     methods: {
@@ -158,6 +224,17 @@ export default {
                     throw new Error("Error en la solicitud: " + response.statusText);
                 }
                 this.departamentos = await response.json();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getCandidatos() {
+            try {
+                const response = await fetch("http://localhost:3000/candidatos");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+                }
+                this.candidatos = await response.json();
             } catch (error) {
                 console.log(error);
             }
@@ -250,6 +327,63 @@ export default {
                 this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
             }
         },
+
+        //Métodos que se llaman desde los botones de la tabla
+        // Seleccionar para editar
+        async seleccionarCandidato(candidato) {
+            try {
+                this.limpiarFormulario();
+                const response = await fetch("http://localhost:3000/candidatos");
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+
+                const candidatos = await response.json();
+                const candidatoEncontrado = candidatos.find(c => c.telefono === candidato.telefono);
+                if (candidatoEncontrado) {
+                    this.candidato = { ...candidatoEncontrado };
+                } else {
+                    this.mostrarAlerta('Error', 'Candidato no encontrado en el servidor.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo cargar el candidato desde el servidor.', 'error');
+            }
+        },
+        // Eliminar
+        async eliminarCandidato(candidato) {
+            try {
+                const response = await fetch(`http://localhost:3000/candidatos/${candidato.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(candidato),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
+            }
+
+            // Recargamos la tabla al finalizar la operación
+            this.getCandidatos();
+        },
+
+        // Métodos para la paginación en la tabla
+        siguientePagina() {
+            if (this.currentPage * this.pageSize < this.candidatos.length) {
+                this.currentPage++;
+            }
+        },
+        paginaAnterior() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        }
     },
 }
 </script>

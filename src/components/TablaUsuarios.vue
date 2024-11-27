@@ -179,15 +179,15 @@
         </div>
 
         <!-- Paginación en la tabla -->
-        <div class="d-flex justify-content-center my-">
-            <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior">
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior()">
                 <i class="bi bi-chevron-left"></i>
             </button>
 
             <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
 
-            <button class="btn btn-primary" :disabled="currentPage * perPage >= usuariosFiltrados.length"
-                @click="siguientePagina">
+            <button class="btn btn-primary" :disabled="currentPage * pageSize >= usuariosFiltrados.length"
+                @click="siguientePagina()">
                 <i class="bi bi-chevron-right"></i>
             </button>
         </div>
