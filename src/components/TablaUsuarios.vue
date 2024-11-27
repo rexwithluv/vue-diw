@@ -3,6 +3,9 @@
     <h2 class="text-center fw-bold py-3">
         <i class="bi bi-people-fill"></i>
         Gestión usuarios
+        <router-link to="/" class="ms-5">
+            <i class="fas fa-reply"></i>
+        </router-link>
     </h2>
 
     <div class="container-fluid px-4">
@@ -116,16 +119,16 @@
 
                 <!-- Botones -->
                 <div class="col-12 d-flex justify-content-center">
-                    <div class="pt-3 pb-4 d-flex gap-4">
-                        <button type="button" class="btn btn-primary px-3" @click.prevent="grabarUsuario()">
+                    <div class="pt-3 pb-4 d-flex gap-4 row">
+                        <button type="button" class="btn btn-primary px-3 col-4" @click.prevent="grabarUsuario()">
                             <i class="bi bi-floppy-fill me-1"></i>
                             Alta
                         </button>
-                        <button type="button" class="btn btn-warning px-3" @click.prevent="modificarUsuario()">
+                        <button type="button" class="btn btn-warning px-3 col-4" @click.prevent="modificarUsuario()">
                             <i class="bi bi-pencil-fill me-1"></i>
                             Modificar
                         </button>
-                        <button type="button" class="btn btn-danger px-3" @click.prevent="eliminarUsuario()">
+                        <button type="button" class="btn btn-danger px-3 col-4" @click.prevent="eliminarUsuario()">
                             <i class="bi bi-trash-fill me-1"></i>
                             Eliminar
                         </button>

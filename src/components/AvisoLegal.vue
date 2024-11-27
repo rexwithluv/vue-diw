@@ -1,5 +1,10 @@
 <template>
-    <h3 class="text-center fw-bold py-3">Aviso legal</h3>
+    <h3 class="text-center fw-bold py-3">
+        Aviso legal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <router-link to="/">
+            <i class="fas fa-reply"></i>
+        </router-link>
+    </h3>
 
     <div class="container-fluid ps-3 pe-5 text-justify">
         <ol>
