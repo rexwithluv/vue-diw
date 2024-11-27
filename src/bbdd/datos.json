@@ -32729,6 +32729,16 @@
       "nombre": "Jurídico"
     }
   ],
+  "tiposUsuario": [
+    {
+      "id": 1,
+      "tipo": "usuario"
+    },
+    {
+      "id": 2,
+      "tipo": "admin"
+    }
+  ],
   "usuarios": [
     {
       "id": "47f3",
@@ -32742,7 +32752,7 @@
       "provincia": "36",
       "municipio": "36057",
       "baja": "",
-      "tipo": "usuario"
+      "tipo": 1
     },
     {
       "id": "22e7",
@@ -32756,7 +32766,7 @@
       "provincia": "40",
       "municipio": "40056",
       "baja": "",
-      "tipo": "usuario"
+      "tipo": 1
     },
     {
       "id": "990f",
@@ -32770,7 +32780,63 @@
       "provincia": "27",
       "municipio": "27014",
       "baja": "",
-      "tipo": "usuario"
+      "tipo": 1
+    },
+    {
+      "id": "4ada",
+      "dni": "54508965T",
+      "alta": "2005-11-27",
+      "apellidos": "Márquez",
+      "nombre": "Nadia",
+      "direccion": "Avenida del monte con brujas S/N",
+      "email": "nadiaguapita@email.com",
+      "telefono": "745896541",
+      "provincia": "36",
+      "municipio": "36057",
+      "baja": "",
+      "tipo": 1
+    },
+    {
+      "id": "59aa",
+      "dni": "35608741L",
+      "alta": "2005-12-15",
+      "apellidos": "Pérez",
+      "nombre": "Valentina",
+      "direccion": "Casita de mi mamá",
+      "email": "valen@email.com",
+      "telefono": "685241524",
+      "provincia": "46",
+      "municipio": "46066",
+      "baja": "",
+      "tipo": 1
+    },
+    {
+      "id": "6443",
+      "dni": "35608710H",
+      "alta": "2004-02-11",
+      "apellidos": "Alonso Rueda",
+      "nombre": "Aarón",
+      "direccion": "Avenida Concordia ya estoy harto de probar",
+      "email": "aaron@email.com",
+      "telefono": "685274152",
+      "provincia": "32",
+      "municipio": "32041",
+      "baja": "",
+      "tipo": 1
+    },
+    {
+      "id": "dd21",
+      "dni": "547854785H",
+      "alta": "1985-08-05",
+      "apellidos": "Jaramillo",
+      "nombre": "Alonso",
+      "direccion": "Cualquier calle sirve",
+      "email": "soyyo@email.com",
+      "telefono": "785485496",
+      "provincia": "20",
+      "municipio": "20023",
+      "baja": "",
+      "tipo": 2
     }
   ],
   "candidatos": [

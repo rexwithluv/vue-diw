@@ -64,8 +64,8 @@
                     </div>
                 </div>
 
-                <!-- Provincia y municipio -->
-                <div class="col-5">
+                <!-- Provincia, municipio, tipo de usuario y botón para limpiar -->
+                <div class="col-4">
                     <div class="input-group">
                         <label class="input-group-text">Provincia</label>
                         <select name="provincia" id="provincia" class="form-select" v-model="usuario.provincia">
@@ -76,13 +76,24 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                     <div class="input-group">
                         <label class="input-group-text">Municipio</label>
                         <select name="municipio" id="municipio" class="form-select" v-model="usuario.municipio">
                             <option value="">Selecciona una opción</option>
                             <option v-for="municipio in municipiosFiltrados" :key="municipio.id" :value="municipio.id">
                                 {{ municipio.nm }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group">
+                        <label class="input-group-text">Tipo de usuario</label>
+                        <select name="tipoUsuario" id="tipoUsuario" class="form-select" v-model="usuario.tipo">
+                            <option value="">Selecciona una opción</option>
+                            <option v-for="tipoUsuario in tiposUsuario" :key="tipoUsuario.id" :value="tipoUsuario.id">
+                                {{ tipoUsuario.tipo }}
                             </option>
                         </select>
                     </div>
@@ -95,7 +106,7 @@
 
                 <!-- Checkbox "Histórico" -->
                 <div class="col-12">
-                    <div class="form-check">
+                    <div class="form-check text-start">
                         <input v-model="verHistorico" type="checkbox" name="historico" id="historico"
                             class="form-check-input" />
                         <label class="form-check-label">Mostrar usuarios que se han dado de
@@ -149,7 +160,8 @@
                         <td class="align-middle text-start">{{ usuario.nombre }}</td>
                         <td class="align-middle text-center">{{ usuario.email }}</td>
                         <td class="align-middle text-center">{{ usuario.telefono }}</td>
-                        <td class="align-middle text-center">{{ usuario.tipo }}</td>
+                        <td class="align-middle text-center">{{ usuario.tipo }}
+                        </td>
                         <td v-if="verHistorico" class="align-middle text-center">{{ usuario.baja }}</td>
                         <td class="text-center align-middle pale-yellow">
                             <div>
@@ -189,18 +201,19 @@ export default {
     data() {
         return {
             usuario: {
-                dni: '',
-                alta: '',
-                apellidos: '',
-                nombre: '',
-                direccion: '',
-                email: '',
+                dni: "",
+                alta: "",
+                apellidos: "",
+                nombre: "",
+                direccion: "",
+                email: "",
                 telefono: "",
-                provincia: '',
-                municipio: '',
-                baja: '',
-                tipo: "Usuario",
+                provincia: "",
+                municipio: "",
+                baja: "",
+                tipo: "",
             },
+            tiposUsuario: [],
             usuarios: [],
             provincias: [],
             municipios: [],
@@ -217,6 +230,7 @@ export default {
         this.getProvincias();
         this.getUsuarios();
         this.getMunicipios();
+        this.getTiposUsuario();
     },
 
     // Propiedades computadas que se calculan en tiempo real, reactivas a cambios
@@ -236,7 +250,7 @@ export default {
                 return [];
             }
             return this.municipios.filter((municipio) => municipio.id.startsWith(this.usuario.provincia));
-        },
+        }
     },
 
     // Métodos de los de toda la vida
@@ -278,19 +292,32 @@ export default {
                 console.log(error);
             }
         },
+        async getTiposUsuario() {
+            try {
+                const response = await fetch("http://localhost:3000/tiposUsuario");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+                }
+                this.tiposUsuario = await response.json();
+            } catch (error) {
+                console.log(error);
+            }
+        },
 
         // Limpiar formulario
         limpiarFormulario() {
             this.usuario = {
-                dni: '',
-                alta: '',
-                apellidos: '',
-                nombre: '',
-                direccion: '',
-                email: '',
-                provincia: '',
-                municipio: '',
-                baja: '',
+                dni: "",
+                alta: "",
+                apellidos: "",
+                nombre: "",
+                direccion: "",
+                email: "",
+                telefono: "",
+                provincia: "",
+                municipio: "",
+                baja: "",
+                tipo: "",
             };
             this.bloquearDni = false;
         },
