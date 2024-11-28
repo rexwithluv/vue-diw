@@ -44,21 +44,23 @@
                     </div>
                 </div>
 
-                <!-- Dirección, email y teléfono -->
+                <!-- Dirección -->
                 <div class="col-12">
                     <div class="input-group">
                         <label class="input-group-text">Dirección</label>
                         <input type="text" class="form-control" placeholder="Dirección" v-model="usuario.direccion">
                     </div>
                 </div>
-                <div class="col-8">
+
+                <!-- Email y teléfono -->
+                <div class="col-7">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="text" class="form-control" placeholder="Email" @blur="validarCorreo(usuario.email)"
                             v-model="usuario.email">
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-5">
                     <div class="input-group">
                         <label class="input-group-text">Teléfono</label>
                         <input type="text" class="form-control" placeholder="Teléfono"
@@ -67,44 +69,45 @@
                     </div>
                 </div>
 
-                <!-- Provincia, municipio, tipo de usuario y botón para limpiar -->
-                <div class="col-4">
+                <!-- Provincia, municipio y tipo de usuario -->
+                <div class="col-lg-4 col-sm-5">
                     <div class="input-group">
                         <label class="input-group-text">Provincia</label>
-                        <select name="provincia" id="provincia" class="form-select" v-model="usuario.provincia">
-                            <option value="">Selecciona una provincia</option>
-                            <option v-for="provincia in provincias" :key="provincia.id" :value="provincia.id">
+                        <select name="provincia" id="provincia" class="form-select"
+                            :class="{ 'text-placeholder': usuario.provincia === '' }" v-model="usuario.provincia">
+                            <option value="" disabled>Selecciona</option>
+                            <option class="text-black" v-for="provincia in provincias" :key="provincia.id"
+                                :value="provincia.id">
                                 {{ provincia.nm }}
                             </option>
                         </select>
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-lg-5 col-sm-7">
                     <div class="input-group">
                         <label class="input-group-text">Municipio</label>
-                        <select name="municipio" id="municipio" class="form-select" v-model="usuario.municipio">
-                            <option value="">Selecciona una opción</option>
-                            <option v-for="municipio in municipiosFiltrados" :key="municipio.id" :value="municipio.id">
+                        <select name="municipio" id="municipio" class="form-select" v-model="usuario.municipio"
+                            :class="{ 'text-placeholder': usuario.municipio === '' }">
+                            <option value="" disabled>Selecciona</option>
+                            <option class="text-black" v-for="municipio in municipiosFiltrados" :key="municipio.id"
+                                :value="municipio.id">
                                 {{ municipio.nm }}
                             </option>
                         </select>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-lg-3 col-sm-6">
                     <div class="input-group">
                         <label class="input-group-text">Tipo de usuario</label>
-                        <select name="tipoUsuario" id="tipoUsuario" class="form-select" v-model="usuario.tipo">
-                            <option value="">Selecciona una opción</option>
-                            <option v-for="tipoUsuario in tiposUsuario" :key="tipoUsuario.id" :value="tipoUsuario.id">
+                        <select name="tipoUsuario" id="tipoUsuario" class="form-select" v-model="usuario.tipo"
+                            :class="{ 'text-placeholder': usuario.tipo === '' }">
+                            <option value="" disabled>Selecciona</option>
+                            <option v-for="tipoUsuario in tiposUsuario" :key="tipoUsuario.id" :value="tipoUsuario.id"
+                                class="text-black">
                                 {{ tipoUsuario.tipo }}
                             </option>
                         </select>
                     </div>
-                </div>
-                <div class="col-1">
-                    <button type="button" class="btn btn-secondary" @click.prevent="limpiarFormulario()">
-                        <i class="bi bi-eraser-fill"></i>
-                    </button>
                 </div>
 
                 <!-- Checkbox "Histórico" -->
@@ -118,22 +121,45 @@
                 </div>
 
                 <!-- Botones -->
-                <div class="col-12 d-flex justify-content-center">
-                    <div class="pt-3 pb-4 d-flex gap-4 row">
-                        <button type="button" class="btn btn-primary px-3 col-4" @click.prevent="grabarUsuario()">
-                            <i class="bi bi-floppy-fill me-1"></i>
-                            Alta
-                        </button>
-                        <button type="button" class="btn btn-warning px-3 col-4" @click.prevent="modificarUsuario()">
-                            <i class="bi bi-pencil-fill me-1"></i>
-                            Modificar
-                        </button>
-                        <button type="button" class="btn btn-danger px-3 col-4" @click.prevent="eliminarUsuario()">
-                            <i class="bi bi-trash-fill me-1"></i>
-                            Eliminar
-                        </button>
-                    </div>
+                <!-- <div class="btn-group mb-4 px-4" role="group">
+                    <button type="button" class="btn btn-primary fs-5 py-2" @click.prevent="grabarUsuario()">
+                        <i class="bi bi-floppy-fill me-2"></i>
+                        Alta
+                    </button>
+                    <button type="button" class="btn btn-warning fs-5 py-2" @click.prevent="modificarUsuario()">
+                        <i class="bi bi-pencil-fill me-1"></i>
+                        Modificar
+                    </button>
+                    <button type="button" class="btn btn-danger fs-5 py-2" @click.prevent="eliminarUsuario()">
+                        <i class="bi bi-trash-fill me-1"></i>
+                        Eliminar
+                    </button>
+                    <button type="button" class="btn btn-secondary fs-5 py-2" @click.prevent="limpiarFormulario()">
+                        <i class="bi bi-eraser-fill me-1"></i>
+                        Limpiar
+                    </button>
+                </div> -->
+                <div class="d-flex mb-4 gap-4 px-4">
+                    <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="grabarUsuario()">
+                        <i class="bi bi-floppy-fill me-2"></i>
+                        Alta
+                    </button>
+                    <button type="button" class="btn btn-warning fs-5 py-2 w-100" @click.prevent="modificarUsuario()">
+                        <i class="bi bi-pencil-fill me-1"></i>
+                        Modificar
+                    </button>
+                    <button type="button" class="btn btn-danger fs-5 py-2 w-100" @click.prevent="eliminarUsuario()">
+                        <i class="bi bi-trash-fill me-1"></i>
+                        Baja
+                    </button>
+                    <button type="button" class="btn btn-secondary fs-5 py-2 w-100"
+                        @click.prevent="limpiarFormulario()">
+                        <i class="bi bi-eraser-fill me-1"></i>
+                        Limpiar
+                    </button>
                 </div>
+
+
             </form>
         </div>
     </div>
@@ -397,63 +423,89 @@ export default {
             }
         },
         async eliminarUsuario() {
-            try {
-                const response = await fetch("http://localhost:3000/usuarios");
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+            const result = await Swal.fire({
+                title: "Confirmación",
+                html: `¿Desea dar de baja a <strong>${this.usuario.nombre} ${this.usuario.apellidos}</strong>?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar"
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch("http://localhost:3000/usuarios");
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud: " + response.statusText);
+                    }
+
+                    const usuarios = await response.json();
+                    const usuarioExistente = usuarios.find(usuario => usuario.dni === this.usuario.dni);
+                    if (usuarioExistente) {
+                        const fechaHoy = this.obtenerFechaHoy();  // Usamos la nueva función simplificada para obtener la fecha
+
+                        usuarioExistente.baja = fechaHoy;
+
+                        // Enviar la actualización al servidor
+                        await fetch(`http://localhost:3000/usuarios/${usuarioExistente.id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(usuarioExistente),
+                        });
+
+                        this.mostrarAlerta("Aviso", "Usuario dado de baja correctamente", "success");
+                        this.getUsuarios();
+                    } else {
+                        this.mostrarAlerta("Error", "Usuario no encontrado", "error")
+                    }
+                } catch (error) {
+                    console.log(error);
+                    this.mostrarAlerta("Error", "no se pudo dar de baja al usuario.", "error");
                 }
-
-                const usuarios = await response.json();
-                const usuarioExistente = usuarios.find(usuario => usuario.dni === this.usuario.dni);
-                if (usuarioExistente) {
-                    const fechaHoy = this.obtenerFechaHoy();  // Usamos la nueva función simplificada para obtener la fecha
-
-                    usuarioExistente.baja = fechaHoy;
-
-                    // Enviar la actualización al servidor
-                    await fetch(`http://localhost:3000/usuarios/${usuarioExistente.id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(usuarioExistente),
-                    });
-
-                    this.mostrarAlerta("Aviso", "Usuario dado de baja correctamente", "success");
-                    this.getUsuarios();
-                } else {
-                    this.mostrarAlerta("Error", "Usuario no encontrado", "error")
-                }
-            } catch (error) {
-                console.log(error);
-                this.mostrarAlerta("Error", "no se pudo dar de baja al usuario.", "error");
             }
         },
         async modificarUsuario() {
-            if (this.usuario.dni) {
-                try {
-                    // Buscar el usuario actual por su DNI en el servidor
-                    const response = await fetch(`http://localhost:3000/usuarios/${this.usuario.id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(this.usuario),
-                    });
+            const result = await Swal.fire({
+                title: "Confirmación",
+                html: `¿Desea guardar los cambios de <strong>${this.usuario.nombre} ${this.usuario.apellidos}</strong>?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar"
+            });
 
-                    if (!response.ok) {
-                        throw new Error("Error al modificar el usuario: " + response.statusText);
+            if (result.isConfirmed) {
+                if (this.usuario.dni) {
+                    try {
+                        // Buscar el usuario actual por su DNI en el servidor
+                        const response = await fetch(`http://localhost:3000/usuarios/${this.usuario.id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(this.usuario),
+                        });
+
+                        if (!response.ok) {
+                            throw new Error("Error al modificar el usuario: " + response.statusText);
+                        }
+
+                        // Mostrar alerta de éxito
+                        this.mostrarAlerta("Aviso", "Usuario modificado con éxito", "success");
+                        this.getUsuarios();
+                    } catch (error) {
+                        console.log(error);
+                        this.mostrarAlerta("Error", "No se pudo modificar el usuario", "error");
                     }
-
-                    // Mostrar alerta de éxito
-                    this.mostrarAlerta("Aviso", "Usuario modificado con éxito", "success");
-                    this.getUsuarios();
-                } catch (error) {
-                    console.log(error);
-                    this.mostrarAlerta("Error", "No se pudo modificar el usuario", "error");
+                } else {
+                    this.mostrarAlerta("Error", "Debe seleccionar un usuario para modificar", "error");
                 }
-            } else {
-                this.mostrarAlerta("Error", "Debe seleccionar un usuario para modificar", "error");
             }
         },
 
@@ -602,4 +654,8 @@ export default {
 
 </script>
 
-<style></style>
+<style scoped>
+.text-placeholder {
+    color: #595c5f;
+}
+</style>

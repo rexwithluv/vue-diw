@@ -32732,11 +32732,11 @@
   "tiposUsuario": [
     {
       "id": "1",
-      "tipo": "usuario"
+      "tipo": "Usuario"
     },
     {
       "id": "2",
-      "tipo": "admin"
+      "tipo": "Administrador"
     }
   ],
   "usuarios": [
