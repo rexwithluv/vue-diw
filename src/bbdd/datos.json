@@ -32843,7 +32843,7 @@
     {
       "id": "946a",
       "apellidos": "Pérez",
-      "nombre": "Ernesto",
+      "nombre": "Frailejon Ernesto",
       "email": "frailejon@email.com",
       "telefono": "789689654",
       "departamento": "1",
@@ -32853,7 +32853,7 @@
     },
     {
       "id": "6391",
-      "apellidos": "Azul",
+      "apellidos": "Azul Amarillo",
       "nombre": "Alejandro",
       "email": "alejandrito@email.com",
       "telefono": "696396352",
@@ -32870,6 +32870,50 @@
       "telefono": "774174177",
       "departamento": "5",
       "modalidad": "hibrido",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "a201",
+      "apellidos": "Pérez",
+      "nombre": "Juan Carlos",
+      "email": "carlitos@email.com",
+      "telefono": "685285296",
+      "departamento": "4",
+      "modalidad": "hibrido",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "744d",
+      "apellidos": "Bouza",
+      "nombre": "Ana",
+      "email": "anita@email.com",
+      "telefono": "785285263",
+      "departamento": "3",
+      "modalidad": "presencial",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "83fe",
+      "apellidos": "Rueda",
+      "nombre": "Milena",
+      "email": "milena@email.com",
+      "telefono": "685296396",
+      "departamento": "1",
+      "modalidad": "hibrido",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "a201",
+      "apellidos": "Pérez",
+      "nombre": "Hugo",
+      "email": "hugo@email.com",
+      "telefono": "785278878",
+      "departamento": "5",
+      "modalidad": "remoto",
       "comentarios": "",
       "acepta": true
     }

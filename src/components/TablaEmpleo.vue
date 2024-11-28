@@ -44,7 +44,7 @@
                 </div>
 
                 <!-- Categoría y modalidad -->
-                <div class="col-6">
+                <div class="col-lg-6 col-sm-5">
                     <div class="input-group">
                         <label class="input-group-text">Departamento</label>
                         <select name="departamento" id="departamento" class="form-select"
@@ -57,30 +57,22 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-lg-6 col-sm-7">
                     <div class="input-group">
                         <label class="input-group-text">Modalidad</label>
-                        <div class="form-control">
+                        <div class="btn-group form-control" role="group">
+                            <input type="radio" class="btn-check" name="modalidad" id="remoto" value="remoto"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="remoto">Remoto</label>
 
-                            <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="modalidad" value="remoto"
-                                    v-model="candidato.modalidad">
-                                <label class="form-check-label">Remoto</label>
-                            </div>
+                            <input type="radio" class="btn-check" name="modalidad" id="hibrido" value="hibrido"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="hibrido">Híbrido</label>
 
-                            <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="modalidad" value="hibrido"
-                                    v-model="candidato.modalidad">
-                                <label class="form-check-label">Híbrido</label>
-                            </div>
-
-                            <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="modalidad" value="presencial"
-                                    v-model="candidato.modalidad">
-                                <label class="form-check-label">Presencial</label>
-                            </div>
+                            <input type="radio" class="btn-check" name="modalidad" id="presencial" value="presencial"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="presencial">Presencial</label>
                         </div>
-
                     </div>
                 </div>
 
@@ -184,9 +176,9 @@ export default {
     data() {
         return {
             candidato: {
-                apellidos: '',
-                nombre: '',
-                email: '',
+                apellidos: "",
+                nombre: "",
+                email: "",
                 telefono: "",
                 departamento: "",
                 modalidad: "",
@@ -254,6 +246,20 @@ export default {
             });
         },
 
+        // Limpiar el formulario antes de hacer algún tipo de operación
+        limpiarFormulario() {
+            this.candidato = {
+                apellidos: "",
+                nombre: "",
+                email: "",
+                telefono: "",
+                departamento: "",
+                modalidad: "",
+                comentarios: "",
+                acepta: false,
+            }
+        },
+
         // Validaciones
         validarCorreo(email) {
             if (email.length === 0) {
@@ -293,8 +299,19 @@ export default {
                         throw new Error("Error al obtener los candidatos: " + response.statusText);
                     }
 
-                    const guardarResponse = await fetch(`http://localhost:3000/candidatos`, {
-                        method: "POST",
+                    // Comprobamos si ya existe para sobreescribir su candidatura
+                    // Usaremos el móvil como clave de búsqueda
+                    const candidatos = await response.json();
+                    const candidatoExistente = candidatos.find(candidato => candidato.telefono === this.candidato.telefono);
+
+                    // Para seleccioanr URL y método según si es nuevo o no
+                    const urlCandidato = candidatoExistente
+                        ? `http://localhost:3000/candidatos/${candidatoExistente.id}`
+                        : 'http://localhost:3000/candidatos';
+                    const methodCandidato = candidatoExistente ? "PUT" : "POST";
+
+                    const guardarResponse = await fetch(urlCandidato, {
+                        method: methodCandidato,
                         headers: {
                             "Content-Type": "application/json"
                         },
@@ -305,20 +322,9 @@ export default {
                         throw new Error("Error al guardar la candidatura: " + guardarResponse.statusText);
                     }
 
+
                     this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
-
-                    this.candidato = {
-                        apellidos: "",
-                        nombre: "",
-                        email: "",
-                        telefono: "",
-                        departamento: "",
-                        modalidad: "",
-                        comentarios: "",
-                        acepta: false,
-                    }
-
-
+                    this.limpiarFormulario();
                 } catch (error) {
                     console.log(error);
                     this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
@@ -326,6 +332,9 @@ export default {
             } else {
                 this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
             }
+
+            // Recargamos la tabla al finalizar la operación
+            this.getCandidatos();
         },
 
         //Métodos que se llaman desde los botones de la tabla
@@ -352,25 +361,39 @@ export default {
         },
         // Eliminar
         async eliminarCandidato(candidato) {
-            try {
-                const response = await fetch(`http://localhost:3000/candidatos/${candidato.id}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(candidato),
-                });
+            const result = await Swal.fire({
+                title: "Confirmación",
+                html: `¿Desea eliminar a <strong>${candidato.nombre} ${candidato.apellidos}</strong>? <br><br>
+            Esta acción no se puede deshacer.`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar"
+            });
 
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud: ' + response.statusText);
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`http://localhost:3000/candidatos/${candidato.id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(candidato),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error en la solicitud: ' + response.statusText);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
                 }
-            } catch (error) {
-                console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
-            }
 
-            // Recargamos la tabla al finalizar la operación
-            this.getCandidatos();
+                // Recargamos la tabla al finalizar la operación
+                this.getCandidatos();
+            }
         },
 
         // Métodos para la paginación en la tabla
@@ -383,12 +406,12 @@ export default {
             if (this.currentPage > 1) {
                 this.currentPage--;
             }
-        }
+        },
     },
 }
 </script>
 
-<style scoped>
+<style coped>
 .text-align-top {
     align-items: baseline;
 }
