@@ -171,7 +171,8 @@
                         <td class="align-middle text-start">{{ usuario.nombre }}</td>
                         <td class="align-middle text-center">{{ usuario.email }}</td>
                         <td class="align-middle text-center">{{ usuario.telefono }}</td>
-                        <td class="align-middle text-center">{{ tiposUsuario.find(tipoUser => tipoUser.id === usuario.tipo).tipo }}
+                        <td class="align-middle text-center">{{ tiposUsuario.find(tipoUser => tipoUser.id ===
+                            usuario.tipo).tipo }}
                         </td>
                         <td v-if="verHistorico" class="align-middle text-center">{{ usuario.baja }}</td>
                         <td class="text-center align-middle pale-yellow">
@@ -238,10 +239,10 @@ export default {
 
     // Funciones que se ejecutan al iniciar el servidor
     mounted() {
-        this.getProvincias();
-        this.getUsuarios();
-        this.getMunicipios();
         this.getTiposUsuario();
+        this.getUsuarios();
+        this.getProvincias();
+        this.getMunicipios();
     },
 
     // Propiedades computadas que se calculan en tiempo real, reactivas a cambios
@@ -268,6 +269,30 @@ export default {
     methods: {
 
         // Getters para los select
+        async getTiposUsuario() {
+            try {
+                const response = await fetch("http://localhost:3000/tiposUsuario");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+                }
+                this.tiposUsuario = await response.json();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getUsuarios() {
+            try {
+                const response = await fetch("http://localhost:3000/usuarios");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+
+                }
+                this.usuarios = (await response.json()).sort((a, b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
+
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async getProvincias() {
             try {
                 const response = await fetch("http://localhost:3000/provincias");
@@ -286,30 +311,6 @@ export default {
                     throw new Error("Error en la solicitud: " + response.statusText);
                 }
                 this.municipios = await response.json();
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        async getUsuarios() {
-            try {
-                const response = await fetch("http://localhost:3000/usuarios");
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
-
-                }
-                this.usuarios = (await response.json()).sort((a, b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
-
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        async getTiposUsuario() {
-            try {
-                const response = await fetch("http://localhost:3000/tiposUsuario");
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
-                }
-                this.tiposUsuario = await response.json();
             } catch (error) {
                 console.log(error);
             }

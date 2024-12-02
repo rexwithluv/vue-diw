@@ -32731,11 +32731,11 @@
   ],
   "tiposUsuario": [
     {
-      "id": 1,
+      "id": "1",
       "tipo": "Usuario"
     },
     {
-      "id": 2,
+      "id": "2",
       "tipo": "Administrador"
     }
   ],
@@ -32752,7 +32752,7 @@
       "provincia": "36",
       "municipio": "36057",
       "baja": "",
-      "tipo": 1
+      "tipo": "1"
     },
     {
       "id": "990f",
@@ -32766,7 +32766,7 @@
       "provincia": "27",
       "municipio": "27014",
       "baja": "",
-      "tipo": 1
+      "tipo": "1"
     },
     {
       "id": "4ada",
@@ -32780,7 +32780,7 @@
       "provincia": "36",
       "municipio": "36057",
       "baja": "",
-      "tipo": 1
+      "tipo": "1"
     },
     {
       "id": "59aa",
@@ -32794,7 +32794,7 @@
       "provincia": "46",
       "municipio": "46066",
       "baja": "",
-      "tipo": 1
+      "tipo": "1"
     },
     {
       "id": "6443",
@@ -32808,7 +32808,7 @@
       "provincia": "32",
       "municipio": "32041",
       "baja": "02/12/2024",
-      "tipo": 1
+      "tipo": "1"
     },
     {
       "id": "dd21",
@@ -32822,7 +32822,7 @@
       "provincia": "20",
       "municipio": "20023",
       "baja": "",
-      "tipo": 2
+      "tipo": "2"
     }
   ],
   "candidatos": [
