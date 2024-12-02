@@ -121,24 +121,6 @@
                 </div>
 
                 <!-- Botones -->
-                <!-- <div class="btn-group mb-4 px-4" role="group">
-                    <button type="button" class="btn btn-primary fs-5 py-2" @click.prevent="grabarUsuario()">
-                        <i class="bi bi-floppy-fill me-2"></i>
-                        Alta
-                    </button>
-                    <button type="button" class="btn btn-warning fs-5 py-2" @click.prevent="modificarUsuario()">
-                        <i class="bi bi-pencil-fill me-1"></i>
-                        Modificar
-                    </button>
-                    <button type="button" class="btn btn-danger fs-5 py-2" @click.prevent="eliminarUsuario()">
-                        <i class="bi bi-trash-fill me-1"></i>
-                        Eliminar
-                    </button>
-                    <button type="button" class="btn btn-secondary fs-5 py-2" @click.prevent="limpiarFormulario()">
-                        <i class="bi bi-eraser-fill me-1"></i>
-                        Limpiar
-                    </button>
-                </div> -->
                 <div class="d-flex mb-4 gap-4 px-4">
                     <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="grabarUsuario()">
                         <i class="bi bi-floppy-fill me-2"></i>
@@ -189,7 +171,7 @@
                         <td class="align-middle text-start">{{ usuario.nombre }}</td>
                         <td class="align-middle text-center">{{ usuario.email }}</td>
                         <td class="align-middle text-center">{{ usuario.telefono }}</td>
-                        <td class="align-middle text-center">{{ usuario.tipo }}
+                        <td class="align-middle text-center">{{ tiposUsuario.find(tipoUser => tipoUser.id === usuario.tipo).tipo }}
                         </td>
                         <td v-if="verHistorico" class="align-middle text-center">{{ usuario.baja }}</td>
                         <td class="text-center align-middle pale-yellow">

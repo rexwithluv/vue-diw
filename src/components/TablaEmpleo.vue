@@ -61,16 +61,16 @@
                     <div class="input-group">
                         <label class="input-group-text">Modalidad</label>
                         <div class="btn-group form-control" role="group">
-                            <input type="radio" class="btn-check" name="modalidad" id="remoto" value="remoto"
-                                autocomplete="off">
+                            <input type="radio" class="btn-check" name="modalidad" id="remoto" value="Remoto"
+                                autocomplete="off" v-model="candidato.modalidad">
                             <label class="btn btn-outline-secondary" for="remoto">Remoto</label>
 
-                            <input type="radio" class="btn-check" name="modalidad" id="hibrido" value="hibrido"
-                                autocomplete="off">
+                            <input type="radio" class="btn-check" name="modalidad" id="hibrido" value="Híbrido"
+                                autocomplete="off" v-model="candidato.modalidad">
                             <label class="btn btn-outline-secondary" for="hibrido">Híbrido</label>
 
-                            <input type="radio" class="btn-check" name="modalidad" id="presencial" value="presencial"
-                                autocomplete="off">
+                            <input type="radio" class="btn-check" name="modalidad" id="presencial" value="Presencial"
+                                autocomplete="off" v-model="candidato.modalidad">
                             <label class="btn btn-outline-secondary" for="presencial">Presencial</label>
                         </div>
                     </div>
@@ -137,7 +137,8 @@
                         <td class="align-middle text-start">{{ candidato.nombre }}</td>
                         <td class="align-middle text-center">{{ candidato.telefono }}</td>
                         <td class="align-middle text-center">{{ candidato.email }}</td>
-                        <td class="align-middle text-center">{{ candidato.departamento }} </td>
+                        <td class="align-middle text-center">{{ departamentos.find(dep => dep.id ===
+                            candidato.departamento).nombre }} </td>
                         <td class="align-middle text-center">{{ candidato.modalidad }}</td>
                         <td class="text-center align-middle pale-yellow">
                             <button class="btn btn-warning m-2" @click.prevent="seleccionarCandidato(candidato)">

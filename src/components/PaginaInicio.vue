@@ -4,8 +4,8 @@
         Panel de gestión
     </h2>
 
-    <div class="container text-center">
-        <div class="row align-items-center gy-3">
+    <div class="container text-center pt-5">
+        <div class="row align-items-center gy-4">
             <div class="col-6">
                 <router-link to="/usuarios" class="btn btn-primary w-100 p-3 fs-5">
                     <i class="bi bi-people-fill me-1"></i> Gestión de usurios

@@ -32731,11 +32731,11 @@
   ],
   "tiposUsuario": [
     {
-      "id": "1",
+      "id": 1,
       "tipo": "Usuario"
     },
     {
-      "id": "2",
+      "id": 2,
       "tipo": "Administrador"
     }
   ],
@@ -32751,20 +32751,6 @@
       "telefono": "654789654",
       "provincia": "36",
       "municipio": "36057",
-      "baja": "",
-      "tipo": 1
-    },
-    {
-      "id": "22e7",
-      "dni": "X6798488P",
-      "alta": "2005-08-16",
-      "apellidos": "Pausini",
-      "nombre": "Laura",
-      "direccion": "Avenida de su Casa, Nº 5",
-      "email": "laurita@email.com",
-      "telefono": "685263945",
-      "provincia": "40",
-      "municipio": "40056",
       "baja": "",
       "tipo": 1
     },
@@ -32821,7 +32807,7 @@
       "telefono": "685274152",
       "provincia": "32",
       "municipio": "32041",
-      "baja": "",
+      "baja": "02/12/2024",
       "tipo": 1
     },
     {
@@ -32847,7 +32833,7 @@
       "email": "frailejon@email.com",
       "telefono": "789689654",
       "departamento": "1",
-      "modalidad": "remoto",
+      "modalidad": "Remoto",
       "comentarios": "Hola, mi nombre es Frailejon Ernesto Pérez",
       "acepta": true
     },
@@ -32858,7 +32844,7 @@
       "email": "alejandrito@email.com",
       "telefono": "696396352",
       "departamento": "4",
-      "modalidad": "hibrido",
+      "modalidad": "Híbrido",
       "comentarios": "",
       "acepta": true
     },
@@ -32869,7 +32855,7 @@
       "email": "steven@email.com",
       "telefono": "774174177",
       "departamento": "5",
-      "modalidad": "hibrido",
+      "modalidad": "Híbrido",
       "comentarios": "",
       "acepta": true
     },
@@ -32891,7 +32877,7 @@
       "email": "anita@email.com",
       "telefono": "785285263",
       "departamento": "3",
-      "modalidad": "presencial",
+      "modalidad": "Presencial",
       "comentarios": "",
       "acepta": true
     },
@@ -32902,7 +32888,7 @@
       "email": "milena@email.com",
       "telefono": "685296396",
       "departamento": "1",
-      "modalidad": "hibrido",
+      "modalidad": "Híbrido",
       "comentarios": "",
       "acepta": true
     },
@@ -32913,7 +32899,18 @@
       "email": "hugo@email.com",
       "telefono": "785278878",
       "departamento": "5",
-      "modalidad": "remoto",
+      "modalidad": "Remoto",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "fe93",
+      "apellidos": "Bouza",
+      "nombre": "Ana",
+      "email": "anita@email.com",
+      "telefono": "741758526",
+      "departamento": "3",
+      "modalidad": "Híbrido",
       "comentarios": "",
       "acepta": true
     }
