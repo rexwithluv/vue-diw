@@ -454,7 +454,7 @@ export default {
         async modificarUsuario() {
             const result = await Swal.fire({
                 title: "Confirmación",
-                html: `¿Desea guardar los cambios de <strong>${this.usuario.nombre} ${this.usuario.apellidos}</strong>?`,
+                html: `¿Desea guardar los cambios de <strong>${this.usuario.nombre}, ${this.usuario.apellidos}</strong>?`,
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#d33",

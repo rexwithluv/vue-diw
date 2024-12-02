@@ -295,24 +295,8 @@ export default {
         async guardarCandidato() {
             if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
                 try {
-                    const response = await fetch("http://localhost:3000/candidatos");
-                    if (!response.ok) {
-                        throw new Error("Error al obtener los candidatos: " + response.statusText);
-                    }
-
-                    // Comprobamos si ya existe para sobreescribir su candidatura
-                    // Usaremos el móvil como clave de búsqueda
-                    const candidatos = await response.json();
-                    const candidatoExistente = candidatos.find(candidato => candidato.telefono === this.candidato.telefono);
-
-                    // Para seleccioanr URL y método según si es nuevo o no
-                    const urlCandidato = candidatoExistente
-                        ? `http://localhost:3000/candidatos/${candidatoExistente.id}`
-                        : 'http://localhost:3000/candidatos';
-                    const methodCandidato = candidatoExistente ? "PUT" : "POST";
-
-                    const guardarResponse = await fetch(urlCandidato, {
-                        method: methodCandidato,
+                    const guardarResponse = await fetch('http://localhost:3000/candidatos', {
+                        method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
@@ -322,7 +306,6 @@ export default {
                     if (!guardarResponse.ok) {
                         throw new Error("Error al guardar la candidatura: " + guardarResponse.statusText);
                     }
-
 
                     this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
                     this.limpiarFormulario();

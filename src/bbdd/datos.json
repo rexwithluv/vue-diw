@@ -32913,6 +32913,28 @@
       "modalidad": "Híbrido",
       "comentarios": "",
       "acepta": true
+    },
+    {
+      "id": "ccac",
+      "apellidos": "Esto funciona?",
+      "nombre": "Espero que sí",
+      "email": "example@email.com",
+      "telefono": "685296356",
+      "departamento": "2",
+      "modalidad": "Híbrido",
+      "comentarios": "Feliz Feliz, lerelelele",
+      "acepta": true
+    },
+    {
+      "id": "5394",
+      "apellidos": "Al fin",
+      "nombre": "Funcinoa!!",
+      "email": "example@email.com",
+      "telefono": "685296356",
+      "departamento": "5",
+      "modalidad": "Presencial",
+      "comentarios": "Feliz feliz, lerelele",
+      "acepta": true
     }
   ]
 }
