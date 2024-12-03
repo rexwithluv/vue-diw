@@ -295,20 +295,14 @@ export default {
         async guardarCandidato() {
             if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
                 try {
-                    const response = await fetch("http://localhost:3000/candidatos");
-
-                    const candidatos = await response.json();
-                    const candidatoEncontrado = candidatos.find(c => c.telefono === this.candidato.telefono);
-                    if (candidatoEncontrado) {
-                        delete this.candidato.id;
-                    }
+                    // Si el candidato lo traemos de la base de datos tendrá ID, nos aseguramos de eliminarlo para evitar duplicados
+                    delete this.candidato.id;
 
                     const guardarResponse = await fetch('http://localhost:3000/candidatos', {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
-
                         body: JSON.stringify(this.candidato)
                     });
 
@@ -341,7 +335,7 @@ export default {
                 }
 
                 const candidatos = await response.json();
-                const candidatoEncontrado = candidatos.find(c => c.telefono === candidato.telefono);
+                const candidatoEncontrado = candidatos.find(c => c.id === candidato.id);
                 if (candidatoEncontrado) {
                     this.candidato = { ...candidatoEncontrado };
                 } else {

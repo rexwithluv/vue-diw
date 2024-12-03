@@ -32957,6 +32957,61 @@
       "modalidad": "Híbrido",
       "comentarios": "Feliz Feliz, lerelelele",
       "acepta": true
+    },
+    {
+      "id": "f94e",
+      "apellidos": "Esto funciona?",
+      "nombre": "Espero que sí",
+      "email": "example@email.com",
+      "telefono": "685296356",
+      "departamento": "2",
+      "modalidad": "Híbrido",
+      "comentarios": "Feliz Feliz, lerelelele",
+      "acepta": true
+    },
+    {
+      "id": "697f",
+      "apellidos": "Steven",
+      "nombre": "Universe",
+      "email": "steven@email.com",
+      "telefono": "774174177",
+      "departamento": "5",
+      "modalidad": "Híbrido",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "5233",
+      "apellidos": "Esto funciona!!",
+      "nombre": "Espero que sí",
+      "email": "example@email.com",
+      "telefono": "685296356",
+      "departamento": "2",
+      "modalidad": "Híbrido",
+      "comentarios": "Feliz Feliz, lerelelele",
+      "acepta": true
+    },
+    {
+      "id": "909b",
+      "apellidos": "Bouza",
+      "nombre": "Ana",
+      "email": "anita@email.com",
+      "telefono": "785285263",
+      "departamento": "3",
+      "modalidad": "Presencial",
+      "comentarios": "",
+      "acepta": true
+    },
+    {
+      "id": "f5b6",
+      "apellidos": "Esto funciona?",
+      "nombre": "Espero que sí",
+      "email": "example@email.com",
+      "telefono": "685296356",
+      "departamento": "2",
+      "modalidad": "Híbrido",
+      "comentarios": "Feliz Feliz, lerelelele",
+      "acepta": true
     }
   ]
 }
