@@ -32935,6 +32935,28 @@
       "modalidad": "Presencial",
       "comentarios": "Feliz feliz, lerelele",
       "acepta": true
+    },
+    {
+      "id": "0e55",
+      "apellidos": "Esto funciona?",
+      "nombre": "Espero que sí",
+      "email": "example@email.com",
+      "telefono": "685296356",
+      "departamento": "1",
+      "modalidad": "Híbrido",
+      "comentarios": "Feliz Feliz, lerelelele",
+      "acepta": true
+    },
+    {
+      "id": "475c",
+      "apellidos": "Esto funciona?",
+      "nombre": "Espero que sí",
+      "email": "example@email.com",
+      "telefono": "685296356",
+      "departamento": "3",
+      "modalidad": "Híbrido",
+      "comentarios": "Feliz Feliz, lerelelele",
+      "acepta": true
     }
   ]
 }

@@ -295,11 +295,20 @@ export default {
         async guardarCandidato() {
             if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
                 try {
+                    const response = await fetch("http://localhost:3000/candidatos");
+
+                    const candidatos = await response.json();
+                    const candidatoEncontrado = candidatos.find(c => c.telefono === this.candidato.telefono);
+                    if (candidatoEncontrado) {
+                        delete this.candidato.id;
+                    }
+
                     const guardarResponse = await fetch('http://localhost:3000/candidatos', {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
+
                         body: JSON.stringify(this.candidato)
                     });
 
