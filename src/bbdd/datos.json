@@ -32981,17 +32981,6 @@
       "acepta": true
     },
     {
-      "id": "5233",
-      "apellidos": "Esto funciona!!",
-      "nombre": "Espero que sí",
-      "email": "example@email.com",
-      "telefono": "685296356",
-      "departamento": "2",
-      "modalidad": "Híbrido",
-      "comentarios": "Feliz Feliz, lerelelele",
-      "acepta": true
-    },
-    {
       "id": "909b",
       "apellidos": "Bouza",
       "nombre": "Ana",
@@ -33000,17 +32989,6 @@
       "departamento": "3",
       "modalidad": "Presencial",
       "comentarios": "",
-      "acepta": true
-    },
-    {
-      "id": "f5b6",
-      "apellidos": "Esto funciona?",
-      "nombre": "Espero que sí",
-      "email": "example@email.com",
-      "telefono": "685296356",
-      "departamento": "2",
-      "modalidad": "Híbrido",
-      "comentarios": "Feliz Feliz, lerelelele",
       "acepta": true
     }
   ]
