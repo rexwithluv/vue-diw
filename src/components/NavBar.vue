@@ -10,16 +10,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link to="/" class="nav-link active" :class="{'current': currentRoute === '/'}">Inicio</router-link>
+                        <router-link to="/" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/' }">Inicio</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/usuarios" class="nav-link active" :class="{'current': currentRoute === '/usuarios'}">Usuarios</router-link>
+                        <router-link to="/usuarios" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/usuarios' }">Usuarios</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/empleo" class="nav-link active" :class="{'current': currentRoute === '/empleo'}">Empleo</router-link>
+                        <router-link to="/empleo" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/empleo' }">Empleo</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/contacto" class="nav-link active" :class="{'current': currentRoute === '/contacto'}">Contacto</router-link>
+                        <router-link to="/comentarios" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/comentarios' }">Comentarios</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/contacto" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/contacto' }">Contacto</router-link>
                     </li>
                 </ul>
 

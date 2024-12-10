@@ -32926,17 +32926,6 @@
       "acepta": true
     },
     {
-      "id": "5394",
-      "apellidos": "Al fin",
-      "nombre": "Funcinoa!!",
-      "email": "example@email.com",
-      "telefono": "685296356",
-      "departamento": "5",
-      "modalidad": "Presencial",
-      "comentarios": "Feliz feliz, lerelele",
-      "acepta": true
-    },
-    {
       "id": "0e55",
       "apellidos": "Esto funciona?",
       "nombre": "Espero que sí",
@@ -32990,6 +32979,62 @@
       "modalidad": "Presencial",
       "comentarios": "",
       "acepta": true
+    }
+  ],
+  "comentarios": [
+    {
+      "id": "a733",
+      "email": "anita@email.com",
+      "mensaje": "",
+      "movil": "698547854",
+      "valoracion": "3",
+      "acepta": true,
+      "fecha": "07/11/2024"
+    },
+    {
+      "id": "a1c7",
+      "email": "nadiaguapita@email.com",
+      "mensaje": "soy un comentario!!",
+      "movil": "741852415",
+      "valoracion": "5",
+      "acepta": true,
+      "fecha": "10/12/2024"
+    },
+    {
+      "id": "c959",
+      "email": "aaron@email.com",
+      "mensaje": "",
+      "movil": "652415241",
+      "valoracion": "3",
+      "acepta": true,
+      "fecha": "10/12/2024"
+    },
+    {
+      "id": "6d89",
+      "email": "aaron@email.com",
+      "mensaje": "",
+      "movil": "685285263",
+      "valoracion": "5",
+      "acepta": true,
+      "fecha": "08/12/2024"
+    },
+    {
+      "id": "4c46",
+      "email": "anita@email.com",
+      "mensaje": "pruebiña",
+      "movil": "696385241",
+      "valoracion": 4,
+      "acepta": true,
+      "fecha": "10/12/2024"
+    },
+    {
+      "id": "8e06",
+      "email": "anita@email.com",
+      "mensaje": "",
+      "movil": "685274152",
+      "valoracion": 1,
+      "acepta": true,
+      "fecha": "10/12/2024"
     }
   ]
 }

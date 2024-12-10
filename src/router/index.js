@@ -6,6 +6,7 @@ import NotFound from '@/components/NotFound.vue'
 import TablaEmpleo from '@/components/TablaEmpleo.vue'
 import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
 import AvisoLegal from '@/components/AvisoLegal.vue'
+import TablaComentarios from '@/components/TablaComentarios.vue'
 
 const routes = [
   {
@@ -19,14 +20,19 @@ const routes = [
     component: TablaUsuarios
   },
   {
-    path: '/contacto',
-    name: 'contacto',
-    component: TablaContacto
-  },
-  {
     path: "/empleo",
     name: "empleo",
     component: TablaEmpleo
+  },
+  {
+    path: "/comentarios",
+    name: "comentarios",
+    component: TablaComentarios
+  },
+  {
+    path: '/contacto',
+    name: 'contacto',
+    component: TablaContacto
   },
   {
     path: "/politica-privacidad",
