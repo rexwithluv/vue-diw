@@ -32979,6 +32979,17 @@
       "modalidad": "Presencial",
       "comentarios": "",
       "acepta": true
+    },
+    {
+      "id": "ae3d",
+      "apellidos": "Alonso",
+      "nombre": "Pepe",
+      "email": "pepito@email.com",
+      "telefono": "696385274",
+      "departamento": "3",
+      "modalidad": "Híbrido",
+      "comentarios": "Quiero trabajar aquí",
+      "acepta": true
     }
   ],
   "comentarios": [

@@ -111,8 +111,8 @@
                 </div>
 
                 <!-- Checkbox "Histórico" -->
-                <div class="col-12">
-                    <div class="form-check text-start">
+                <div class="col-12 text-center">
+                    <div class="form-check d-inline-block">
                         <input v-model="verHistorico" type="checkbox" name="historico" id="historico"
                             class="form-check-input" />
                         <label class="form-check-label">Mostrar usuarios que se han dado de
@@ -121,21 +121,20 @@
                 </div>
 
                 <!-- Botones -->
-                <div class="d-flex mb-4 gap-4 px-4">
+                <div class="d-flex mb-4 gap-4 px-4 mt-5">
                     <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="grabarUsuario()">
                         <i class="bi bi-floppy-fill me-2"></i>
                         Alta
                     </button>
-                    <button type="button" class="btn btn-warning fs-5 py-2 w-100" @click.prevent="modificarUsuario()">
+                    <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="modificarUsuario()">
                         <i class="bi bi-pencil-fill me-1"></i>
                         Modificar
                     </button>
-                    <button type="button" class="btn btn-danger fs-5 py-2 w-100" @click.prevent="eliminarUsuario()">
+                    <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="eliminarUsuario()">
                         <i class="bi bi-trash-fill me-1"></i>
                         Baja
                     </button>
-                    <button type="button" class="btn btn-secondary fs-5 py-2 w-100"
-                        @click.prevent="limpiarFormulario()">
+                    <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="limpiarFormulario()">
                         <i class="bi bi-eraser-fill me-1"></i>
                         Limpiar
                     </button>

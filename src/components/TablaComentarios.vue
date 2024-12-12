@@ -42,7 +42,8 @@
                     <div class="input-group">
                         <label class="input-group-text">Valoración</label>
                         <div class="form-control">
-                            <span v-for="n in 5" :key="n" :class="n <= this.comentario.valoracion ? 'bi bi-star-fill' : 'bi bi-star'"
+                            <span v-for="n in 5" :key="n"
+                                :class="n <= this.comentario.valoracion ? 'bi bi-star-fill' : 'bi bi-star'"
                                 @click="setValoracion(n)" class="star-icon"></span>
                         </div>
                     </div>
@@ -54,8 +55,8 @@
                 </div>
 
                 <!-- Acepta condiciones -->
-                <div class="col-12 text-start">
-                    <div class="form-check">
+                <div class="col-12 text-center">
+                    <div class="form-check d-inline-block">
                         <input class="form-check-input" type="checkbox" v-model="comentario.acepta">
                         <label class="form-check-label">He leído y acepto las <router-link to="/politica-privacidad"
                                 class="link">Políticas de privacidad</router-link></label>
@@ -64,8 +65,7 @@
 
                 <!-- Botón enviar -->
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarComentario()"
-                        :disabled="!comentario.acepta">
+                    <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarComentario()">
                         <i class="bi bi-floppy-fill me-2"></i>
                         Enviar
                     </button>
@@ -258,40 +258,47 @@ export default {
 
         // Almacenar la valoración
         async guardarComentario() {
-            if (this.comentario.email && this.comentario.movil) {
-                try {
-                    const correoExiste = this.usuarios.find(user => user.email === this.comentario.email);
+            if (this.comentario.acepta === false) {
+                this.mostrarAlerta(
+                    "Debe aceptar",
+                    "Debe aceptar las políticas de privacidad para poder mandar su reseña.",
+                    "warning");
+            } else {
+                if (this.comentario.email && this.comentario.movil) {
+                    try {
+                        const correoExiste = this.usuarios.find(user => user.email === this.comentario.email);
 
-                    if (!correoExiste) {
-                        this.mostrarAlerta("Error", "No existe ningún usuario con ese correo.", "error");
-                    } else {
-                        this.comentario.fecha = new Date().toLocaleDateString("es-ES");
-                        const guardarResponse = await fetch('http://localhost:3000/comentarios', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(this.comentario)
-                        });
+                        if (!correoExiste) {
+                            this.mostrarAlerta("Error", "No existe ningún usuario con ese correo.", "error");
+                        } else {
+                            this.comentario.fecha = new Date().toLocaleDateString("es-ES");
+                            const guardarResponse = await fetch('http://localhost:3000/comentarios', {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(this.comentario)
+                            });
 
-                        if (!guardarResponse.ok) {
-                            throw new Error("Error al guardar el comentario: " + guardarResponse.statusText);
+                            if (!guardarResponse.ok) {
+                                throw new Error("Error al guardar el comentario: " + guardarResponse.statusText);
+                            }
+
+                            this.mostrarAlerta("Aviso", "Comentario guardado correctamente", "success");
+                            this.limpiarFormulario();
                         }
 
-                        this.mostrarAlerta("Aviso", "Comentario guardado correctamente", "success");
-                        this.limpiarFormulario();
+                    } catch (error) {
+                        console.log(error);
+                        this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
                     }
-
-                } catch (error) {
-                    console.log(error);
-                    this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
+                } else {
+                    this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
                 }
-            } else {
-                this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
-            }
 
-            // Recargamos la tabla al finalizar la operación
-            this.getComentarios();
+                // Recargamos la tabla al finalizar la operación
+                this.getComentarios();
+            }
         },
 
         // Los métodos para seleccionar y eliminar desde la tabla
@@ -372,6 +379,6 @@ export default {
     margin-right: 5px;
     margin-left: 5px;
     cursor: pointer;
-    color:#ffc107;
+    color: #ffc107;
 }
 </style>

@@ -94,8 +94,8 @@
                 </div>
 
                 <!-- Acepta condiciones -->
-                <div class="col-12 text-start">
-                    <div class="form-check">
+                <div class="col-12 text-center">
+                    <div class="form-check d-inline-block">
                         <input class="form-check-input" type="checkbox" v-model="candidato.acepta">
                         <label class="form-check-label">He leído y acepto las <router-link to="/politica-privacidad"
                                 class="link">Políticas de privacidad</router-link></label>
@@ -104,8 +104,7 @@
 
                 <!-- Botón enviar -->
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarCandidato()"
-                        :disabled="!candidato.acepta">
+                    <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="guardarCandidato()">
                         Mandar CV
                     </button>
                 </div>
@@ -293,35 +292,39 @@ export default {
 
         // Enviar candidatura
         async guardarCandidato() {
-            if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
-                try {
-                    // Si el candidato lo traemos de la base de datos tendrá ID, nos aseguramos de eliminarlo para evitar duplicados
-                    delete this.candidato.id;
-
-                    const guardarResponse = await fetch('http://localhost:3000/candidatos', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(this.candidato)
-                    });
-
-                    if (!guardarResponse.ok) {
-                        throw new Error("Error al guardar la candidatura: " + guardarResponse.statusText);
-                    }
-
-                    this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
-                    this.limpiarFormulario();
-                } catch (error) {
-                    console.log(error);
-                    this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
-                }
+            if (this.candidato.acepta === false) {
+                this.mostrarAlerta("Debe aceptar", "Debe aceptar las políticas de privacidad para poder mandar su CV", "warning");
             } else {
-                this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
-            }
+                if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
+                    try {
+                        // Si el candidato lo traemos de la base de datos tendrá ID, nos aseguramos de eliminarlo para evitar duplicados
+                        delete this.candidato.id;
 
-            // Recargamos la tabla al finalizar la operación
-            this.getCandidatos();
+                        const guardarResponse = await fetch('http://localhost:3000/candidatos', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(this.candidato)
+                        });
+
+                        if (!guardarResponse.ok) {
+                            throw new Error("Error al guardar la candidatura: " + guardarResponse.statusText);
+                        }
+
+                        this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
+                        this.limpiarFormulario();
+                    } catch (error) {
+                        console.log(error);
+                        this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
+                    }
+                } else {
+                    this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
+                }
+
+                // Recargamos la tabla al finalizar la operación
+                this.getCandidatos();
+            }
         },
 
         //Métodos que se llaman desde los botones de la tabla
