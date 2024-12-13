@@ -2,6 +2,7 @@
   "name": "alonsoaaron",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "nodemon src/server.mjs --watch src --exec babel-node",
     "serve": "vue-cli-service serve",
@@ -11,9 +12,10 @@
     "mongo-server": "node --experimental-specifier-resolution=node src/server.mjs"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.26.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@popperjs/core": "^2.11.8",
-    "babel-plugin-module-resolver": "^5.0.2",
+    "babel-loader": "^9.2.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "core-js": "^3.8.3",
@@ -21,7 +23,7 @@
     "json-server": "^1.0.0-beta.3",
     "mongoose": "^8.8.3",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.7",
+    "npm": "^10.9.0",
     "sweetalert2": "^11.14.5",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13"
@@ -34,8 +36,10 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint-plugin-vue": "^8.0.3",
+    "nodemon":"^3.1.7"
   },
   "eslintConfig": {
     "root": true,
