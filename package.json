@@ -2,7 +2,6 @@
   "name": "alonsoaaron",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "nodemon src/server.mjs --watch src --exec babel-node",
     "serve": "vue-cli-service serve",

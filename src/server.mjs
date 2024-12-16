@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import morgan from "morgan";
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
 import rutas from "../src/router/rutas.mjs";
 
 const app = express();
@@ -20,3 +20,7 @@ app.get("/", (req, res) => res.send("Servidor para MongoDB."));
 server.listen(app.get("port"), () => {
     console.log("Servidor corriendo en el puerto: ", app.get("port"));
 });
+
+mongoose.connect("mongodb://root:renaido@localhost:27017/?authSource=admin")
+    .then(db => console.log("Conectado a MongoDB"))
+    .catch(error => console.error("Error: ", error));
