@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "json-server": "npx json-server --watch \"./src/bbdd/datos.json\" --port 3000",
-    "mongo-server": "node --experimental-specifier-resolution=node src/server.mjs"
+    "mongo-server": "node --experimental-specifier-resolution=node src/server.mjs",
+    "start":"concurrently \"npm run dev\" \"npm run serve\" \"npm run json-server\""
   },
   "dependencies": {
     "@babel/preset-env": "^7.26.0",
@@ -36,9 +37,10 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "babel-plugin-module-resolver": "^5.0.2",
+    "concurrently": "^9.1.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
-    "nodemon":"^3.1.7"
+    "nodemon": "^3.1.7"
   },
   "eslintConfig": {
     "root": true,
