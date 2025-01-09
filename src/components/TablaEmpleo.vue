@@ -79,7 +79,7 @@
                 <!-- Comentarios -->
                 <div class="col-12">
                     <div class="input-group">
-                        <label class="input-group-text text-align-top">Comentarios: </label>
+                        <label class="input-group-text text-align-top">Comentarios </label>
                         <textarea class="form-control" placeholder="Comentarios (máximo 256 caracteres)" maxlength="256"
                             v-model="candidato.comentarios"></textarea>
                     </div>

@@ -34,29 +34,12 @@
                     </div>
                 </div>
 
-                <!-- Descripción y precio -->
+                <!-- Descripción y personalización -->
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text text-align-top">Descripción</label>
                         <textarea class="form-control" placeholder="Descripción del artículo"
                             v-model="articulo.descripcion"></textarea>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="input-group">
-                        <label class="input-group-text">Precio unitario</label>
-                        <input type="number" class="form-control" placeholder="Precio por cada unidad"
-                            v-model="articulo.precio">
-                        <label class="input-group-text">€</label>
-                    </div>
-                </div>
-
-                <!-- Stock y personalización -->
-                <div class="col-6">
-                    <div class="input-group">
-                        <label class="input-group-text">Stock</label>
-                        <input type="number" class="form-control" placeholder="Stock actual en almacen"
-                            v-model="articulo.stock">
                     </div>
                 </div>
                 <div class="col-6">
@@ -67,21 +50,37 @@
                     </div>
                 </div>
 
-                <!-- URL de la imagen y fecha de alta -->
-                <div class="col-6">
+
+                <!-- Precio, stock, fecha de alta y URL de la imagen -->
+                <div class="col-2">
                     <div class="input-group">
-                        <label class="input-group-text">Imagen URL</label>
-                        <input type="url" class="form-control" placeholder="http://imagen-del-articulo.png"
-                            v-model="articulo.imagen">
+                        <label class="input-group-text">€/Un</label>
+                        <input type="number" class="form-control" placeholder="Precio por cada unidad"
+                            v-model="articulo.precio">
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-2">
+                    <div class="input-group">
+                        <label class="input-group-text">Stock</label>
+                        <input type="number" class="form-control" placeholder="Stock actual en almacen"
+                            v-model="articulo.stock">
+                    </div>
+                </div>
+                <div class="col-3">
                     <div class="input-group">
                         <label class="input-group-text label-width">Fecha de alta</label>
                         <input type="date" class="form-control" placeholder="Fecha de alta del artículo"
                             v-model="articulo.alta">
                     </div>
                 </div>
+                <div class="col-5">
+                    <div class="input-group">
+                        <label class="input-group-text">Imagen URL</label>
+                        <input type="url" class="form-control" placeholder="http://imagen-del-articulo.png"
+                            v-model="articulo.imagen">
+                    </div>
+                </div>
+
 
                 <!-- Botones -->
                 <div class="d-flex mb-4 gap-4 px-4 mt-5">
@@ -118,13 +117,17 @@
                 </thead>
                 <tbody>
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
-                        <td class="align-middle text-center">{{ articulo.id }}</td>
+                        <td class="align-middle text-center">{{ articulo._id }}</td>
                         <td class="align-middle text-center">{{ articulo.nombre }}</td>
-                        <td class="align-middle text-center">{{ articulo.categoria }}</td>
+                        <td class="align-middle text-center">{{ this.categoriasArticulos.find(cat => cat.id ===
+                            articulo.categoria).nombre }}</td>
                         <td class="align-middle text-center">{{ articulo.descripcion }}</td>
-                        <td class="align-middle text-center">{{ articulo.precio }}</td>
+                        <td class="align-middle text-center">{{ formatearPrecio(articulo.precio) }}€</td>
                         <td class="align-middle text-center">{{ articulo.stock }}</td>
-                        <td class="align-middle text-center">{{ articulo.alta }}</td>
+                        <td class="align-middle text-center">{{ new Date(articulo.alta).toLocaleString("es-ES", {
+                            day:
+                                "2-digit", month: "2-digit", year: "numeric"
+                        }) }}</td>
                         <td class="text-center align-middle pale-yellow">
                             <div>
                                 <button class="btn btn-warning m-2" @click.prevent="seleccionarArticulo(articulo)">
@@ -206,6 +209,10 @@ export default {
         }
     },
 
+    mounted() {
+        this.getArticulos();
+    },
+
     computed: {
         articulosPorPagina() {
             const indiceInicial = (this.paginaActual - 1) * this.porPagina;
@@ -242,7 +249,59 @@ export default {
             };
         },
 
+        // Formatear el precio para que use el formato EE,cc
+        formatearPrecio(precio) {
+            if (!Number.isInteger(precio)) {
+                precio = precio.toString();
+                let euros = precio.split(".")[0];
+                let centimos = precio.split(".")[1];
+
+                if (centimos.length === 1) {
+                    centimos = centimos + "0";
+                }
+
+                return `${euros},${centimos}`;
+            } else {
+                return precio + ",00";
+            }
+        },
+
         // Interactuar con la DB
+        async getArticulos() {
+            try {
+                const response = await fetch("http://localhost:5000/articulos");
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud: " + response.statusText);
+                }
+                this.articulos = await response.json();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async seleccionarArticulo(articulo) {
+            try {
+                this.limpiarFormulario();
+                const response = await fetch("http://localhost:5000/articulos");
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+
+                const articuloEncontrado = this.articulos.find(art => art._id === articulo._id);
+                if (articuloEncontrado) {
+                    this.articulo = { ...articulo };
+
+                    // Línea mágica que hace que ahora funcione
+                    if (this.articulo.alta) {
+                        this.articulo.alta = this.articulo.alta.split('T')[0];
+                    }
+                } else {
+                    this.mostrarAlerta('Error', 'Usuario no encontrado en el servidor.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
+            }
+        },
         async guardarArticulo() {
             if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock && this.articulo.alta) {
                 try {
@@ -251,20 +310,39 @@ export default {
                         throw new Error("Error al obtener los articulos: " + response.statusText);
                     }
 
-                    const crearResponse = await fetch("http://localhost:5000/articulos", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(this.articulo)
-                    })
+                    if (this.articulo._id) {
+                        const editarResponse = await fetch(`http://localhost:5000/articulos/${this.articulo._id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(this.articulo)
+                        })
 
-                    if (!crearResponse.ok) {
-                        throw new Error("Error al guardar el artículo: " + crearResponse.statusText);
+                        if (!editarResponse.ok) {
+                            throw new Error("Error al guardar el artículo: " + editarResponse.statusText);
+                        }
+
+                        this.mostrarAlerta("Aviso", "Artículo editado correctamente", "success");
+                    } else {
+                        const crearResponse = await fetch("http://localhost:5000/articulos", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(this.articulo)
+                        })
+
+                        if (!crearResponse.ok) {
+                            throw new Error("Error al guardar el artículo: " + crearResponse.statusText);
+                        }
+
+                        this.mostrarAlerta("Aviso", "Artículo guardado correctamente", "success");
                     }
 
-                    this.mostrarAlerta("Aviso", "Artículo guardado correctamente", "success");
+
                     this.limpiarFormulario();
+                    this.getArticulos();
 
                 } catch (error) {
                     console.log(error);
@@ -274,6 +352,53 @@ export default {
                 this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
             }
         },
+        async eliminarArticulo(articulo) {
+            const result = await Swal.fire({
+                title: "Confirmación",
+                html: `¿Desea eliminar <strong>${articulo.nombre}</strong>? <br><br>
+            Esta acción no se puede deshacer.`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar"
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`http://localhost:5000/articulos/${articulo._id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(articulo),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error en la solicitud: ' + response.statusText);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    this.mostrarAlerta('Error', 'No se pudo cargar el articulo desde el servidor.', 'error');
+                }
+
+                // Recargamos la tabla al finalizar la operación
+                this.getArticulos();
+            }
+        },
+
+        // Métodos para la paginación en la tabla
+        siguientePagina() {
+            if (this.paginaActual * this.porPagina < this.articulos.length) {
+                this.paginaActual++;
+            }
+        },
+        paginaAnterior() {
+            if (this.paginaActual > 1) {
+                this.paginaActual--;
+            }
+        }
     },
 }
 </script>
@@ -281,5 +406,17 @@ export default {
 <style scoped>
 .text-placeholder {
     color: #595c5f;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 </style>
