@@ -22,6 +22,10 @@
                             :class="{ 'current': currentRoute === '/empleo' }">Empleo</router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link to="/articulos" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/articulos' }">Artículos</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link to="/comentarios" class="nav-link active"
                             :class="{ 'current': currentRoute === '/comentarios' }">Comentarios</router-link>
                     </li>
