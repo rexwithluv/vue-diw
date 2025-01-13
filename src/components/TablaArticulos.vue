@@ -117,7 +117,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
-                        <td class="align-middle text-center">{{ articulo._id }}</td>
+                        <td class="align-middle text-center">{{ articulo._id.slice(-8) }}</td>
                         <td class="align-middle text-center">{{ articulo.nombre }}</td>
                         <td class="align-middle text-center">{{ this.categoriasArticulos.find(cat => cat.id ===
                             articulo.categoria).nombre }}</td>
@@ -161,7 +161,17 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import {
+    guardarArticulo,
+    limpiarFormulario,
+    formatearPrecio,
+    seleccionarArticulo,
+    eliminarArticulo,
+    paginaAnterior,
+    siguientePagina,
+    getArticulos
+} from "@/js/articuloServicios";
+
 export default {
     name: "TablaArticulos",
 
@@ -221,7 +231,17 @@ export default {
     },
 
     methods: {
-        // Alerta usada en diversas validaciones
+        // Traídos desde un archivo externo
+        guardarArticulo,
+        limpiarFormulario,
+        formatearPrecio,
+        seleccionarArticulo,
+        eliminarArticulo,
+        paginaAnterior,
+        siguientePagina,
+        getArticulos,
+
+        /* // Alerta usada en diversas validaciones
         mostrarAlerta(titulo, mensaje, icono) {
             Swal.fire({
                 title: titulo,
@@ -398,7 +418,7 @@ export default {
             if (this.paginaActual > 1) {
                 this.paginaActual--;
             }
-        }
+        }*/
     },
 }
 </script>
@@ -411,12 +431,12 @@ export default {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 </style>

@@ -40,6 +40,22 @@
                     <i class="bi bi-search"></i>
                 </button>
 
+                <div class="dropdown ms-auto">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">
+                            <router-link to="/login">Acceso</router-link>
+                        </li>
+                        <li class="dropdown-item">
+                            <router-link to="/signup">Registro</router-link>
+                        </li>
+                    </ul>
+
+                </div>
+
             </div>
         </div>
     </nav>
@@ -48,6 +64,7 @@
 <script>
 export default {
     name: "NavBar",
+
     computed: {
         currentRoute() {
             return this.$route.path;
@@ -55,6 +72,7 @@ export default {
     },
 }
 </script>
+
 <style scoped>
 .nav-link.active:hover {
     color: #FAD02E !important;
