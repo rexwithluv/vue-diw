@@ -31,6 +31,37 @@
                 </router-link>
             </div>
             <div class="col-6">
+                <router-link to="/registro" class="btn btn-primary w-100 p-3 fs-5">
+                    <i class="bi bi-person-fill-add"></i>
+                    Registro de usuarios
+                </router-link>
+            </div>
+            <div class="col-6">
+                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
+                    En construcción
+                </router-link>
+            </div>
+            <div class="col-6">
+                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
+                    En construcción
+                </router-link>
+            </div>
+            <div class="col-6">
+                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
+                    En construcción
+                </router-link>
+            </div>
+            <div class="col-6">
+                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
+                    En construcción
+                </router-link>
+            </div>
+            <div class="col-6">
+                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
+                    En construcción
+                </router-link>
+            </div>
+            <div class="col-6">
                 <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
                     En construcción
                 </router-link>

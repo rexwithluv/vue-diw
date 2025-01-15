@@ -8,6 +8,7 @@ import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
 import AvisoLegal from '@/components/AvisoLegal.vue'
 import TablaComentarios from '@/components/TablaComentarios.vue'
 import TablaArticulos from '@/components/TablaArticulos.vue'
+import RegistroUsuarios from '@/components/RegistroUsuarios.vue'
 
 const routes = [
   {
@@ -39,6 +40,11 @@ const routes = [
     path: '/contacto',
     name: 'contacto',
     component: TablaContacto
+  },
+  {
+    path: '/registro',
+    name: 'registro',
+    component: RegistroUsuarios
   },
   {
     path: "/politica-privacidad",
