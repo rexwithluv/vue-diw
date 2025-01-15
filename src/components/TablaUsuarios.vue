@@ -26,7 +26,7 @@
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text label-width">Fecha de alta</label>
-                        <input type="date" class="form-control" placeholder="Fecha alta" v-model="usuario.alta">
+                        <input type="date" class="form-control" placeholder="Fecha de alta" v-model="usuario.fechaAlta">
                     </div>
                 </div>
 
@@ -99,8 +99,8 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="input-group">
                         <label class="input-group-text">Tipo de usuario</label>
-                        <select name="tipoUsuario" id="tipoUsuario" class="form-select" v-model="usuario.tipo"
-                            :class="{ 'text-placeholder': usuario.tipo === '' }">
+                        <select name="tipoUsuario" id="tipoUsuario" class="form-select" v-model="usuario.tipoUsuario"
+                            :class="{ 'text-placeholder': usuario.tipoUsuario === '' }">
                             <option value="" disabled>Selecciona</option>
                             <option v-for="tipoUsuario in tiposUsuario" :key="tipoUsuario.id" :value="tipoUsuario.id"
                                 class="text-black">
@@ -171,7 +171,7 @@
                         <td class="align-middle text-center">{{ usuario.email }}</td>
                         <td class="align-middle text-center">{{ usuario.telefono }}</td>
                         <td class="align-middle text-center">{{ tiposUsuario.find(tipoUser => tipoUser.id ===
-                            usuario.tipo).tipo }}
+                            usuario.tipoUsuario).tipo }}
                         </td>
                         <td v-if="verHistorico" class="align-middle text-center">{{ usuario.baja }}</td>
                         <td class="text-center align-middle pale-yellow">
@@ -213,7 +213,7 @@ export default {
         return {
             usuario: {
                 dni: "",
-                alta: "",
+                fechaAlta: "",
                 apellidos: "",
                 nombre: "",
                 direccion: "",
@@ -222,7 +222,7 @@ export default {
                 provincia: "",
                 municipio: "",
                 baja: "",
-                tipo: "",
+                tipoUsuario: "",
             },
             tiposUsuario: [],
             usuarios: [],
@@ -319,7 +319,7 @@ export default {
         limpiarFormulario() {
             this.usuario = {
                 dni: "",
-                alta: "",
+                fechaAlta: "",
                 apellidos: "",
                 nombre: "",
                 direccion: "",
@@ -328,7 +328,7 @@ export default {
                 provincia: "",
                 municipio: "",
                 baja: "",
-                tipo: "",
+                tipoUsuario: "",
             };
             this.bloquearDni = false;
         },
@@ -504,7 +504,7 @@ export default {
                 const usuarios = await response.json();
                 const usuarioEncontrado = usuarios.find(c => c.dni === usuario.dni);
                 if (usuarioEncontrado) {
-                    // Convertir la fecha de alta al formato dd/mm/yyyy
+                    // Convertir la fecha de fechaAlta al formato dd/mm/yyyy
                     // Asignar el objeto completo de provincia y municipio
                     if (this.usuario.provincia) {
                         this.usuario.provincia = this.provincias.find(p => p.nm === this.usuario.provincia).nm;
@@ -516,8 +516,10 @@ export default {
                     this.usuario = { ...usuarioEncontrado };
                     this.bloquearDni = true;
 
-                    if (this.usuario.alta) {
-                        this.usuario.alta = this.usuario.alta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
+                    if (this.usuario.fechaAlta) {
+                        this.usuario.fechaAlta = this.usuario.fechaAlta.toLocaleString("es-ES", {
+                            day: "2-digit", month: "2-digit", year: "numeric"
+                        });  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
                     }
                 } else {
                     this.mostrarAlerta('Error', 'Usuario no encontrado en el servidor.', 'error');

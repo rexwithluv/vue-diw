@@ -32743,7 +32743,7 @@
     {
       "id": "47f3",
       "dni": "83786676Z",
-      "alta": "2024-09-10",
+      "fechaAlta": "10/09/2024",
       "apellidos": "Novoa",
       "nombre": "María",
       "direccion": "Avenida Balaídos 56, 1ªA",
@@ -32752,12 +32752,12 @@
       "provincia": "36",
       "municipio": "36057",
       "baja": "",
-      "tipo": "1"
+      "tipoUsuario": "1"
     },
     {
       "id": "990f",
       "dni": "87654321X",
-      "alta": "2001-12-12",
+      "fechaalta": "12/12/2001",
       "apellidos": "Ana",
       "nombre": "Martínez Pérez",
       "direccion": "Avenida Casita 4ºA",
@@ -32766,12 +32766,12 @@
       "provincia": "27",
       "municipio": "27014",
       "baja": "",
-      "tipo": "1"
+      "tipoUsuario": "1"
     },
     {
       "id": "4ada",
       "dni": "54508965T",
-      "alta": "2005-11-27",
+      "fechaalta": "27/11/2005",
       "apellidos": "Márquez",
       "nombre": "Nadia",
       "direccion": "Avenida del monte con brujas S/N",
@@ -32780,12 +32780,12 @@
       "provincia": "36",
       "municipio": "36057",
       "baja": "",
-      "tipo": "1"
+      "tipoUsuario": "1"
     },
     {
       "id": "59aa",
       "dni": "35608741L",
-      "alta": "2005-12-15",
+      "fechaAlta": "15/12/2005",
       "apellidos": "Pérez",
       "nombre": "Valentina",
       "direccion": "Casita de mi mamá",
@@ -32794,12 +32794,12 @@
       "provincia": "46",
       "municipio": "46066",
       "baja": "",
-      "tipo": "1"
+      "tipoUsuario": "1"
     },
     {
       "id": "6443",
       "dni": "35608710H",
-      "alta": "2004-02-11",
+      "fechaAlta": "02/11/2004",
       "apellidos": "Alonso Rueda",
       "nombre": "Aarón",
       "direccion": "Avenida Concordia ya estoy harto de probar",
@@ -32808,12 +32808,12 @@
       "provincia": "32",
       "municipio": "32041",
       "baja": "02/12/2024",
-      "tipo": "1"
+      "tipoUsuario": "1"
     },
     {
       "id": "dd21",
       "dni": "547854785H",
-      "alta": "1985-08-05",
+      "fechaAlta": "05/08/1985",
       "apellidos": "Jaramillo",
       "nombre": "Alonso",
       "direccion": "Cualquier calle sirve",
@@ -32822,7 +32822,21 @@
       "provincia": "20",
       "municipio": "20023",
       "baja": "",
-      "tipo": "2"
+      "tipoUsuario": "2"
+    },
+    {
+      "id": "80a4",
+      "dni": "07463446S",
+      "apellidos": "Mundo",
+      "nombre": "Segis",
+      "direccion": "El arenero de mi casa",
+      "email": "elsegis@email.com",
+      "telefono": "693586952",
+      "provincia": "17",
+      "municipio": "17001",
+      "fechaAlta": "15/01/2025",
+      "tipoUsuario": "1",
+      "baja": ""
     }
   ],
   "candidatos": [
