@@ -1,8 +1,8 @@
 import Swal from 'sweetalert2';
 
-const ARTICULOS_URL = "http://localhost:5000/articulos";
+const ARTICULOS_URL = "http://localhost:5000/articulos/";
 
-// Funciones auxiliares
+// Función auxiliar
 export function mostrarAlerta(titulo, mensaje, icono) {
     Swal.fire({
         title: titulo,
@@ -17,8 +17,9 @@ export function mostrarAlerta(titulo, mensaje, icono) {
 }
 
 // Limpia el formulario de la parte superior de la página
-export function limpiarFormulario() {
-    this.articulo = {
+export function limpiarFormulario(formulario) {
+    return {
+        ...formulario,
         nombre: "",
         categoria: "",
         descripcion: "",
@@ -54,84 +55,81 @@ export async function getArticulos() {
         if (!response.ok) {
             throw new Error("Error en la solicitud: " + response.statusText);
         }
-        this.articulos = await response.json();
+        return await response.json();
     } catch (error) {
         console.log(error);
+        throw error;
     }
 }
-export async function seleccionarArticulo(articulo) {
+
+export async function seleccionarArticulo(articulo, articulos) {
     try {
-        this.limpiarFormulario();
         const response = await fetch(ARTICULOS_URL);
         if (!response.ok) {
             throw new Error('Error en la solicitud: ' + response.statusText);
         }
 
-        const articuloEncontrado = this.articulos.find(art => art._id === articulo._id);
+        const articuloEncontrado = articulos.find(art => art._id === articulo._id);
         if (articuloEncontrado) {
-            this.articulo = { ...articulo };
+            articulo = { ...articulo };
 
             // Línea mágica que hace que ahora funcione
-            if (this.articulo.alta) {
-                this.articulo.alta = this.articulo.alta.split('T')[0];
+            if (articulo.alta) {
+                articulo.alta = articulo.alta.split('T')[0];
             }
+
+            return articulo;
         } else {
-            this.mostrarAlerta('Error', 'Usuario no encontrado en el servidor.', 'error');
+            mostrarAlerta('Error', 'Artículo no encontrado en el servidor.', 'error');
         }
     } catch (error) {
         console.error(error);
-        this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
+        mostrarAlerta('Error', 'No se pudo cargar el artículo desde el servidor.', 'error');
+        throw error;
     }
 }
 
-export async function guardarArticulo() {
-    if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock && this.articulo.alta) {
-        try {
-            const response = await fetch(ARTICULOS_URL);
-            if (!response.ok) {
-                throw new Error("Error al obtener los articulos: " + response.statusText);
-            }
-
-            if (this.articulo._id) {
-                const editarResponse = await fetch(ARTICULOS_URL + this.articulo._id, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(this.articulo)
-                })
-
-                if (!editarResponse.ok) {
-                    throw new Error("Error al guardar el artículo: " + editarResponse.statusText);
-                }
-
-                this.mostrarAlerta("Aviso", "Artículo editado correctamente", "success");
-            } else {
-                const crearResponse = await fetch(ARTICULOS_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(this.articulo)
-                })
-
-                if (!crearResponse.ok) {
-                    throw new Error("Error al guardar el artículo: " + crearResponse.statusText);
-                }
-
-                this.mostrarAlerta("Aviso", "Artículo guardado correctamente", "success");
-            }
-
-
-            this.limpiarFormulario();
-            this.getArticulos();
-
-        } catch (error) {
-            console.log(error);
-            this.mostrarAlerta("Error", "No se pudo guardar el artículo.", "error");
+export async function guardarArticulo(articulo) {
+    try {
+        const response = await fetch(ARTICULOS_URL);
+        if (!response.ok) {
+            throw new Error("Error al obtener los articulos: " + response.statusText);
         }
-    } else {
-        this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
+
+        if (articulo._id) {
+            const editarResponse = await fetch(ARTICULOS_URL + articulo._id, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(articulo)
+            })
+
+            if (!editarResponse.ok) {
+                throw new Error("Error al guardar el artículo: " + editarResponse.statusText);
+            }
+
+            mostrarAlerta("Aviso", "Artículo editado correctamente", "success");
+        } else {
+            const crearResponse = await fetch(ARTICULOS_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(articulo)
+            })
+
+            if (!crearResponse.ok) {
+                throw new Error("Error al guardar el artículo: " + crearResponse.statusText);
+            }
+
+            mostrarAlerta("Aviso", "Artículo guardado correctamente", "success");
+        }
+
+    } catch (error) {
+        console.log(error);
+        mostrarAlerta("Error", "No se pudo guardar el artículo.", "error");
+        throw error;
     }
 }
 
@@ -161,24 +159,23 @@ export async function eliminarArticulo(articulo) {
             if (!response.ok) {
                 throw new Error('Error en la solicitud: ' + response.statusText);
             }
+
+            mostrarAlerta("Artículo eliminado", "Artículo eliminado correctamente", "success")
         } catch (error) {
             console.error(error);
-            this.mostrarAlerta('Error', 'No se pudo cargar el articulo desde el servidor.', 'error');
+            mostrarAlerta('Error', 'No se pudo cargar el articulo desde el servidor.', 'error');
         }
-
-        // Recargamos la tabla al finalizar la operación
-        this.getArticulos();
     }
 }
 
 // Métodos para la paginación en la tabla
-export function siguientePagina() {
-    if (this.paginaActual * this.porPagina < this.articulos.length) {
-        this.paginaActual++;
+export function siguientePagina(paginaActual, porPagina, articulos) {
+    if (paginaActual * porPagina < articulos.length) {
+        return ++paginaActual;
     }
 }
-export function paginaAnterior() {
-    if (this.paginaActual > 1) {
-        this.paginaActual--;
+export function paginaAnterior(paginaActual) {
+    if (paginaActual > 1) {
+        return --paginaActual;
     }
 }

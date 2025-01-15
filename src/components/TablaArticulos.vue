@@ -232,14 +232,35 @@ export default {
 
     methods: {
         // Traídos desde un archivo externo
-        guardarArticulo,
-        limpiarFormulario,
         formatearPrecio,
-        seleccionarArticulo,
-        eliminarArticulo,
-        paginaAnterior,
-        siguientePagina,
-        getArticulos,
+        async getArticulos() {
+            this.articulos = await getArticulos();
+        },
+        async guardarArticulo() {
+            await guardarArticulo(this.articulo);
+            this.limpiarFormulario();
+            await this.getArticulos();
+        },
+        limpiarFormulario() {
+            this.articulo = limpiarFormulario(this.articulo);
+        },
+        async seleccionarArticulo(articulo) {
+            const articuloSeleccionado = await seleccionarArticulo(articulo, this.articulos);
+            if (articuloSeleccionado) {
+                this.articulo = articuloSeleccionado;
+            }
+        },
+        async eliminarArticulo(articulo) {
+            await eliminarArticulo(articulo);
+            await this.getArticulos();
+        },
+        
+        siguientePagina() {
+            this.paginaActual = siguientePagina(this.paginaActual, this.porPagina, this.articulos);
+        },
+        paginaAnterior() {
+            this.paginaActual = paginaAnterior(this.paginaActual);
+        },
 
         /* // Alerta usada en diversas validaciones
         mostrarAlerta(titulo, mensaje, icono) {
@@ -418,7 +439,10 @@ export default {
             if (this.paginaActual > 1) {
                 this.paginaActual--;
             }
-        }*/
+        } */
+
+
+
     },
 }
 </script>
