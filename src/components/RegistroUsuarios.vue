@@ -95,11 +95,12 @@
                     </div>
                 </div>
 
+                <!-- Botones -->
                 <div class="text-center">
                     <button type="button" class="btn btn-primary fs-5 py-2 m-3 mt-4 w-25"
                         @click.prevent="grabarUsuario()">
-                        <i class="bi bi-arrow-down-circle-fill"></i>
-                        Enviar
+                        <i class="bi bi-person-fill-add"></i>
+                        Registrarme
                     </button>
                     <button type="button" class="btn btn-primary fs-5 py-2 m-3 mt-4 w-25"
                         @click.prevent="limpiarFormulario()">
@@ -175,47 +176,57 @@ export default {
         },
 
         async grabarUsuario() {
-            if (this.usuario.dni && this.usuario.nombre && this.usuario.apellidos && this.usuario.telefono && this.usuario.provincia && this.usuario.municipio && this.usuario.email && (this.usuario.email === this.usuario.email2)) {
-                try {
-                    const response = await fetch("http://localhost:3000/usuarios");
-                    if (!response.ok) {
-                        throw new Error("Error al obtener los usuarios: " + response.statusText);
-                    }
+            if (this.usuario.dni && this.usuario.nombre && this.usuario.apellidos && this.usuario.telefono && this.usuario.provincia && this.usuario.municipio && this.usuario.email && this.usuario.email2) {
 
-                    const usuariosExistentes = await response.json();
-                    const usuarioExistente = usuariosExistentes.find(usuario => usuario.dni === this.usuario.dni);
-                    console.log(usuarioExistente);
-                    if (usuarioExistente && usuarioExistente.baja !== "") {
-                        this.mostrarAlerta("Aviso", "El DNI está registrado pero dado de baja. Contacte con el administrador.", "error");
-                    } else if (usuarioExistente) {
-                        this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
-                    } else {
-                        this.usuario.fechaAlta = new Date().toLocaleString("es-ES", {
-                            day: "2-digit", month: "2-digit", year: "numeric"
-                        });
-                        this.usuario.tipoUsuario = "1";
-                        this.usuario.baja = "";
-                        delete this.usuario.email2;
+                if (this.usuario.email === this.usuario.email2) {
 
-                        const crearResponse = await fetch("http://localhost:3000/usuarios", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(this.usuario)
-                        });
-
-                        if (!crearResponse.ok) {
-                            throw new Error("Error al guardar el usuario: " + crearResponse.statusText);
+                    try {
+                        const response = await fetch("http://localhost:3000/usuarios");
+                        if (!response.ok) {
+                            throw new Error("Error al obtener los usuarios: " + response.statusText);
                         }
 
-                        this.mostrarAlerta("Aviso", "Usuario guardado", "success");
-                        this.limpiarFormulario();
+                        const usuariosExistentes = await response.json();
+                        const usuarioExistente = usuariosExistentes.find(usuario => usuario.dni === this.usuario.dni);
+                        if (usuarioExistente && usuarioExistente.baja !== "") {
+                            this.mostrarAlerta("Aviso", "El DNI está registrado pero dado de baja. Contacte con el administrador.", "error");
+
+                        } else if (usuarioExistente) {
+                            this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
+
+                        } else {
+                            this.usuario.fechaAlta = new Date().toLocaleString("es-ES", {
+                                day: "2-digit", month: "2-digit", year: "numeric"
+                            });
+
+                            this.usuario.tipoUsuario = "1";
+                            this.usuario.baja = "";
+                            delete this.usuario.email2;
+
+                            const crearResponse = await fetch("http://localhost:3000/usuarios", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(this.usuario)
+                            });
+
+                            if (!crearResponse.ok) {
+                                throw new Error("Error al guardar el usuario: " + crearResponse.statusText);
+                            }
+
+                            this.mostrarAlerta("Aviso", "Usuario guardado", "success");
+                            this.limpiarFormulario();
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        this.mostrarAlerta("Error", "No se pudo grabar el usuario.", "error");
                     }
-                } catch (error) {
-                    console.log(error);
-                    this.mostrarAlerta("Error", "No se pudo grabar el usuario.", "error");
+
+                } else {
+                    this.mostrarAlerta("Error", "Los campos de correo electrónico no coinciden", "error");
                 }
+
             } else {
                 this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
             }
@@ -308,7 +319,8 @@ export default {
 .text-placeholder {
     color: #595c5f;
 }
-.error-field{
+
+.error-field {
     border-color: rgb(160, 0, 0);
     background-color: rgb(255, 149, 149);
 }

@@ -32837,6 +32837,20 @@
       "fechaAlta": "15/01/2025",
       "tipoUsuario": "1",
       "baja": ""
+    },
+    {
+      "id": "64aa",
+      "dni": "26768616C",
+      "apellidos": "Ita",
+      "nombre": "Cos",
+      "direccion": "Cosita de la cosita",
+      "email": "cosita@email.com",
+      "telefono": "693693693",
+      "provincia": "36",
+      "municipio": "36041",
+      "fechaAlta": "16/01/2025",
+      "tipoUsuario": "1",
+      "baja": ""
     }
   ],
   "candidatos": [
