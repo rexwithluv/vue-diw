@@ -32851,6 +32851,21 @@
       "fechaAlta": "16/01/2025",
       "tipoUsuario": "1",
       "baja": ""
+    },
+    {
+      "id": "5acf",
+      "dni": "77417751G",
+      "apellidos": "Soy una",
+      "nombre": "Prueba",
+      "direccion": "Casita de prueba",
+      "email": "prueba@email.com",
+      "passwd": "$2a$10$872TdwzmPsWWYnqaHRM54uKriUD1.7ozUQhl6eAIDLELN3ENdf/S2",
+      "telefono": "685965241",
+      "provincia": "33",
+      "municipio": "33001",
+      "fechaAlta": "19/01/2025",
+      "tipoUsuario": "1",
+      "baja": ""
     }
   ],
   "candidatos": [
@@ -33075,5 +33090,6 @@
       "acepta": true,
       "fecha": "10/12/2024"
     }
-  ]
+  ],
+  "secret": "your_secret_key"
 }

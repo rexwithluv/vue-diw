@@ -66,6 +66,21 @@
                     </div>
                 </div>
 
+                <!-- Passwd y repetición de passwd -->
+                <div class="col-6">
+                    <div class="input-group">
+                        <label class="input-group-text">Contraseña</label>
+                        <input type="password" class="form-control" placeholder="Contraseña" v-model="usuario.passwd">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group">
+                        <label class="input-group-text">De nuevo</label>
+                        <input type="password" class="form-control" placeholder="Repita su contraseña"
+                            v-model="usuario.passwd2">
+                    </div>
+                </div>
+
 
                 <!-- Provincia, municipio y tipo de usuario -->
                 <div class="col-lg-5 col-sm-5">
@@ -115,6 +130,7 @@
 
 <script>
 import Swal from "sweetalert2";
+import encriptarContrasenya from "@/config/passport.mjs";
 
 export default {
     name: "RegistroUsuarios",
@@ -128,6 +144,8 @@ export default {
                 direccion: "",
                 email: "",
                 email2: "",
+                passwd: "",
+                passwd2: "",
                 telefono: "",
                 provincia: "",
                 municipio: "",
@@ -202,6 +220,10 @@ export default {
                             this.usuario.tipoUsuario = "1";
                             this.usuario.baja = "";
                             delete this.usuario.email2;
+                            delete this.usuario.passwd2;
+
+                            const hashedPassword = await encriptarContrasenya(this.usuario.passwd);
+                            this.usuario.passwd = hashedPassword;
 
                             const crearResponse = await fetch("http://localhost:3000/usuarios", {
                                 method: "POST",
