@@ -9,6 +9,7 @@ import AvisoLegal from '@/components/AvisoLegal.vue'
 import TablaComentarios from '@/components/TablaComentarios.vue'
 import TablaArticulos from '@/components/TablaArticulos.vue'
 import RegistroUsuarios from '@/components/RegistroUsuarios.vue'
+import FormularioLogin from '@/components/FormularioLogin.vue'
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
     path: '/registro',
     name: 'registro',
     component: RegistroUsuarios
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: FormularioLogin
   },
   {
     path: "/politica-privacidad",

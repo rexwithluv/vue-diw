@@ -130,7 +130,7 @@
 
 <script>
 import Swal from "sweetalert2";
-import encriptarContrasenya from "@/config/passport.mjs";
+import {encriptarContrasenya} from "@/config/passport.mjs";
 
 export default {
     name: "RegistroUsuarios",

@@ -50,7 +50,7 @@
                             <router-link to="/login">Acceso</router-link>
                         </li>
                         <li class="dropdown-item">
-                            <router-link to="/signup">Registro</router-link>
+                            <router-link to="/registro">Registro</router-link>
                         </li>
                     </ul>
 
