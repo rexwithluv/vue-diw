@@ -195,6 +195,25 @@ export default {
             }
 
             return true;
+        },
+
+        emailEsValido() {
+            if (this.usuario.email.length === 0) {
+                return true;
+            }
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(this.usuario.email)) {
+                return false;
+            }
+            return true;
+        },
+
+        telefonoEsValido() {
+            const regex = /^[67]\d{8}$/gi;
+            if (!regex.test(this.usuario.telefono)) {
+                return false;
+            }
+            return true;
         }
     },
 
