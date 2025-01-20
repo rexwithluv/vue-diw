@@ -32,7 +32,7 @@
                 <!-- Botón enviar -->
                 <div class="col-12">
                     <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="login()">
-                        <i class="bi bi-floppy-fill me-2"></i>
+                        <i class="bi bi-person-plus-fill"></i>
                         Log in
                     </button>
                 </div>

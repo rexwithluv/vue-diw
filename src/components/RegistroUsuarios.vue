@@ -30,7 +30,8 @@
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">DNI/NIE</label>
-                        <input type="text" class="form-control" placeholder="DNI-NIE" @blur="validarDni(usuario.dni)"
+                        <input type="text" class="form-control" placeholder="DNI-NIE"
+                            :class="{ 'error-field': !this.dniEsValido }" @blur="validarDni(usuario.dni)"
                             v-model="usuario.dni">
                     </div>
                 </div>
@@ -130,7 +131,7 @@
 
 <script>
 import Swal from "sweetalert2";
-import {encriptarContrasenya} from "@/config/passport.mjs";
+import { encriptarContrasenya } from "@/config/passport.mjs";
 
 export default {
     name: "RegistroUsuarios",
@@ -150,6 +151,7 @@ export default {
                 provincia: "",
                 municipio: "",
             },
+
             provincias: [],
             municipios: [],
         }
@@ -166,6 +168,33 @@ export default {
                 return [];
             }
             return this.municipios.filter((municipio) => municipio.id.startsWith(this.usuario.provincia));
+        },
+
+        dniEsValido() {
+            if (this.usuario.dni.length === 0) {
+                return true;
+            }
+
+            const dniPattern = /^[XYZ]?\d{5,8}[A-Z]$/;
+            const dniLetters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+
+            if (!dniPattern.test(this.usuario.dni)) {
+                return false;
+            }
+
+            let number = this.usuario.dni.substr(0, this.usuario.dni.length - 1);
+            const letter = this.usuario.dni.substr(this.usuario.dni.length - 1, 1).toUpperCase();
+
+            if (this.usuario.dni[0] === 'X') number = number.replace('X', '0');
+            if (this.usuario.dni[0] === 'Y') number = number.replace('Y', '1');
+            if (this.usuario.dni[0] === 'Z') number = number.replace('Z', '2');
+
+            const calculatedLetter = dniLetters[number % 23]
+            if (calculatedLetter !== letter) {
+                return false;
+            }
+
+            return true;
         }
     },
 
