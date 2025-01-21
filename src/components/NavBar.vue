@@ -53,7 +53,7 @@
                             <router-link to="/registro">Registro</router-link>
                         </li>
                         <li class="dropdown-item">
-                            <a href="#" @click="logout"> Cerrar sesión</a>
+                            <router-link to="#" @click="logout"> Cerrar sesión</router-link>
                         </li>
                     </ul>
 
