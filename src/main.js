@@ -9,6 +9,7 @@ import "sweetalert2/dist/sweetalert2.min.css"
 
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import router from './router'
+import store from './store/store.mjs'
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(store).mount('#app')
 

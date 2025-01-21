@@ -9,7 +9,7 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isAdmin">
                         <router-link to="/" class="nav-link active"
                             :class="{ 'current': currentRoute === '/' }">Inicio</router-link>
                     </li>
@@ -52,6 +52,9 @@
                         <li class="dropdown-item">
                             <router-link to="/registro">Registro</router-link>
                         </li>
+                        <li class="dropdown-item">
+                            <a href="#" @click="logout"> Cerrar sesión</a>
+                        </li>
                     </ul>
 
                 </div>
@@ -65,10 +68,34 @@
 export default {
     name: "NavBar",
 
+    data() {
+        return {
+            isDropdownVisible: false,
+            isAdmin: false,
+        };
+    },
+
+    mounted() {
+        this.isAdmin = localStorage.getItem("isAdmin") === "true";
+    },
+
     computed: {
         currentRoute() {
             return this.$route.path;
         }
+    },
+
+    methods: {
+        toggleDropdown() {
+            this.isDropdownVisible = !this.isDropdownVisible;
+        },
+
+        logout() {
+            localStorage.removeItem("isLogueado");
+            localStorage.removeItem("isAdmin");
+
+            this.$router.push({ name: "login" }).then(() => window.location.reload());
+        },
     },
 }
 </script>

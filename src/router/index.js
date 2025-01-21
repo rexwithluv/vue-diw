@@ -15,7 +15,8 @@ const routes = [
   {
     path: '/',
     name: 'inicio',
-    component: PaginaInicio
+    component: PaginaInicio,
+    meta: { requiresAdmin: true },
   },
   {
     path: '/usuarios',
@@ -72,6 +73,29 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+// Guardia de navegación global
+router.beforeEach((to, from, next) => {
+
+  // Verifica si la ruta requiere administrador
+  if (to.meta.requiresAdmin){
+
+    //Verifica si el usuario está logueado y es admin
+    const isLogueado = localStorage.getItem("isLogueado") === "true";
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
+
+
+    if (!isLogueado || !isAdmin){
+
+      // Si no es admin, redirígue a otra ruga
+      next({name: "login"});
+    } else{
+      next(); // Permite el acceso a la ruta
+    }
+  } else{
+    next() // Si no es necesaria la verificación
+  }
 })
 
 export default router
