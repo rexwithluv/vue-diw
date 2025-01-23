@@ -17,7 +17,7 @@
                         <router-link to="/" class="nav-link active"
                             :class="{ 'current': currentRoute === '/' }">Inicio</router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isAdmin">
                         <router-link to="/usuarios" class="nav-link active"
                             :class="{ 'current': currentRoute === '/usuarios' }">Usuarios</router-link>
                     </li>
@@ -25,7 +25,7 @@
                         <router-link to="/empleo" class="nav-link active"
                             :class="{ 'current': currentRoute === '/empleo' }">Empleo</router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isAdmin">
                         <router-link to="/articulos" class="nav-link active"
                             :class="{ 'current': currentRoute === '/articulos' }">Artículos</router-link>
                     </li>

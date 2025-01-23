@@ -27,7 +27,8 @@ const routes = [
   {
     path: '/usuarios',
     name: 'usuarios',
-    component: TablaUsuarios
+    component: TablaUsuarios,
+    meta: { requiresAdmin: true },
   },
   {
     path: "/empleo",
@@ -37,7 +38,8 @@ const routes = [
   {
     path: "/articulos",
     name: "articulos",
-    component: TablaArticulos
+    component: TablaArticulos,
+    meta: { requiresAdmin: true },
   },
   {
     path: "/comentarios",
