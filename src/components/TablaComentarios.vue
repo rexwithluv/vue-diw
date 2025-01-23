@@ -287,6 +287,12 @@ export default {
                         if (!correoExiste) {
                             this.mostrarAlerta("Error", "No existe ningún usuario con ese correo.", "error");
                         } else {
+
+                            if (correoExiste.email !== this.comentario.email) {
+                                this.mostrarAlerta("Correo incorrecto", "El correo de comentario debe ser idéntico al del usuario logueado", "error");
+                                return;
+                            }
+
                             this.comentario.fecha = new Date().toLocaleDateString("es-ES");
                             const guardarResponse = await fetch('http://localhost:3000/comentarios', {
                                 method: "POST",
