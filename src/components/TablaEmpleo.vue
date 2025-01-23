@@ -114,9 +114,9 @@
     </div>
 
     <!-- Tabla -->
-    <h2 class="text-center fw-bold mt-4">Tabla candidatos</h2>
+    <h2 class="text-center fw-bold mt-4" v-if="isAdmin">Tabla candidatos</h2>
 
-    <div class="my-3 mx-2">
+    <div class="my-3 mx-2" v-if="isAdmin">
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
@@ -188,6 +188,8 @@ export default {
             departamentos: [],
             candidatos: [],
 
+            isAdmin: false,
+
             // Para la paginación
             currentPage: 1,
             pageSize: 5,
@@ -197,6 +199,7 @@ export default {
     mounted() {
         this.getDepartamentos();
         this.getCandidatos();
+        this.isAdmin = localStorage.getItem("isAdmin") === "true";
     },
 
     computed: {

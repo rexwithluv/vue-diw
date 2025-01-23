@@ -96,8 +96,8 @@ router.beforeEach((to, from, next) => {
 
     if (!isLogueado || !isAdmin) {
 
-      // Si no es admin, redirígue a otra ruga
-      next({ name: "login" });
+      // Si no es admin, redirígue a otra ruta
+      next({ name: "inicio" });
     } else {
       next(); // Permite el acceso a la ruta
     }
