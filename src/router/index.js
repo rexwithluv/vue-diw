@@ -2,6 +2,7 @@ import AvisoLegal from '@/components/AvisoLegal.vue'
 import FormularioLogin from '@/components/FormularioLogin.vue'
 import NotFound from '@/components/NotFound.vue'
 import PaginaInicio from '@/components/PaginaInicio.vue'
+import PaginaTienda from '@/components/PaginaTienda.vue'
 import PanelGestion from '@/components/PanelGestion.vue'
 import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
 import RegistroUsuarios from '@/components/RegistroUsuarios.vue'
@@ -50,6 +51,11 @@ const routes = [
     path: '/contacto',
     name: 'contacto',
     component: TablaContacto
+  },
+  {
+    path: '/tienda',
+    name: 'tienda',
+    component: PaginaTienda
   },
   {
     path: '/registro',
