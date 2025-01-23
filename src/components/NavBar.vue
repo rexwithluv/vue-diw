@@ -10,6 +10,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item" v-if="isAdmin">
+                        <router-link to="/gestion" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/gestion' }">Gestión</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link to="/" class="nav-link active"
                             :class="{ 'current': currentRoute === '/' }">Inicio</router-link>
                     </li>

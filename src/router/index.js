@@ -1,21 +1,27 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import PaginaInicio from '@/components/PaginaInicio.vue'
-import TablaUsuarios from '@/components/TablaUsuarios.vue'
-import TablaContacto from '@/components/TablaContacto.vue'
-import NotFound from '@/components/NotFound.vue'
-import TablaEmpleo from '@/components/TablaEmpleo.vue'
-import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
 import AvisoLegal from '@/components/AvisoLegal.vue'
-import TablaComentarios from '@/components/TablaComentarios.vue'
-import TablaArticulos from '@/components/TablaArticulos.vue'
-import RegistroUsuarios from '@/components/RegistroUsuarios.vue'
 import FormularioLogin from '@/components/FormularioLogin.vue'
+import NotFound from '@/components/NotFound.vue'
+import PaginaInicio from '@/components/PaginaInicio.vue'
+import PanelGestion from '@/components/PanelGestion.vue'
+import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
+import RegistroUsuarios from '@/components/RegistroUsuarios.vue'
+import TablaArticulos from '@/components/TablaArticulos.vue'
+import TablaComentarios from '@/components/TablaComentarios.vue'
+import TablaContacto from '@/components/TablaContacto.vue'
+import TablaEmpleo from '@/components/TablaEmpleo.vue'
+import TablaUsuarios from '@/components/TablaUsuarios.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
     path: '/',
     name: 'inicio',
     component: PaginaInicio,
+  },
+  {
+    path: '/gestion',
+    name: 'gestion',
+    component: PanelGestion,
     meta: { requiresAdmin: true },
   },
   {
@@ -79,21 +85,21 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 
   // Verifica si la ruta requiere administrador
-  if (to.meta.requiresAdmin){
+  if (to.meta.requiresAdmin) {
 
     //Verifica si el usuario está logueado y es admin
     const isLogueado = localStorage.getItem("isLogueado") === "true";
     const isAdmin = localStorage.getItem("isAdmin") === "true";
 
 
-    if (!isLogueado || !isAdmin){
+    if (!isLogueado || !isAdmin) {
 
       // Si no es admin, redirígue a otra ruga
-      next({name: "login"});
-    } else{
+      next({ name: "login" });
+    } else {
       next(); // Permite el acceso a la ruta
     }
-  } else{
+  } else {
     next() // Si no es necesaria la verificación
   }
 })
