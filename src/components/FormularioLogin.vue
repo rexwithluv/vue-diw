@@ -117,14 +117,20 @@ export default {
             const usuariosExistentes = await response.json();
             const usuarioEncontrado = usuariosExistentes.find(u => u.dni === this.usuario.dni);
 
-            console.log(usuarioEncontrado);
-            console.log(verificarContrasenya(this.usuario.passwd, usuarioEncontrado.passwd))
-
             const contrasenyaCorrecta = await verificarContrasenya(this.usuario.passwd, usuarioEncontrado.passwd);
             if (contrasenyaCorrecta) {
                 this.mostrarAlerta("Bienvenida/o", "Sesión iniciada correctamente.", "success");
-            } else {
-                this.mostrarAlerta("Error", "DNI o contraseña no váldio", "error");
+
+                localStorage.setItem("isLogueado", "true");
+                localStorage.setItem("email", usuarioEncontrado.email);
+
+                if (usuarioEncontrado.tipo === "2") {
+                    localStorage.setItem("isAdmin", "true");
+                }
+
+                this.$router.push({ name: "inicio" }).then(() => {
+                    window.location.reload();
+                })
             }
         }
     },
