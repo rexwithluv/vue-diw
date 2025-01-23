@@ -75,12 +75,14 @@ export default {
     data() {
         return {
             isDropdownVisible: false,
+
             isAdmin: false,
         };
     },
 
     mounted() {
         this.isAdmin = localStorage.getItem("isAdmin") === "true";
+        this.isLogueado = localStorage.getItem("isLogueado") === "true";
     },
 
     computed: {

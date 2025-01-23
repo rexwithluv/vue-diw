@@ -10,6 +10,13 @@
 
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
+
+            <p v-if="!isLogueado" class="fw-bold">
+                Solo los usuarios registrados pueden comentar.
+                <router-link to="registro">Registrarse</router-link>
+            </p>
+
+
             <form class="row m-auto gx-4 gy-3 border rounded bg-light pb-3">
 
                 <!-- Email y móvil -->
@@ -44,7 +51,7 @@
                         <div class="form-control">
                             <span v-for="n in 5" :key="n"
                                 :class="n <= this.comentario.valoracion ? 'bi bi-star-fill' : 'bi bi-star'"
-                                @click="setValoracion(n)" class="star-icon"></span>
+                                @click="setValoracion(n)" class="star-icon-pointer"></span>
                         </div>
                     </div>
                 </div>
@@ -75,9 +82,9 @@
     </div>
 
     <!-- Tabla -->
-    <h2 class="text-center fw-bold mt-4" v-if="isAdmin">Tabla de comentarios</h2>
+    <h2 class="text-center fw-bold mt-4">Tabla de comentarios</h2>
 
-    <div class="my-3 mx-2" v-if="isAdmin">
+    <div class="my-3 mx-2">
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
@@ -87,7 +94,7 @@
                         <th scope="col" class="bg-info-subtle text-center">Email</th>
                         <th scope="col" class="bg-info-subtle text-center">Mensaje</th>
                         <th scope="col" class="bg-info-subtle text-center">Valoración</th>
-                        <th scope="col" class="bg-warning-subtle text-center">Gestión</th>
+                        <th scope="col" class="bg-warning-subtle text-center" v-if="isAdmin">Gestión</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,8 +103,12 @@
                         <td class="align-middle text-center">{{ comentario.fecha }}</td>
                         <td class="align-middle text-center">{{ comentario.email }}</td>
                         <td class="align-middle text-center">{{ comentario.mensaje }}</td>
-                        <td class="align-middle text-center">{{ comentario.valoracion }}</td>
-                        <td class="text-center align-middle pale-yellow">
+                        <td class="align-middle text-center">
+                            <span v-for="n in 5" :key="n"
+                                :class="n <= comentario.valoracion ? 'bi bi-star-fill' : 'bi bi-star'"
+                                class="star-icon"></span>
+                        </td>
+                        <td class="text-center align-middle pale-yellow" v-if="isAdmin">
                             <div>
                                 <button class="btn btn-warning m-2" @click.prevent="seleccionarComentario(comentario)">
                                     <i class="bi bi-pencil-fill"></i>
@@ -146,7 +157,9 @@ export default {
 
             usuarios: [],
             comentarios: [],
+
             isAdmin: false,
+            isLogueado: false,
 
             currentPage: 1,
             pageSize: 5,
@@ -157,6 +170,7 @@ export default {
         this.getUsuarios();
         this.getComentarios();
         this.isAdmin = localStorage.getItem("isAdmin") === "true";
+        this.isLogueado = localStorage.getItem("isLogueado") === "true";
     },
 
     computed: {
@@ -377,10 +391,16 @@ export default {
 </script>
 
 <style scoped>
-.star-icon {
+.star-icon-pointer {
     margin-right: 5px;
     margin-left: 5px;
     cursor: pointer;
+    color: #ffc107;
+}
+
+.star-icon {
+    margin-right: 5px;
+    margin-left: 5px;
     color: #ffc107;
 }
 </style>
