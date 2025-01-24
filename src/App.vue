@@ -1,14 +1,15 @@
 <template>
-
-
   <div id="app" class="d-flex flex-column min-vh-100">
+
     <NavBar />
     <router-view></router-view>
+
     <main class="flex-grow-1">
     </main>
-    <AppFooter />
-  </div>
 
+    <AppFooter />
+
+  </div>
 </template>
 
 <script>
