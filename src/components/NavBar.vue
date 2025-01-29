@@ -99,6 +99,7 @@ export default {
         logout() {
             localStorage.removeItem("isLogueado");
             localStorage.removeItem("isAdmin");
+            localStorage.removeItem("email");
 
             this.$router.push({ name: "login" }).then(() => window.location.reload());
         },

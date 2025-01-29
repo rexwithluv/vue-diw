@@ -315,6 +315,25 @@ export default {
                             throw new Error("Error al guardar la candidatura: " + guardarResponse.statusText);
                         }
 
+                        // Guardamos el PDF
+                        const formData = new FormData();
+                        if (this.cvFile) {
+                            formData.append("archivo", this.cvFile);
+                            const fileResponse = await fetch("http://localhost:5000/subircv", {
+                                method: "POST",
+                                body: formData,
+                            })
+
+                            if (!fileResponse.ok) {
+                                throw new Error("Error al subir el archivo");
+                            }
+
+                            const fileData = await fileResponse.json();
+                            console.log("Archivo subido correctamente: ", fileData)
+                        }
+
+
+
                         this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
                         this.limpiarFormulario();
                     } catch (error) {
