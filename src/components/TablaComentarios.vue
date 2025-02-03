@@ -91,7 +91,7 @@
                     <tr>
                         <th scope="col" class="bg-info-subtle text-center">ID</th>
                         <th scope="col" class="bg-info-subtle text-center">Fecha</th>
-                        <th scope="col" class="bg-info-subtle text-center">Email</th>
+                        <th scope="col" class="bg-info-subtle text-center">Nombre</th>
                         <th scope="col" class="bg-info-subtle text-center">Mensaje</th>
                         <th scope="col" class="bg-info-subtle text-center">Valoración</th>
                         <th scope="col" class="bg-warning-subtle text-center" v-if="isAdmin">Gestión</th>
@@ -101,7 +101,7 @@
                     <tr v-for="comentario in comentariosPorPagina" :key="comentario.id">
                         <td class="align-middle text-center">{{ comentario.id }}</td>
                         <td class="align-middle text-center">{{ comentario.fecha }}</td>
-                        <td class="align-middle text-center">{{ comentario.email }}</td>
+                        <td class="align-middle text-center">{{ usuarios.filter(u => u.email === comentario.email)[0].nombre }}</td>
                         <td class="align-middle text-center">{{ comentario.mensaje }}</td>
                         <td class="align-middle text-center">
                             <span v-for="n in 5" :key="n"
