@@ -29,7 +29,7 @@ const routes = [
     path: '/usuarios',
     name: 'usuarios',
     component: TablaUsuarios,
-    meta: { requiresAdmin: true },
+    // meta: { requiresAdmin: true },
   },
   {
     path: "/empleo",

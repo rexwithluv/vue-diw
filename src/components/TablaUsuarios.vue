@@ -170,8 +170,10 @@
                         <td class="align-middle text-start">{{ usuario.nombre }}</td>
                         <td class="align-middle text-center">{{ usuario.email }}</td>
                         <td class="align-middle text-center">{{ usuario.telefono }}</td>
-                        <td class="align-middle text-center">{{ tiposUsuario.find(tipoUser => tipoUser.id ===
-                            usuario.tipoUsuario).tipo }}
+                        <td class="align-middle text-center">
+                            <span v-if="tiposUsuario.length > 0">
+                                {{ tiposUsuario.find(tipoUser => tipoUser.id === usuario.tipoUsuario).tipo }}
+                            </span>
                         </td>
                         <td v-if="verHistorico" class="align-middle text-center">{{ usuario.baja }}</td>
                         <td class="text-center align-middle pale-yellow">
@@ -236,9 +238,13 @@ export default {
         }
     },
 
+    // Antes de empezar con el DOM
+    created() {
+        this.getTiposUsuario();
+    },
+
     // Funciones que se ejecutan al iniciar el servidor
     mounted() {
-        this.getTiposUsuario();
         this.getUsuarios();
         this.getProvincias();
         this.getMunicipios();
