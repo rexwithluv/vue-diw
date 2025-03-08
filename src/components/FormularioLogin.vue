@@ -121,8 +121,7 @@ export default {
             if (contrasenyaCorrecta) {
                 localStorage.setItem("isLogueado", "true");
                 localStorage.setItem("email", usuarioEncontrado.email);
-
-                if (usuarioEncontrado.tipo === "2") {
+                if (usuarioEncontrado.tipoUsuario === "2") {
                     localStorage.setItem("isAdmin", "true");
                 }
 
