@@ -47,6 +47,7 @@
                 <div class="dropdown ms-auto">
                     <button type="button" class="btn btn-primary dropdown-toggle" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="me-2 fw-bold">{{ this.usuario }}</span>
                         <i class="bi bi-person-circle"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -74,14 +75,21 @@ export default {
     data() {
         return {
             isDropdownVisible: false,
-
             isAdmin: false,
+            isLogueado: false,
+            usuario: "",
         };
     },
 
     mounted() {
         this.isAdmin = localStorage.getItem("isAdmin") === "true";
         this.isLogueado = localStorage.getItem("isLogueado") === "true";
+
+        const email = localStorage.getItem("email");
+        if (email) {
+            this.usuario = this.obtenerNombreUsuario(email);
+        }
+
     },
 
     computed: {
@@ -102,6 +110,17 @@ export default {
 
             this.$router.push({ name: "login" }).then(() => window.location.reload());
         },
+
+        async obtenerNombreUsuario(email) {
+            const response = await fetch(`http://localhost:3000/usuarios?email=${email}`)
+            if (!response.ok) {
+                console.log("Se ha producido un error")
+            }
+
+            const usuario = await response.json();
+            console.log("Respuesta obtenida", usuario);
+            this.usuario = usuario[0].nombre;
+        }
     },
 }
 </script>

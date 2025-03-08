@@ -111,7 +111,7 @@ export default {
         async login() {
             const response = await fetch("http://localhost:3000/usuarios");
             if (!response.ok) {
-                throw new Error("Error al obtener los usuarios: " + response.statusText);
+                throw new Error(`Error al obtener los usuarios: ${response.statusText}`);
             }
 
             const usuariosExistentes = await response.json();
@@ -119,8 +119,6 @@ export default {
 
             const contrasenyaCorrecta = await verificarContrasenya(this.usuario.passwd, usuarioEncontrado.passwd);
             if (contrasenyaCorrecta) {
-                this.mostrarAlerta("Bienvenida/o", "Sesión iniciada correctamente.", "success");
-
                 localStorage.setItem("isLogueado", "true");
                 localStorage.setItem("email", usuarioEncontrado.email);
 
@@ -128,9 +126,20 @@ export default {
                     localStorage.setItem("isAdmin", "true");
                 }
 
-                this.$router.push({ name: "inicio" }).then(() => {
-                    window.location.reload();
+                Swal.fire({
+                    title: "Bienvenida/o",
+                    text: "Sesión iniciada correctamente",
+                    icon: "success",
+                    showConfirmButton: true,
+                    timer: 3000,
+                    timerProgressBar: true,
+                }).then(() => {
+                    this.$router.push({ name: "inicio" }).then(() => {
+                        window.location.reload();
+                    })
                 })
+
+
             }
         }
     },

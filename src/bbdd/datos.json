@@ -32866,6 +32866,21 @@
       "fechaAlta": "19/01/2025",
       "tipoUsuario": "1",
       "baja": ""
+    },
+    {
+      "id": "4483",
+      "dni": "88892988N",
+      "apellidos": "2323",
+      "nombre": "Prueba 2",
+      "direccion": "mi kasa",
+      "email": "soyyolaqueviveaqui@email.com",
+      "passwd": "$2a$10$wzijUnO/ybR0TOwa8wwtguCQzAA37II3ml9B0DwiwuoWvdg17iSUS",
+      "telefono": "650478896",
+      "provincia": "12",
+      "municipio": "12006",
+      "fechaAlta": "08/03/2025",
+      "tipoUsuario": "1",
+      "baja": ""
     }
   ],
   "candidatos": [
