@@ -30,46 +30,6 @@
                     Gestión de Articulos
                 </router-link>
             </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
-            <div class="col-6">
-                <router-link to="/" class="btn btn-secondary w-100 p-3 fs-5">
-                    En construcción
-                </router-link>
-            </div>
         </div>
     </div>
 </template>
