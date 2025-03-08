@@ -33010,5 +33010,30 @@
       "fecha": "8/3/2025"
     }
   ],
-  "secret": "your_secret_key"
+  "categoriasArticulos":[
+    {
+      "id": "1",
+      "nombre": "Electrónica"
+    },
+    {
+      "id": "2",
+      "nombre": "Hogar"
+    },
+    {
+      "id": "3",
+      "nombre": "Informática"
+    },
+    {
+      "id": "4",
+      "nombre": "Deporte"
+    },
+    {
+      "id": "5",
+      "nombre": "Libros"
+    },
+    {
+      "id": "6",
+      "nombre": "Otros"
+    }
+  ]
 }

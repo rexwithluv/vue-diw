@@ -1,17 +1,26 @@
 import express from "express";
-import http from "http";
+import http from "node:http";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import rutas from "../src/router/rutas.mjs";
 import cors from "cors";
-import multer from "multer";
-import fs from "fs";
-import path from "path";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:8080", "http://localhost:5000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, 
+  })
+);
 app.use(express.json());
 app.use(rutas);
 
@@ -19,45 +28,21 @@ app.use(morgan("dev"));
 
 app.get("/", (req, res) => res.send("Servidor para MongoDB."));
 
-// Subida de ficheros
-const storage = multer.diskStorage({
-    destinatoin: (req, file, cb) => {
-        const uploadDir = "uploads/cv";
+app.use(express.urlencoded({ extended: true }));
 
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        cb(null, uploadDir)
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + path.extname(file.originalname);
-        cb(null, file.fieldname + "-" + uniqueSuffix)
-    }
-
-
-})
-
-const upload = multer({ storage: storage });
-
-app.post("/subircv", upload.single("archivo"), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ mensaje: "No se subió ningún archivo" });
-    }
-    console.log(req.file);
-
-    res.status(200).json({
-        mensaje: "Archivo subido con éxito",
-        archivo: req.file
-    })
-})
+app.use(
+  "/uploads/img/",
+  express.static(path.join(__dirname, "../uploads/img"))
+);
+app.use("/uploads/cv/", express.static(path.join(__dirname, "../uploads/cv")));
 
 app.set("port", process.env.PORT || 5000);
 
 server.listen(app.get("port"), () => {
-    console.log("Servidor corriendo en el puerto: ", app.get("port"));
+  console.log("Servidor corriendo en el puerto: ", app.get("port"));
 });
 
-mongoose.connect("mongodb://admin:abc123@localhost:27017/bbdd?authSource=admin")
-    .then(() => console.log("Conectado a MongoDB"))
-    .catch(error => console.error("Error: ", error));
+mongoose
+  .connect("mongodb://admin:abc123@localhost:27017/bbdd?authSource=admin")
+  .then(() => console.log("Conectado a MongoDB"))
+  .catch((error) => console.error("Error: ", error));

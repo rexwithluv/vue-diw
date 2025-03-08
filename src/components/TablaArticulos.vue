@@ -51,7 +51,7 @@
                 </div>
 
 
-                <!-- Precio, stock, fecha de alta y URL de la imagen -->
+                <!-- Precio, stock, fecha de alta e imagen -->
                 <div class="col-2">
                     <div class="input-group">
                         <label class="input-group-text">€/Un</label>
@@ -75,9 +75,9 @@
                 </div>
                 <div class="col-5">
                     <div class="input-group">
-                        <label class="input-group-text">Imagen URL</label>
-                        <input type="url" class="form-control" placeholder="http://imagen-del-articulo.png"
-                            v-model="articulo.imagen">
+                        <label class="input-group-text">Imagen</label>
+                        <input type="file" class="form-control" accept=".png, .jpg, .jpeg" ref="fileInput"
+                            @change="handleFileChange">
                     </div>
                 </div>
 
@@ -119,8 +119,9 @@
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
                         <td class="align-middle text-center">{{ articulo._id.slice(-8) }}</td>
                         <td class="align-middle text-center">{{ articulo.nombre }}</td>
-                        <td class="align-middle text-center">{{ this.categoriasArticulos.find(cat => cat.id ===
-                            articulo.categoria).nombre }}</td>
+                        <td class="align-middle text-center">
+                            {{ getCategoriaArticulo(articulo) }}
+                        </td>
                         <td class="align-middle text-center">{{ articulo.descripcion }}</td>
                         <td class="align-middle text-center">{{ formatearPrecio(articulo.precio) }}€</td>
                         <td class="align-middle text-center">{{ articulo.stock }}</td>
@@ -161,16 +162,8 @@
 </template>
 
 <script>
-import {
-    guardarArticulo,
-    limpiarFormulario,
-    formatearPrecio,
-    seleccionarArticulo,
-    eliminarArticulo,
-    paginaAnterior,
-    siguientePagina,
-    getArticulos
-} from "@/js/articuloServicios";
+import Swal from "sweetalert2";
+import { actualizarArticulo, agregarArticulo, obtenerArticulos, eliminarArticulo } from "@/js/articuloServicios";
 
 export default {
     name: "TablaArticulos",
@@ -178,6 +171,7 @@ export default {
     data() {
         return {
             articulo: {
+                _id: "",
                 nombre: "",
                 categoria: "",
                 descripcion: "",
@@ -187,40 +181,17 @@ export default {
                 imagen: "",
                 alta: "",
             },
-            categoriasArticulos: [
-                {
-                    id: 1,
-                    nombre: "Electrónica"
-                },
-                {
-                    id: 2,
-                    nombre: "Hogar"
-                },
-                {
-                    id: 3,
-                    nombre: "Ofimática"
-                },
-                {
-                    id: 4,
-                    nombre: "Deporte"
-                },
-                {
-                    id: 5,
-                    nombre: "Libros"
-                },
-                {
-                    id: 6,
-                    nombre: "Otros"
-                },
-            ],
+            categoriasArticulos: [],
             articulos: [],
             paginaActual: 1,
             porPagina: 5,
+            archivo: null
         }
     },
 
     mounted() {
         this.getArticulos();
+        this.getCategorias()
     },
 
     computed: {
@@ -231,103 +202,95 @@ export default {
     },
 
     methods: {
-        // Traídos desde un archivo externo
-        formatearPrecio,
-        async getArticulos() {
-            this.articulos = await getArticulos();
-        },
-        async guardarArticulo() {
-            await guardarArticulo(this.articulo);
-            this.limpiarFormulario();
-            await this.getArticulos();
-        },
-        limpiarFormulario() {
-            this.articulo = limpiarFormulario(this.articulo);
-        },
-        async seleccionarArticulo(articulo) {
-            const articuloSeleccionado = await seleccionarArticulo(articulo, this.articulos);
-            if (articuloSeleccionado) {
-                this.articulo = articuloSeleccionado;
-            }
-        },
-        async eliminarArticulo(articulo) {
-            await eliminarArticulo(articulo);
-            await this.getArticulos();
-        },
-        
-        siguientePagina() {
-            this.paginaActual = siguientePagina(this.paginaActual, this.porPagina, this.articulos);
-        },
-        paginaAnterior() {
-            this.paginaActual = paginaAnterior(this.paginaActual);
-        },
 
-        /* // Alerta usada en diversas validaciones
-        mostrarAlerta(titulo, mensaje, icono) {
-            Swal.fire({
-                title: titulo,
-                text: mensaje,
-                icon: icono,
-                customClass: {
-                    container: "custom-alert-container",
-                    popup: "custom-alert-popup",
-                    modal: "custom-alert-modal",
-                },
-            });
-        },
-
-        // Limpia el formulario de la parte superior de la página
-        limpiarFormulario() {
-            this.articulo = {
-                nombre: "",
-                categoria: "",
-                descripcion: "",
-                precio: 0,
-                stock: 0,
-                personalizacion: "",
-                imagen: "",
-                alta: "",
-            };
-        },
-
-        // Formatear el precio para que use el formato EE,cc
-        formatearPrecio(precio) {
-            if (!Number.isInteger(precio)) {
-                precio = precio.toString();
-                let euros = precio.split(".")[0];
-                let centimos = precio.split(".")[1];
-
-                if (centimos.length === 1) {
-                    centimos = centimos + "0";
+        async getCategorias() {
+            try {
+                const response = await fetch("http://localhost:3000/categoriasArticulos")
+                if (!response.ok) {
+                    throw new Error(`Error en la solicitud${response.statusText}`)
                 }
-
-                return `${euros},${centimos}`;
-            } else {
-                return precio + ",00";
+                const data = await response.json();
+                this.categoriasArticulos = data;
+            } catch (error) {
+                console.error(error);
             }
         },
-
-        // Interactuar con la DB
         async getArticulos() {
             try {
-                const response = await fetch("http://localhost:5000/articulos");
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+                this.articulos = await obtenerArticulos();
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async guardarArticulo() {
+            if (!this.articulo.nombre || !this.articulo.categoria || !this.articulo.precio || !this.articulo.stock) {
+                this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
+                return;
+            }
+
+            try {
+
+                // Si el artículo ya existe lo modificamos
+                let articuloAgregadoId;
+                if (this.articulo._id) {
+                    actualizarArticulo(this.articulo._id, this.articulo)
+                    articuloAgregadoId = this.articulo._id;
+                    this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
+                    this.getArticulos();
+                } else {
+                    // Borramos el id para que no de problemas
+                    // biome-ignore lint/performance/noDelete: <explanation>
+                    delete this.articulo._id;
+
+                    const articuloAgregado = await agregarArticulo(this.articulo);
+                    articuloAgregadoId = articuloAgregado._id;
+                    this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
+                    this.getArticulos();
                 }
-                this.articulos = await response.json();
+
+                if (this.archivo) {
+                    const formData = new FormData();
+                    const nuevoArchivo = new File(
+                        [this.archivo],
+                        `${articuloAgregadoId}.${this.archivo.name.split('.').pop()}`,
+                        { type: this.archivo.type });
+                    formData.append('img', nuevoArchivo);
+
+                    console.log(nuevoArchivo)
+
+                    const fileResponse = await fetch('http://localhost:5000/subirimg', {
+                        method: 'POST',
+                        body: formData,
+                        credentials: 'include'
+                    });
+
+                    if (!fileResponse.ok) {
+                        throw new Error('Error al subir el archivo');
+                    }
+
+                    const fileData = await fileResponse.json();
+
+                    this.articulo.imagen = `${fileData.archivo.originalname}`
+                    actualizarArticulo(articuloAgregadoId, this.articulo);
+                }
+
+                this.limpiarFormulario();
+                this.getArticulos();
+
             } catch (error) {
                 console.log(error);
+                this.mostrarAlerta("Error", "No se pudo guardar el artículo.", "error");
             }
+
         },
         async seleccionarArticulo(articulo) {
             try {
                 this.limpiarFormulario();
-                const response = await fetch("http://localhost:5000/articulos");
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud: ' + response.statusText);
-                }
+                const articulos = await obtenerArticulos();
 
-                const articuloEncontrado = this.articulos.find(art => art._id === articulo._id);
+                const articuloEncontrado = articulos.find(art => art._id === articulo._id);
+
                 if (articuloEncontrado) {
                     this.articulo = { ...articulo };
 
@@ -336,65 +299,15 @@ export default {
                         this.articulo.alta = this.articulo.alta.split('T')[0];
                     }
                 } else {
-                    this.mostrarAlerta('Error', 'Usuario no encontrado en el servidor.', 'error');
+                    this.mostrarAlerta('Error', 'Artículo no encontrado en el servidor.', 'error');
                 }
             } catch (error) {
                 console.error(error);
                 this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
             }
         },
-        async guardarArticulo() {
-            if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock && this.articulo.alta) {
-                try {
-                    const response = await fetch("http://localhost:5000/articulos");
-                    if (!response.ok) {
-                        throw new Error("Error al obtener los articulos: " + response.statusText);
-                    }
-
-                    if (this.articulo._id) {
-                        const editarResponse = await fetch(`http://localhost:5000/articulos/${this.articulo._id}`, {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(this.articulo)
-                        })
-
-                        if (!editarResponse.ok) {
-                            throw new Error("Error al guardar el artículo: " + editarResponse.statusText);
-                        }
-
-                        this.mostrarAlerta("Aviso", "Artículo editado correctamente", "success");
-                    } else {
-                        const crearResponse = await fetch("http://localhost:5000/articulos", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(this.articulo)
-                        })
-
-                        if (!crearResponse.ok) {
-                            throw new Error("Error al guardar el artículo: " + crearResponse.statusText);
-                        }
-
-                        this.mostrarAlerta("Aviso", "Artículo guardado correctamente", "success");
-                    }
-
-
-                    this.limpiarFormulario();
-                    this.getArticulos();
-
-                } catch (error) {
-                    console.log(error);
-                    this.mostrarAlerta("Error", "No se pudo guardar el artículo.", "error");
-                }
-            } else {
-                this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
-            }
-        },
         async eliminarArticulo(articulo) {
-            const result = await Swal.fire({
+            const confirmacion = await Swal.fire({
                 title: "Confirmación",
                 html: `¿Desea eliminar <strong>${articulo.nombre}</strong>? <br><br>
             Esta acción no se puede deshacer.`,
@@ -406,19 +319,22 @@ export default {
                 cancelButtonText: "Cancelar"
             });
 
-            if (result.isConfirmed) {
+            if (confirmacion.isConfirmed) {
                 try {
-                    const response = await fetch(`http://localhost:5000/articulos/${articulo._id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(articulo),
-                    });
 
-                    if (!response.ok) {
-                        throw new Error('Error en la solicitud: ' + response.statusText);
+                    if (articulo._id) {
+                        eliminarArticulo(articulo._id)
+
+                        await fetch(`http://localhost:5000/articulos/${articulo._id}`, {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
                     }
+
+                    this.mostrarAlerta("Aviso", "Artículo eliminado correctamente.", "success")
+
                 } catch (error) {
                     console.error(error);
                     this.mostrarAlerta('Error', 'No se pudo cargar el articulo desde el servidor.', 'error');
@@ -427,6 +343,59 @@ export default {
                 // Recargamos la tabla al finalizar la operación
                 this.getArticulos();
             }
+        },
+
+        getCategoriaArticulo(articulo) {
+            if (this.categoriasArticulos.length === 0) {
+                return 'Cargando categorías...';
+            }
+
+            return this.categoriasArticulos.find(cat => cat.id === articulo.categoria).nombre;
+        },
+        handleFileChange(e) {
+            this.archivo = e.target.files[0];
+        },
+        formatearPrecio(precio) {
+            if (!Number.isInteger(precio)) {
+                const precioStr = precio.toString();
+                const euros = precioStr.split(".")[0];
+                let centimos = precioStr.split(".")[1];
+
+                if (centimos.length === 1) {
+                    centimos = `${centimos}0`;
+                }
+
+                return `${euros},${centimos}`;
+            }
+            return `${precio},00`;
+
+        },
+
+        mostrarAlerta(titulo, mensaje, icono) {
+            Swal.fire({
+                title: titulo,
+                text: mensaje,
+                icon: icono,
+                customClass: {
+                    container: 'custom-alert-container',
+                    popup: 'custom-alert-popup',
+                    modal: 'custom-alert-modal'
+                }
+            });
+        },
+        limpiarFormulario() {
+            this.articulo = {
+                nombre: "",
+                categoria: "",
+                descripcion: "",
+                precio: 0,
+                stock: 0,
+                personalizacion: "",
+                imagen: "",
+                alta: "",
+            };
+            this.archivo = null;
+            this.$refs.fileInput.value = null;
         },
 
         // Métodos para la paginación en la tabla
@@ -439,10 +408,7 @@ export default {
             if (this.paginaActual > 1) {
                 this.paginaActual--;
             }
-        } */
-
-
-
+        }
     },
 }
 </script>

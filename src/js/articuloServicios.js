@@ -2,180 +2,82 @@ import Swal from 'sweetalert2';
 
 const ARTICULOS_URL = "http://localhost:5000/articulos/";
 
-// Función auxiliar
-export function mostrarAlerta(titulo, mensaje, icono) {
-    Swal.fire({
-        title: titulo,
-        text: mensaje,
-        icon: icono,
-        customClass: {
-            container: "custom-alert-container",
-            popup: "custom-alert-popup",
-            modal: "custom-alert-modal",
-        },
-    });
-}
-
-// Limpia el formulario de la parte superior de la página
-export function limpiarFormulario(formulario) {
-    return {
-        ...formulario,
-        nombre: "",
-        categoria: "",
-        descripcion: "",
-        precio: 0,
-        stock: 0,
-        personalizacion: "",
-        imagen: "",
-        alta: "",
-    };
-}
-
-// Formatear el precio para que use el formato EE,cc
-export function formatearPrecio(precio) {
-    if (!Number.isInteger(precio)) {
-        precio = precio.toString();
-        let euros = precio.split(".")[0];
-        let centimos = precio.split(".")[1];
-
-        if (centimos.length === 1) {
-            centimos = centimos + "0";
-        }
-
-        return `${euros},${centimos}`;
-    } else {
-        return precio + ",00";
-    }
-}
-
-// Interactuar con la DB
-export async function getArticulos() {
+export async function obtenerArticulos() {
     try {
         const response = await fetch(ARTICULOS_URL);
         if (!response.ok) {
-            throw new Error("Error en la solicitud: " + response.statusText);
+            Swal.fire("Error", "No se pudo obtener el listado de artículos", "error");
+            throw new Error("Error al obtener los artículos");
         }
         return await response.json();
     } catch (error) {
-        console.log(error);
+        console.error("Error en la solicitud:", error);
+        Swal.fire("Error", "Fallo conexión", "error");
         throw error;
     }
 }
 
-export async function seleccionarArticulo(articulo, articulos) {
+export async function agregarArticulo(datosArticulo) {
     try {
-        const response = await fetch(ARTICULOS_URL);
+        const response = await fetch(ARTICULOS_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(datosArticulo),
+        });
+
         if (!response.ok) {
-            throw new Error('Error en la solicitud: ' + response.statusText);
+            Swal.fire("Error", "No se pudo agregar el artículo", "error");
+            throw new Error("Error al agregar el artículo");
         }
 
-        const articuloEncontrado = articulos.find(art => art._id === articulo._id);
-        if (articuloEncontrado) {
-            articulo = { ...articulo };
-
-            // Línea mágica que hace que ahora funcione
-            if (articulo.alta) {
-                articulo.alta = articulo.alta.split('T')[0];
-            }
-
-            return articulo;
-        } else {
-            mostrarAlerta('Error', 'Artículo no encontrado en el servidor.', 'error');
-        }
+        return await response.json();
     } catch (error) {
-        console.error(error);
-        mostrarAlerta('Error', 'No se pudo cargar el artículo desde el servidor.', 'error');
+        console.error("Error en la solicitud:", error);
+        Swal.fire("Error", "No se pudo conectar al servidor o campos vacíos", "error");
         throw error;
     }
 }
 
-export async function guardarArticulo(articulo) {
+export async function actualizarArticulo(id, articulo) {
     try {
-        const response = await fetch(ARTICULOS_URL);
+        const response = await fetch(`${ARTICULOS_URL}${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(articulo),
+        });
+
         if (!response.ok) {
-            throw new Error("Error al obtener los articulos: " + response.statusText);
+            Swal.fire("Error", "No se pudo actualizar el artículo", "error");
+            throw new Error("Error al actualizar el artículo");
         }
 
-        if (articulo._id) {
-            const editarResponse = await fetch(ARTICULOS_URL + articulo._id, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(articulo)
-            })
-
-            if (!editarResponse.ok) {
-                throw new Error("Error al guardar el artículo: " + editarResponse.statusText);
-            }
-
-            mostrarAlerta("Aviso", "Artículo editado correctamente", "success");
-        } else {
-            const crearResponse = await fetch(ARTICULOS_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(articulo)
-            })
-
-            if (!crearResponse.ok) {
-                throw new Error("Error al guardar el artículo: " + crearResponse.statusText);
-            }
-
-            mostrarAlerta("Aviso", "Artículo guardado correctamente", "success");
-        }
-
+        return await response.json();
     } catch (error) {
-        console.log(error);
-        mostrarAlerta("Error", "No se pudo guardar el artículo.", "error");
+        console.error("Error en la solicitud:", error);
+        Swal.fire("Error", "No se pudo conectar al servidor o nada que actualizar", "error");
         throw error;
     }
 }
 
-export async function eliminarArticulo(articulo) {
-    const result = await Swal.fire({
-        title: "Confirmación",
-        html: `¿Desea eliminar <strong>${articulo.nombre}</strong>? <br><br>
-        Esta acción no se puede deshacer.`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Cancelar"
-    });
+export async function eliminarArticulo(id) {
+    try {
+        const response = await fetch(`${ARTICULOS_URL}${id}`, {
+            method: "DELETE",
+        });
 
-    if (result.isConfirmed) {
-        try {
-            const response = await fetch(ARTICULOS_URL + articulo._id, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(articulo),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error en la solicitud: ' + response.statusText);
-            }
-
-            mostrarAlerta("Artículo eliminado", "Artículo eliminado correctamente", "success")
-        } catch (error) {
-            console.error(error);
-            mostrarAlerta('Error', 'No se pudo cargar el articulo desde el servidor.', 'error');
+        if (!response.ok) {
+            Swal.fire("Error", "No se pudo eliminar el artículo", "error");
+            throw new Error("Error al eliminar el artículo");
         }
-    }
-}
 
-// Métodos para la paginación en la tabla
-export function siguientePagina(paginaActual, porPagina, articulos) {
-    if (paginaActual * porPagina < articulos.length) {
-        return ++paginaActual;
-    }
-}
-export function paginaAnterior(paginaActual) {
-    if (paginaActual > 1) {
-        return --paginaActual;
+        return await response.json();
+    } catch (error) {
+        console.error("error");
+        Swal.fire("Error", "No se pudo conectar al servidor para eliminar el artículo", "error");
+        throw error;
     }
 }
