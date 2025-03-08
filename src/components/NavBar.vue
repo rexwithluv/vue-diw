@@ -45,11 +45,11 @@
                 </button>
 
                 <div class="dropdown ms-auto">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    <button type="button" class="btn btn-primary dropdown-toggle" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li class="dropdown-item">
                             <router-link to="/login">Acceso</router-link>
                         </li>
@@ -60,7 +60,6 @@
                             <router-link to="#" @click="logout"> Cerrar sesión</router-link>
                         </li>
                     </ul>
-
                 </div>
 
             </div>
