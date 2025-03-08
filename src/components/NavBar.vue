@@ -118,7 +118,6 @@ export default {
             }
 
             const usuario = await response.json();
-            console.log("Respuesta obtenida", usuario);
             this.usuario = usuario[0].nombre;
         }
     },

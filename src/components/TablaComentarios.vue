@@ -12,8 +12,10 @@
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
 
             <p v-if="!isLogueado" class="fw-bold">
-                Solo los usuarios registrados pueden comentar.
+                Solo los usuarios registrados pueden comentar.<br />
                 <router-link to="registro">Registrarse</router-link>
+                |
+                <router-link to="login">Iniciar sesión</router-link>
             </p>
 
 
@@ -23,14 +25,14 @@
                 <div class="col-7">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
-                        <input type="text" class="form-control" placeholder="Email" required
+                        <input type="text" class="form-control" placeholder="Email" required disabled
                             @blur="validarCorreo(this.comentario.email)" v-model="comentario.email">
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="input-group">
                         <label class="input-group-text">Móvil</label>
-                        <input type="text" class="form-control" placeholder="Teléfono" required
+                        <input type="text" class="form-control" placeholder="Teléfono" required disabled
                             @blur="validarTelefono(this.comentario.movil)" v-model="comentario.movil">
                     </div>
                 </div>
@@ -101,7 +103,8 @@
                     <tr v-for="comentario in comentariosPorPagina" :key="comentario.id">
                         <td class="align-middle text-center">{{ comentario.id }}</td>
                         <td class="align-middle text-center">{{ comentario.fecha }}</td>
-                        <td class="align-middle text-center">{{ usuarios.filter(u => u.email === comentario.email)[0].nombre }}</td>
+                        <td class="align-middle text-center">{{usuarios.find(u => u.email === comentario.email).nombre
+                        }}</td>
                         <td class="align-middle text-center">{{ comentario.mensaje }}</td>
                         <td class="align-middle text-center">
                             <span v-for="n in 5" :key="n"
@@ -171,6 +174,7 @@ export default {
         this.getComentarios();
         this.isAdmin = localStorage.getItem("isAdmin") === "true";
         this.isLogueado = localStorage.getItem("isLogueado") === "true";
+        this.cargarDatosPredeterminados()
     },
 
     computed: {
@@ -190,7 +194,6 @@ export default {
                 const response = await fetch("http://localhost:3000/usuarios");
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.statusText}`);
-
                 }
                 this.usuarios = await response.json();
 
@@ -211,16 +214,31 @@ export default {
                 console.log(error);
             }
         },
+        async cargarDatosPredeterminados() {
+            if (this.isLogueado) {
+                const email = localStorage.getItem("email");
+                this.comentario.email = email;
+
+                this.comentario.telefono = fetch("http://localhost:3000/usuarios")
+                    .then(response => response.json())
+                    .then(data => {
+                        const usuario = data.find(u => u.email === email);
+                        const telefono = usuario.telefono;
+                        this.comentario.movil = telefono;
+                    })
+                    .catch(error => console.error(`Error al obtener los usuarios: ${error}`))
+
+            }
+        },
 
         // Limpiar formulario después de las operaciones
         limpiarFormulario() {
             this.comentario = {
-                email: "",
                 mensaje: "",
-                movil: "",
                 valoracion: 1,
                 acepta: false
-            }
+            };
+            this.cargarDatosPredeterminados()
         },
 
         // Usando estrellas
@@ -274,6 +292,11 @@ export default {
 
         // Almacenar la valoración
         async guardarComentario() {
+            if (!this.isLogueado) {
+                this.mostrarAlerta("Debe registrarse", "Debe registrarse para poder escribir comentarios.", "error");
+                return;
+            }
+
             if (this.comentario.acepta === false) {
                 this.mostrarAlerta(
                     "Debe aceptar",
@@ -383,7 +406,7 @@ export default {
 
         // Métodos para la paginación en la tabla
         siguientePagina() {
-            if (this.currentPage * this.pageSize < this.usuarios.length) {
+            if (this.currentPage * this.pageSize < this.comentarios.length) {
                 this.currentPage++;
             }
         },
