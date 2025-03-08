@@ -104,7 +104,7 @@
                         <td class="align-middle text-center">{{ comentario.id }}</td>
                         <td class="align-middle text-center">{{ comentario.fecha }}</td>
                         <td class="align-middle text-center">{{usuarios.find(u => u.email === comentario.email).nombre
-                        }}</td>
+                            }}</td>
                         <td class="align-middle text-center">{{ comentario.mensaje }}</td>
                         <td class="align-middle text-center">
                             <span v-for="n in 5" :key="n"
@@ -298,52 +298,54 @@ export default {
             }
 
             if (this.comentario.acepta === false) {
-                this.mostrarAlerta(
-                    "Debe aceptar",
-                    "Debe aceptar las políticas de privacidad para poder mandar su reseña.",
-                    "warning");
-            } else {
-                if (this.comentario.email && this.comentario.movil) {
-                    try {
-                        const correoExiste = this.usuarios.find(user => user.email === this.comentario.email);
-
-                        if (!correoExiste) {
-                            this.mostrarAlerta("Error", "No existe ningún usuario con ese correo.", "error");
-                        } else {
-
-                            if (correoExiste.email !== this.comentario.email) {
-                                this.mostrarAlerta("Correo incorrecto", "El correo de comentario debe ser idéntico al del usuario logueado", "error");
-                                return;
-                            }
-
-                            this.comentario.fecha = new Date().toLocaleDateString("es-ES");
-                            const guardarResponse = await fetch('http://localhost:3000/comentarios', {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify(this.comentario)
-                            });
-
-                            if (!guardarResponse.ok) {
-                                throw new Error(`Error al guardar el comentario: ${guardarResponse.statusText}`);
-                            }
-
-                            this.mostrarAlerta("Aviso", "Comentario guardado correctamente", "success");
-                            this.limpiarFormulario();
-                        }
-
-                    } catch (error) {
-                        console.log(error);
-                        this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
-                    }
-                } else {
-                    this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
-                }
-
-                // Recargamos la tabla al finalizar la operación
-                this.getComentarios();
+                this.mostrarAlerta("Debe aceptar", "Debe aceptar las políticas de privacidad para poder mandar su reseña.", "warning");
+                return;
             }
+
+
+            try {
+
+                const comentarioExiste = !!this.comentario.id
+
+                if (comentarioExiste) {
+                    const editarResponse = await fetch(`http://localhost:3000/comentarios/${this.comentario.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(this.comentario)
+                    });
+
+                    if (!editarResponse.ok) {
+                        throw new Error(`Error al guardar el comentario: ${editarResponse.statusText}`);
+                    }
+
+                    this.mostrarAlerta("Aviso", "Comentario editado correctamente", "success");
+                    this.limpiarFormulario();
+                } else {
+                    this.comentario.fecha = new Date().toLocaleDateString("es-ES");
+                    const guardarResponse = await fetch('http://localhost:3000/comentarios', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(this.comentario)
+                    });
+
+                    if (!guardarResponse.ok) {
+                        throw new Error(`Error al guardar el comentario: ${guardarResponse.statusText}`);
+                    }
+
+                    this.mostrarAlerta("Aviso", "Comentario guardado correctamente", "success");
+                    this.limpiarFormulario();
+                }
+            } catch (error) {
+                console.log(error);
+                this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
+            }
+
+            // Recargamos la tabla al finalizar la operación
+            this.getComentarios();
         },
 
         // Los métodos para seleccionar y eliminar desde la tabla
@@ -357,7 +359,7 @@ export default {
 
                 // Usuarios
                 const comentarios = await response.json();
-                const comentarioEncontrado = comentarios.find(c => c.dni === comentario.dni);
+                const comentarioEncontrado = comentarios.find(c => c.id === comentario.id);
                 if (comentarioEncontrado) {
                     this.comentario = { ...comentarioEncontrado };
                 } else {
