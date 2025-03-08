@@ -189,7 +189,7 @@ export default {
             try {
                 const response = await fetch("http://localhost:3000/usuarios");
                 if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
 
                 }
                 this.usuarios = await response.json();
@@ -202,7 +202,7 @@ export default {
             try {
                 const response = await fetch("http://localhost:3000/comentarios");
                 if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
 
                 }
                 this.comentarios = (await response.json()).sort((a, b) => a.fecha.localeCompare(b.fecha));
@@ -303,7 +303,7 @@ export default {
                             });
 
                             if (!guardarResponse.ok) {
-                                throw new Error("Error al guardar el comentario: " + guardarResponse.statusText);
+                                throw new Error(`Error al guardar el comentario: ${guardarResponse.statusText}`);
                             }
 
                             this.mostrarAlerta("Aviso", "Comentario guardado correctamente", "success");
@@ -329,7 +329,7 @@ export default {
                 this.limpiarFormulario();
                 const response = await fetch("http://localhost:3000/comentarios");
                 if (!response.ok) {
-                    throw new Error('Error en la solicitud: ' + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
                 }
 
                 // Usuarios
@@ -368,7 +368,7 @@ export default {
                     });
 
                     if (!response.ok) {
-                        throw new Error('Error en la solicitud: ' + response.statusText);
+                        throw new Error(`Error en la solicitud: ${response.statusText}`);
                     }
                 } catch (error) {
                     console.error(error);
