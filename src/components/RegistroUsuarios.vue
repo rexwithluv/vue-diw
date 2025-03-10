@@ -222,7 +222,7 @@ export default {
             try {
                 const response = await fetch("http://localhost:3000/provincias");
                 if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
                 }
                 this.provincias = await response.json();
             } catch (error) {
@@ -233,7 +233,7 @@ export default {
             try {
                 const response = await fetch("http://localhost:3000/municipios");
                 if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
                 }
                 this.municipios = await response.json();
             } catch (error) {
@@ -249,7 +249,7 @@ export default {
                     try {
                         const response = await fetch("http://localhost:3000/usuarios");
                         if (!response.ok) {
-                            throw new Error("Error al obtener los usuarios: " + response.statusText);
+                            throw new Error(`Error al obtener los usuarios: ${response.statusText}`);
                         }
 
                         const usuariosExistentes = await response.json();
@@ -282,7 +282,7 @@ export default {
                             });
 
                             if (!crearResponse.ok) {
-                                throw new Error("Error al guardar el usuario: " + crearResponse.statusText);
+                                throw new Error(`Error al guardar el usuario: ${crearResponse.statusText}`);
                             }
 
                             this.mostrarAlerta("Aviso", "Usuario guardado", "success");
