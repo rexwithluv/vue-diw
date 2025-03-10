@@ -216,7 +216,7 @@ export default {
             try {
                 const response = await fetch("http://localhost:3000/departamentos");
                 if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
                 }
                 this.departamentos = await response.json();
             } catch (error) {
@@ -227,7 +227,7 @@ export default {
             try {
                 const response = await fetch("http://localhost:3000/candidatos");
                 if (!response.ok) {
-                    throw new Error("Error en la solicitud: " + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
                 }
                 this.candidatos = await response.json();
             } catch (error) {
@@ -312,7 +312,7 @@ export default {
                         });
 
                         if (!guardarResponse.ok) {
-                            throw new Error("Error al guardar la candidatura: " + guardarResponse.statusText);
+                            throw new Error(`Error al guardar la candidatura: ${guardarResponse.statusText}`);
                         }
 
                         // Guardamos el PDF
@@ -356,7 +356,7 @@ export default {
                 this.limpiarFormulario();
                 const response = await fetch("http://localhost:3000/candidatos");
                 if (!response.ok) {
-                    throw new Error('Error en la solicitud: ' + response.statusText);
+                    throw new Error(`Error en la solicitud: ${response.statusText}`);
                 }
 
                 const candidatos = await response.json();
@@ -396,7 +396,7 @@ export default {
                     });
 
                     if (!response.ok) {
-                        throw new Error('Error en la solicitud: ' + response.statusText);
+                        throw new Error(`Error en la solicitud: ${response.statusText}`);
                     }
                 } catch (error) {
                     console.error(error);
