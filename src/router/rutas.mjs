@@ -1,8 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
+import "dotenv/config.js";
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import fs from "node:fs";
+import path from "node:path";
+import nodemailer from "nodemailer";
 
 import Articulo from "../modelos/modelos.js";
 
@@ -140,6 +142,40 @@ rutas.delete("/articulos/:id", async (req, res) => {
     res.status(400).json({ message: error.message });
     console.log("Error al eliminar artículo:", error);
   }
+});
+
+// Para el correo
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.VUE_APP_EMAIL_USER,
+    pass: process.env.VUE_APP_EMAIL_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
+rutas.post("/enviar-correo", (req, res) => {
+  console.log("Datos recibidos: ", req.body.toString());
+  const { nombre, telefono, email, mensaje } = req.body;
+
+  const mailOptions = {
+    from: email,
+    to: "nesflaispendejo@gmail.com",
+    subject: "Mensaje de contacto",
+    text: `Nombre: ${nombre}\nTeléfono: ${telefono}\nEmail: ${email}\nMensaje: ${mensaje}`,
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error al enviar el correo", error);
+      return res.status(500).json({
+        error: "Error al enviar el mensaje, por favor inténtelo de nuevo",
+      });
+    }
+    console.log("Email enviado");
+    return res.status(200).json({ message: "Mensaje enviado correctamente" });
+  });
 });
 
 export default rutas;
