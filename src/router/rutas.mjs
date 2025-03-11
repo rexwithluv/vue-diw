@@ -271,7 +271,7 @@ rutas.post("/crear-checkout-session", async (req, res) => {
         .json({ error: "Debe haber al menos un producto en el carrito" });
     }
 
-    if (!amount || isNaN(amount) || amount <= 0) {
+    if (!amount || Number.isNaN(amount) || amount <= 0) {
       return res.status(400).json({ error: "Monto inválido" });
     }
 
@@ -281,7 +281,7 @@ rutas.post("/crear-checkout-session", async (req, res) => {
         product_data: {
           name: item.nombre,
         },
-        unit_amount: parseInt(item.precio * 100),
+        unit_amount: Number.parseInt(item.precio * 100),
       },
       quantity: item.quantity,
     }));

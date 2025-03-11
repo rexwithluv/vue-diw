@@ -19,8 +19,8 @@
                     <td class="text-center align-middle">{{ item.precio }} &euro;</td>
 
                     <td>
-                        <img :src="`http://localhost:5000/uploads/images/${item.imagen}`" alt="Foto de producto" width="64"
-                            height="64" class="img-thumbnail" @click="openModal()" />
+                        <img :src="`http://localhost:5000/uploads/images/${item.imagen}`" alt="Foto de producto"
+                            width="64" height="64" class="img-thumbnail" @click="openModal()" />
                     </td>
                     <!-- El modal (ventana emergente) que muestra la imagen expandida -->
                     <div v-if="isModalOpen" class="modal" @click="closeModal">
@@ -45,7 +45,9 @@
             </tbody>
         </table>
         <h2 class="text-end"> Precio total: {{ cartStore.totalPrice.toFixed(2) }} €</h2>
-        <button class="btn btn-primary" @click="finalizarCompra">Finalizar compra</button>
+        <button class="btn btn-primary" @click="finalizarCompra">
+            Finalizar compra
+        </button>
     </div>
     <div v-else>
         <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">

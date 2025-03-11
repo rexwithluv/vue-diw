@@ -20,7 +20,7 @@ const facturaSchema = new mongoose.Schema({
     {
       productoId: { type: String, required: true },
       nombre: { type: String, required: true },
-      precio_unitario: { type: Number, required: true },
+      precio: { type: Number, required: true },
       cantidad: { type: Number, required: true },
       total: { type: Number, required: true },
     },
