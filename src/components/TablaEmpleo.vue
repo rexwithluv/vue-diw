@@ -89,7 +89,8 @@
                 <div class="col-12">
                     <div class="input-group">
                         <label class="input-group-text">CV (PDF)</label>
-                        <input type="file" class="form-control" placeholder="CV en formato PDF">
+                        <input type="file" class="form-control" placeholder="CV en formato PDF"
+                            accept=".pdf, .jpg, .jpeg" @change="handleFileChange" ref="fileInput">
                     </div>
                 </div>
 
@@ -136,8 +137,8 @@
                         <td class="align-middle text-start">{{ candidato.nombre }}</td>
                         <td class="align-middle text-center">{{ candidato.telefono }}</td>
                         <td class="align-middle text-center">{{ candidato.email }}</td>
-                        <td class="align-middle text-center">{{ departamentos.find(dep => dep.id ===
-                            candidato.departamento).nombre }} </td>
+                        <td class="align-middle text-center">{{departamentos.find(dep => dep.id ===
+                            candidato.departamento).nombre}} </td>
                         <td class="align-middle text-center">{{ candidato.modalidad }}</td>
                         <td class="text-center align-middle pale-yellow">
                             <button class="btn btn-warning m-2" @click.prevent="seleccionarCandidato(candidato)">
@@ -183,10 +184,13 @@ export default {
                 departamento: "",
                 modalidad: "",
                 comentarios: "",
+                cv: "",
                 acepta: false,
             },
             departamentos: [],
             candidatos: [],
+
+            archivo: null,
 
             isAdmin: false,
 
@@ -294,6 +298,10 @@ export default {
         },
 
         // Enviar candidatura
+        handleFileChange(event) {
+            this.archivo = event.target.files[0];
+            console.log(this.archivo)
+        },
         async guardarCandidato() {
             if (this.candidato.acepta === false) {
                 this.mostrarAlerta("Debe aceptar", "Debe aceptar las políticas de privacidad para poder mandar su CV", "warning");
@@ -301,6 +309,7 @@ export default {
                 if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
                     try {
                         // Si el candidato lo traemos de la base de datos tendrá ID, nos aseguramos de eliminarlo para evitar duplicados
+                        // biome-ignore lint/performance/noDelete: <explanation>
                         delete this.candidato.id;
 
                         const guardarResponse = await fetch('http://localhost:3000/candidatos', {
@@ -316,23 +325,27 @@ export default {
                         }
 
                         // Guardamos el PDF
-                        const formData = new FormData();
-                        if (this.cvFile) {
-                            formData.append("archivo", this.cvFile);
-                            const fileResponse = await fetch("http://localhost:5000/subircv", {
-                                method: "POST",
+                        if (this.archivo) {
+                            const formData = new FormData();
+                            const candidatoId = this.candidato.telefono || 'default';
+                            const nuevoArchivo = new File([this.archivo], `${candidatoId}.pdf`, { type: this.archivo.type });
+                            formData.append('archivo', nuevoArchivo);
+                            formData.append('candidatoId', this.candidato.telefono)
+                            console.log(nuevoArchivo)
+                            const fileResponse = await fetch('http://localhost:5000/subircv', {
+                                method: 'POST',
                                 body: formData,
-                            })
+                                credentials: 'include'
+                            });
 
                             if (!fileResponse.ok) {
-                                throw new Error("Error al subir el archivo");
+                                throw new Error('Error al subir el archivo');
                             }
+                            console.log('Hubo respuesta:', fileResponse);
 
                             const fileData = await fileResponse.json();
-                            console.log("Archivo subido correctamente: ", fileData)
+                            console.log('Archivo subido correctamente:', fileData);
                         }
-
-
 
                         this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
                         this.limpiarFormulario();

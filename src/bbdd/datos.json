@@ -32966,6 +32966,66 @@
       "modalidad": "Híbrido",
       "comentarios": "Quiero trabajar aquí",
       "acepta": true
+    },
+    {
+      "id": "ecdb",
+      "apellidos": "Bunny",
+      "nombre": "Bad",
+      "email": "badbunny@email.com",
+      "telefono": "698563258",
+      "departamento": "2",
+      "modalidad": "Híbrido",
+      "comentarios": "por la mañana café por la tarde ron",
+      "cv": "",
+      "acepta": true
+    },
+    {
+      "id": "5feb",
+      "apellidos": "apellidoTest",
+      "nombre": "Nombrecito",
+      "email": "soyyojeje@email.com",
+      "telefono": "685285285",
+      "departamento": "2",
+      "modalidad": "Presencial",
+      "comentarios": "asdf",
+      "cv": "",
+      "acepta": true
+    },
+    {
+      "id": "0366",
+      "apellidos": "Alba farelo",
+      "nombre": "Bad gyal",
+      "email": "badg@email.com",
+      "telefono": "685285246",
+      "departamento": "3",
+      "modalidad": "Presencial",
+      "comentarios": "ahora de mí tu siempre te escondes",
+      "cv": "",
+      "acepta": true
+    },
+    {
+      "id": "ec62",
+      "apellidos": "alba farelo",
+      "nombre": "bad gyal",
+      "email": "badg@email.com",
+      "telefono": "685285263",
+      "departamento": "4",
+      "modalidad": "Híbrido",
+      "comentarios": "ahora de mí tú siempre te escondes",
+      "cv": "",
+      "acepta": true
+    },
+    {
+      "id": "f68b",
+      "apellidos": "Alba Farelo",
+      "nombre": "Bad Gyal",
+      "email": "badg@email.com",
+      "telefono": "696396374",
+      "departamento": "2",
+      "modalidad": "Presencial",
+      "comentarios": "tu la jodite con toda nosotra",
+      "cv": "",
+      "acepta": true
     }
   ],
   "comentarios": [
