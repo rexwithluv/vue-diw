@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
+app.use(express.json());
 app.use(
   cors({
     origin: ["http://localhost:8080", "http://localhost:5000"],
@@ -21,7 +22,6 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
 app.use(rutas);
 
 app.use(morgan("dev"));

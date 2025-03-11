@@ -186,7 +186,7 @@ rutas.get("/facturas", async (req, res) => {
     res.json(facturas);
   } catch (error) {
     res.status(500).json({ message: error.message });
-    console.log("Error al obtener artículos:", error);
+    console.log("Error al obtener factura:", error);
   }
 });
 
@@ -198,7 +198,7 @@ rutas.post("/facturas", async (req, res) => {
     console.log("Factura guardado correctamente");
   } catch (error) {
     res.status(400).json({ message: error.message });
-    console.log("Error al guardar artículo:", error);
+    console.log("Error al guardar factura:", error);
   }
 });
 

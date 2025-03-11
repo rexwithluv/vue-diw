@@ -3,6 +3,8 @@ import FormularioLogin from "@/components/FormularioLogin.vue";
 import NotFound from "@/components/NotFound.vue";
 import PaginaInicio from "@/components/PaginaInicio.vue";
 import PaginaTienda from "@/components/PaginaTienda.vue";
+import PagoAprobado from "@/components/PagoAprobado.vue";
+import PagoCancelado from "@/components/PagoCancelado.vue";
 import PanelGestion from "@/components/PanelGestion.vue";
 import PoliticaPrivacidad from "@/components/PoliticaPrivacidad.vue";
 import RegistroUsuarios from "@/components/RegistroUsuarios.vue";
@@ -92,6 +94,16 @@ const routes = [
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: NotFound,
+  },
+  {
+    path: "/success",
+    name: "PagoAprobado",
+    component: PagoAprobado,
+  },
+  {
+    path: "/cancel",
+    name: "PagoCancelado",
+    component: PagoCancelado,
   },
 ];
 
