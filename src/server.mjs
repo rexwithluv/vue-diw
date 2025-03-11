@@ -18,7 +18,7 @@ app.use(
     origin: ["http://localhost:8080", "http://localhost:5000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, 
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -31,8 +31,8 @@ app.get("/", (req, res) => res.send("Servidor para MongoDB."));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
-  "/uploads/img/",
-  express.static(path.join(__dirname, "../uploads/img"))
+  "/uploads/images/",
+  express.static(path.join(__dirname, "../uploads/images"))
 );
 app.use("/uploads/cv/", express.static(path.join(__dirname, "../uploads/cv")));
 

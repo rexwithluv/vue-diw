@@ -1,40 +1,51 @@
-import AvisoLegal from '@/components/AvisoLegal.vue'
-import FormularioLogin from '@/components/FormularioLogin.vue'
-import NotFound from '@/components/NotFound.vue'
-import PaginaInicio from '@/components/PaginaInicio.vue'
-import PaginaTienda from '@/components/PaginaTienda.vue'
-import PanelGestion from '@/components/PanelGestion.vue'
-import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
-import RegistroUsuarios from '@/components/RegistroUsuarios.vue'
-import TablaArticulos from '@/components/TablaArticulos.vue'
-import TablaComentarios from '@/components/TablaComentarios.vue'
-import TablaContacto from '@/components/TablaContacto.vue'
-import TablaEmpleo from '@/components/TablaEmpleo.vue'
-import TablaUsuarios from '@/components/TablaUsuarios.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import AvisoLegal from "@/components/AvisoLegal.vue";
+import FormularioLogin from "@/components/FormularioLogin.vue";
+import NotFound from "@/components/NotFound.vue";
+import PaginaInicio from "@/components/PaginaInicio.vue";
+import PaginaTienda from "@/components/PaginaTienda.vue";
+import PanelGestion from "@/components/PanelGestion.vue";
+import PoliticaPrivacidad from "@/components/PoliticaPrivacidad.vue";
+import RegistroUsuarios from "@/components/RegistroUsuarios.vue";
+import TablaArticulos from "@/components/TablaArticulos.vue";
+import TablaCarrito from "@/components/TablaCarrito.vue";
+import TablaComentarios from "@/components/TablaComentarios.vue";
+import TablaContacto from "@/components/TablaContacto.vue";
+import TablaEmpleo from "@/components/TablaEmpleo.vue";
+import TablaUsuarios from "@/components/TablaUsuarios.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: '/',
-    name: 'inicio',
+    path: "/",
+    name: "inicio",
     component: PaginaInicio,
   },
   {
-    path: '/gestion',
-    name: 'gestion',
+    path: "/gestion",
+    name: "gestion",
     component: PanelGestion,
     meta: { requiresAdmin: true },
   },
   {
-    path: '/usuarios',
-    name: 'usuarios',
+    path: "/tienda",
+    name: "PaginaTienda",
+    component: PaginaTienda,
+  },
+  {
+    path: "/usuarios",
+    name: "usuarios",
     component: TablaUsuarios,
     meta: { requiresAdmin: true },
   },
   {
+    path: "/carrito",
+    name: "TablaCarrito",
+    component: TablaCarrito,
+  },
+  {
     path: "/empleo",
     name: "empleo",
-    component: TablaEmpleo
+    component: TablaEmpleo,
   },
   {
     path: "/articulos",
@@ -45,71 +56,67 @@ const routes = [
   {
     path: "/comentarios",
     name: "comentarios",
-    component: TablaComentarios
+    component: TablaComentarios,
   },
   {
-    path: '/contacto',
-    name: 'contacto',
-    component: TablaContacto
+    path: "/contacto",
+    name: "contacto",
+    component: TablaContacto,
   },
   {
-    path: '/tienda',
-    name: 'tienda',
-    component: PaginaTienda
+    path: "/tienda",
+    name: "tienda",
+    component: PaginaTienda,
   },
   {
-    path: '/registro',
-    name: 'registro',
-    component: RegistroUsuarios
+    path: "/registro",
+    name: "registro",
+    component: RegistroUsuarios,
   },
   {
-    path: '/login',
-    name: 'login',
-    component: FormularioLogin
+    path: "/login",
+    name: "login",
+    component: FormularioLogin,
   },
   {
     path: "/politica-privacidad",
     name: "politica-privacidad",
-    component: PoliticaPrivacidad
+    component: PoliticaPrivacidad,
   },
   {
     path: "/aviso-legal",
     name: "aviso-legal",
-    component: AvisoLegal
+    component: AvisoLegal,
   },
   {
-    path: '/:pathMatch(.*)*',
-    name: 'NotFound',
-    component: NotFound
-  }
-]
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
 // Guardia de navegación global
 router.beforeEach((to, from, next) => {
-
   // Verifica si la ruta requiere administrador
   if (to.meta.requiresAdmin) {
-
     //Verifica si el usuario está logueado y es admin
     const isLogueado = localStorage.getItem("isLogueado") === "true";
     const isAdmin = localStorage.getItem("isAdmin") === "true";
 
-
     if (!isLogueado || !isAdmin) {
-
       // Si no es admin, redirígue a otra ruta
       next({ name: "inicio" });
     } else {
       next(); // Permite el acceso a la ruta
     }
   } else {
-    next() // Si no es necesaria la verificación
+    next(); // Si no es necesaria la verificación
   }
-})
+});
 
-export default router
+export default router;

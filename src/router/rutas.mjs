@@ -5,8 +5,8 @@ import multer from "multer";
 import fs from "node:fs";
 import path from "node:path";
 import nodemailer from "nodemailer";
-
-import Articulo from "../modelos/modelos.js";
+import Stripe from "stripe";
+import { Articulo, Factura } from "../modelos/modelos.js";
 
 const rutas = express.Router();
 
@@ -166,6 +166,7 @@ rutas.post("/enviar-correo", (req, res) => {
     subject: "Mensaje de contacto",
     text: `Nombre: ${nombre}\nTeléfono: ${telefono}\nEmail: ${email}\nMensaje: ${mensaje}`,
   };
+  // eslint-disable-next-line no-unused-vars
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Error al enviar el correo", error);
@@ -176,6 +177,128 @@ rutas.post("/enviar-correo", (req, res) => {
     console.log("Email enviado");
     return res.status(200).json({ message: "Mensaje enviado correctamente" });
   });
+});
+
+// CRUD Facturas
+rutas.get("/facturas", async (req, res) => {
+  try {
+    const facturas = await Factura.find({});
+    res.json(facturas);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log("Error al obtener artículos:", error);
+  }
+});
+
+rutas.post("/facturas", async (req, res) => {
+  try {
+    const factura = new Factura(req.body);
+    const facturaGuardada = await factura.save();
+    res.status(201).json(facturaGuardada);
+    console.log("Factura guardado correctamente");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log("Error al guardar artículo:", error);
+  }
+});
+
+rutas.put("/facturas/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("ID recibido:", id);
+
+    // Verificar si el ID es válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send("No hay factura con ese ID");
+    }
+
+    // Intentar encontrar y actualizar el artículo
+    const factura = await Factura.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    // Si no se encuentra el artículo
+    if (!factura) {
+      return res.status(404).json({ message: "Factura no encontrado" });
+    }
+
+    // Responder con el artículo actualizado
+    res.json(factura);
+    console.log("Factura actualizado correctamente");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log("Error al actualizar factura:", error);
+  }
+});
+
+rutas.delete("/facturas/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("ID recibido:", id);
+
+    // Verificar si el ID es válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send("No hay factura con ese ID");
+    }
+
+    // Intentar encontrar y eliminar el artículo
+    const factura = await Factura.findByIdAndDelete(id);
+
+    // Si no se encuentra el artículo
+    if (!factura) {
+      return res.status(404).json({ message: "Factura no encontrado" });
+    }
+
+    // Responder con el artículo eliminado
+    res.json(factura);
+    console.log("Factura eliminado correctamente");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log("Error al eliminar factura:", error);
+  }
+});
+
+rutas.post("/crear-checkout-session", async (req, res) => {
+  try {
+    const stripe = new Stripe(process.env.VUE_APP_STRIPE_SECRET_KEY);
+
+    const { items, amount } = req.body;
+    console.log(items, amount);
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "Debe haber al menos un producto en el carrito" });
+    }
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+      return res.status(400).json({ error: "Monto inválido" });
+    }
+
+    const lineItems = items.map((item) => ({
+      price_data: {
+        currency: "eur",
+        product_data: {
+          name: item.nombre,
+        },
+        unit_amount: parseInt(item.precio * 100),
+      },
+      quantity: item.quantity,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      mode: "payment",
+      success_url: "http://localhost:8080/success",
+      cancel_url: "http://localhost:8080/cancel",
+    });
+    console.log(session);
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error("Error al crear la sesión de pago: ", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
 });
 
 export default rutas;

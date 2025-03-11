@@ -17,6 +17,10 @@
                         <router-link to="/" class="nav-link active"
                             :class="{ 'current': currentRoute === '/' }">Inicio</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/tienda" class="nav-link active"
+                            :class="{ 'current': currentRoute === '/tienda' }">Tienda</router-link>
+                    </li>
                     <li class="nav-item" v-if="isAdmin">
                         <router-link to="/usuarios" class="nav-link active"
                             :class="{ 'current': currentRoute === '/usuarios' }">Usuarios</router-link>
@@ -44,6 +48,18 @@
                     <i class="bi bi-search"></i>
                 </button>
 
+                <div>
+                    <router-link to="/carrito" class="btn btn-primary align-middle position-relative"
+                        v-if="this.isLogueado">
+                        <i class="fas fa-shopping-cart"></i>
+                    </router-link>
+                    <div v-if="this.cartStore.totalItems >= 1"
+                        class="position-absolute bg-danger text-white rounded-circle d-flex align-items-center justify-content-center z-1"
+                        style="top: -5px; right: -5px; width: 20px; height: 20px; font-size: 12px;">
+                        {{ this.cartStore.totalItems }}
+                    </div>
+                </div>
+
                 <div class="dropdown ms-auto">
                     <button type="button" class="btn btn-primary dropdown-toggle" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,6 +85,8 @@
 </template>
 
 <script>
+import { useCartStore } from '@/store/carts';
+
 export default {
     name: "NavBar",
 
@@ -78,6 +96,7 @@ export default {
             isAdmin: false,
             isLogueado: false,
             usuario: "",
+            cartStore : useCartStore(),
         };
     },
 

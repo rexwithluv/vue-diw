@@ -32784,6 +32784,21 @@
       "fechaAlta": "08/03/2025",
       "tipoUsuario": "1",
       "baja": ""
+    },
+    {
+      "id": "3f51",
+      "dni": "55555555K",
+      "apellidos": "Genial de verdad",
+      "nombre": "Administrador genial",
+      "direccion": "Home mi kasa",
+      "email": "administradorgenial@email.com",
+      "passwd": "$2a$10$QkxavlgNH.7aqaWp5Ukjnei66YxtkoL8oj7jHGnS0oeKh3X/lBS5q",
+      "telefono": "654789652",
+      "provincia": "24",
+      "municipio": "24024",
+      "fechaAlta": "11/03/2025",
+      "tipoUsuario": "2",
+      "baja": ""
     }
   ],
   "candidatos": [
@@ -33010,7 +33025,7 @@
       "fecha": "8/3/2025"
     }
   ],
-  "categoriasArticulos":[
+  "categoriasArticulos": [
     {
       "id": "1",
       "nombre": "Electrónica"
