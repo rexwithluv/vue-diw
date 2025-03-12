@@ -20,64 +20,72 @@
               to="/gestion"
               class="nav-link active"
               :class="{ current: currentRoute === '/gestion' }"
-              >Gestión</router-link
             >
+              Gestión
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link
               to="/"
               class="nav-link active"
               :class="{ current: currentRoute === '/' }"
-              >Inicio</router-link
             >
+              Inicio
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link
               to="/tienda"
               class="nav-link active"
               :class="{ current: currentRoute === '/tienda' }"
-              >Tienda</router-link
             >
+              Tienda
+            </router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
             <router-link
               to="/usuarios"
               class="nav-link active"
               :class="{ current: currentRoute === '/usuarios' }"
-              >Usuarios</router-link
             >
+              Usuarios
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link
               to="/empleo"
               class="nav-link active"
               :class="{ current: currentRoute === '/empleo' }"
-              >Empleo</router-link
             >
+              Empleo
+            </router-link>
           </li>
           <li class="nav-item" v-if="isAdmin">
             <router-link
               to="/articulos"
               class="nav-link active"
               :class="{ current: currentRoute === '/articulos' }"
-              >Artículos</router-link
             >
+              Artículos
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link
               to="/comentarios"
               class="nav-link active"
               :class="{ current: currentRoute === '/comentarios' }"
-              >Comentarios</router-link
             >
+              Comentarios
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link
               to="/contacto"
               class="nav-link active"
               :class="{ current: currentRoute === '/contacto' }"
-              >Contacto</router-link
             >
+              Contacto
+            </router-link>
           </li>
         </ul>
 
