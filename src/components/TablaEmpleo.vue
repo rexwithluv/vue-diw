@@ -309,7 +309,6 @@ export default {
                 if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
                     try {
                         // Si el candidato lo traemos de la base de datos tendrá ID, nos aseguramos de eliminarlo para evitar duplicados
-                        // biome-ignore lint/performance/noDelete: <explanation>
                         delete this.candidato.id;
 
                         const guardarResponse = await fetch('http://localhost:3000/candidatos', {

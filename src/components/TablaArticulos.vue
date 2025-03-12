@@ -240,7 +240,6 @@ export default {
                     this.getArticulos();
                 } else {
                     // Borramos el id para que no de problemas
-                    // biome-ignore lint/performance/noDelete: <explanation>
                     delete this.articulo._id;
 
                     const articuloAgregado = await agregarArticulo(this.articulo);
