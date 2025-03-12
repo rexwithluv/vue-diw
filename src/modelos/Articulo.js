@@ -14,20 +14,4 @@ const articuloSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-const facturaSchema = new mongoose.Schema({
-  clienteID: { type: String, required: true },
-  items: [
-    {
-      productoId: { type: String, required: true },
-      nombre: { type: String, required: true },
-      precio: { type: Number, required: true },
-      cantidad: { type: Number, required: true },
-      total: { type: Number, required: true },
-    },
-  ],
-  totalFactura: { type: Number, required: true },
-  fecha: { type: Date, default: Date.now },
-});
-
 export const Articulo = mongoose.model("Articulo", articuloSchema);
-export const Factura = mongoose.model("Factura", facturaSchema);
