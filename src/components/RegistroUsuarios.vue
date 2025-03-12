@@ -244,93 +244,82 @@ export default {
         },
 
         async grabarUsuario() {
-            if (
-                this.usuario.dni &&
-                this.usuario.nombre &&
-                this.usuario.apellidos &&
-                this.usuario.telefono &&
-                this.usuario.provincia &&
-                this.usuario.municipio &&
-                this.usuario.email &&
-                this.usuario.email2
-            ) {
-                if (this.usuario.email === this.usuario.email2) {
-                    try {
-                        const response = await fetch("http://localhost:3000/usuarios");
-                        if (!response.ok) {
-                            throw new Error(
-                                `Error al obtener los usuarios: ${response.statusText}`
-                            );
-                        }
-
-                        const usuariosExistentes = await response.json();
-                        const usuarioExistente = usuariosExistentes.find(
-                            (usuario) => usuario.dni === this.usuario.dni
-                        );
-                        if (usuarioExistente && usuarioExistente.baja !== "") {
-                            this.mostrarAlerta(
-                                "Aviso",
-                                "El DNI está registrado pero dado de baja. Contacte con el administrador.",
-                                "error"
-                            );
-                        } else if (usuarioExistente) {
-                            this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
-                        } else {
-                            this.usuario.fechaAlta = new Date().toLocaleString("es-ES", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                            });
-
-                            this.usuario.tipoUsuario = "1";
-                            this.usuario.baja = "";
-                            delete this.usuario.email2;
-                            delete this.usuario.passwd2;
-
-                            const hashedPassword = await encriptarContrasenya(
-                                this.usuario.passwd
-                            );
-                            this.usuario.passwd = hashedPassword;
-
-                            const crearResponse = await fetch(
-                                "http://localhost:3000/usuarios",
-                                {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify(this.usuario),
-                                }
-                            );
-
-                            if (!crearResponse.ok) {
-                                throw new Error(
-                                    `Error al guardar el usuario: ${crearResponse.statusText}`
-                                );
-                            }
-
-                            this.mostrarAlerta("Aviso", "Usuario guardado", "success");
-                            this.limpiarFormulario();
-                        }
-                    } catch (error) {
-                        console.log(error);
-                        this.mostrarAlerta(
-                            "Error",
-                            "No se pudo grabar el usuario.",
-                            "error"
-                        );
-                    }
-                } else {
-                    this.mostrarAlerta(
-                        "Error",
-                        "Los campos de correo electrónico no coinciden",
-                        "error"
-                    );
-                }
-            } else {
+            if (!this.usuario.dni || !this.usuario.nombre || !this.usuario.apellidos || !this.usuario.telefono || !this.usuario.provincia || !this.usuario.municipio || !this.usuario.email || !this.usuario.email2) {
                 this.mostrarAlerta(
                     "Error",
                     "Por favor completa todos los campos requeridos",
+                    "error"
+                );
+                return;
+            }
+
+            if (this.usuario.email !== this.usuario.email2) {
+                this.mostrarAlerta(
+                    "Error",
+                    "Los campos de correo electrónico no coinciden",
+                    "error"
+                );
+            }
+
+            try {
+                const response = await fetch("http://localhost:3000/usuarios");
+                if (!response.ok) {
+                    throw new Error(
+                        `Error al obtener los usuarios: ${response.statusText}`
+                    );
+                }
+
+                const usuariosExistentes = await response.json();
+                const usuarioExistente = usuariosExistentes.find((usuario) => usuario.dni === this.usuario.dni);
+
+                if (usuarioExistente && usuarioExistente.baja !== "") {
+                    this.mostrarAlerta(
+                        "Aviso",
+                        "El DNI está registrado pero dado de baja. Contacte con el administrador.",
+                        "error"
+                    );
+                } else if (usuarioExistente) {
+                    this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
+                } else {
+                    this.usuario.fechaAlta = new Date().toLocaleString("es-ES", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    });
+
+                    this.usuario.tipoUsuario = "1";
+                    this.usuario.baja = "";
+                    delete this.usuario.email2;
+                    delete this.usuario.passwd2;
+
+                    const hashedPassword = await encriptarContrasenya(this.usuario.passwd);
+                    this.usuario.passwd = hashedPassword;
+
+                    const crearResponse = await fetch(
+                        "http://localhost:3000/usuarios",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(this.usuario),
+                        }
+                    );
+
+                    if (!crearResponse.ok) {
+                        throw new Error(
+                            `Error al guardar el usuario: ${crearResponse.statusText}`
+                        );
+                    }
+
+                    this.mostrarAlerta("Aviso", "Usuario guardado", "success");
+                    this.limpiarFormulario();
+                }
+            } catch (error) {
+                console.log(error);
+                this.mostrarAlerta(
+                    "Error",
+                    "No se pudo grabar el usuario.",
                     "error"
                 );
             }
