@@ -67,6 +67,7 @@ export default {
                 email: "",
                 mensaje: "",
             },
+            mensajeError: "",
         };
     },
     computed: {
@@ -97,10 +98,10 @@ export default {
                     .then((response) => response.json())
                     .then((data) => {
                         if (data.message) {
-                            (this.contacto.nombre = ""),
-                                (this.contacto.telefono = ""),
-                                (this.contacto.email = ""),
-                                (this.contacto.mensaje = "");
+                            this.contacto.nombre = "";
+                            this.contacto.telefono = "";
+                            this.contacto.email = "";
+                            this.contacto.mensaje = "";
                             this.mostrarAlerta(
                                 "Enviado",
                                 "Mensaje enviado con éxito",
@@ -109,12 +110,22 @@ export default {
                         } else {
                             this.mensajeError =
                                 "Hubo un problema al enviar el mensaje. Inténtalo de nuevo";
+                            this.mostrarAlerta(
+                                "Error",
+                                this.mensajeError,
+                                "error"
+                            );
                         }
                     })
                     .catch((error) => {
                         console.error(error);
                         this.mensajeError =
                             "Hubo un problema en la conexión del servidor al enviar el mensaje. Intenta de nuevo";
+                        this.mostrarAlerta(
+                            "Error",
+                            this.mensajeError,
+                            "error"
+                        );
                     });
             } else {
                 console.log(
