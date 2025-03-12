@@ -15,14 +15,8 @@
         <div class="col-12">
           <div class="input-group">
             <label class="input-group-text">DNI</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="DNI"
-              required
-              v-model="usuario.dni"
-              @blur="validarDni(this.usuario.dni)"
-            />
+            <input type="text" class="form-control" placeholder="DNI" required v-model="usuario.dni"
+              @blur="validarDni(this.usuario.dni)" />
           </div>
         </div>
 
@@ -30,22 +24,13 @@
         <div class="col-12">
           <div class="input-group">
             <label class="input-group-text">Contraseña</label>
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Contraseña"
-              v-model="usuario.passwd"
-            />
+            <input type="password" class="form-control" placeholder="Contraseña" v-model="usuario.passwd" />
           </div>
         </div>
 
         <!-- Botón enviar -->
         <div class="col-12">
-          <button
-            type="button"
-            class="btn btn-primary px-4 mt-3"
-            @click.prevent="login()"
-          >
+          <button type="button" class="btn btn-primary px-4 mt-3" @click.prevent="login()">
             <i class="bi bi-person-plus-fill"></i>
             Log in
           </button>

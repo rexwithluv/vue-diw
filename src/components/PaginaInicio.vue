@@ -4,35 +4,16 @@
   <div class="container d-flex flex-column pb-3">
     <div id="carrusel" class="carousel slide mb-4" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div
-          v-for="(image, index) in images"
-          :key="index"
-          :class="['carousel-item', { active: index === 0 }]"
-        >
-          <img
-            :src="image"
-            class="d-block w-100 rounded"
-            height="440"
-            width="1020px"
-          />
+        <div v-for="(image, index) in images" :key="index" :class="['carousel-item', { active: index === 0 }]">
+          <img :src="image" class="d-block w-100 rounded" height="440" width="1020px" />
         </div>
       </div>
 
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carrusel"
-        data-bs-slide="prev"
-      >
+      <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Anterior</span>
       </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carrusel"
-        data-bs-slide="next"
-      >
+      <button class="carousel-control-next" type="button" data-bs-target="#carrusel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Siguiente</span>
       </button>
@@ -49,9 +30,7 @@
           y cercana.
           <br />
           <div class="text-center m-auto">
-            <span class="text-primary"
-              >¡Gracias por ser parte de nuestra historia!</span
-            >
+            <span class="text-primary">¡Gracias por ser parte de nuestra historia!</span>
           </div>
         </div>
       </div>

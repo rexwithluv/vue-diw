@@ -15,31 +15,17 @@
         <div class="col-6">
           <div class="input-group">
             <label class="input-group-text">Nombre</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Nombre del artículo"
-              v-model="articulo.nombre"
-            />
+            <input type="text" class="form-control" placeholder="Nombre del artículo" v-model="articulo.nombre" />
           </div>
         </div>
         <div class="col-6">
           <div class="input-group">
             <label class="input-group-text label-width">Categoría</label>
-            <select
-              name="provincia"
-              id="provincia"
-              class="form-select"
-              :class="{ 'text-placeholder': articulo.categoria === '' }"
-              v-model="articulo.categoria"
-            >
+            <select name="provincia" id="provincia" class="form-select"
+              :class="{ 'text-placeholder': articulo.categoria === '' }" v-model="articulo.categoria">
               <option value="" disabled>Selecciona</option>
-              <option
-                class="text-black"
-                v-for="categoria in categoriasArticulos"
-                :key="categoria.id"
-                :value="categoria.id"
-              >
+              <option class="text-black" v-for="categoria in categoriasArticulos" :key="categoria.id"
+                :value="categoria.id">
                 {{ categoria.nombre }}
               </option>
             </select>
@@ -50,23 +36,15 @@
         <div class="col-6">
           <div class="input-group">
             <label class="input-group-text text-align-top">Descripción</label>
-            <textarea
-              class="form-control"
-              placeholder="Descripción del artículo"
-              v-model="articulo.descripcion"
-            ></textarea>
+            <textarea class="form-control" placeholder="Descripción del artículo"
+              v-model="articulo.descripcion"></textarea>
           </div>
         </div>
         <div class="col-6">
           <div class="input-group">
-            <label class="input-group-text text-align-top"
-              >Personalización</label
-            >
-            <textarea
-              class="form-control"
-              placeholder="Personalización del artículo"
-              v-model="articulo.personalizacion"
-            ></textarea>
+            <label class="input-group-text text-align-top">Personalización</label>
+            <textarea class="form-control" placeholder="Personalización del artículo"
+              v-model="articulo.personalizacion"></textarea>
           </div>
         </div>
 
@@ -74,34 +52,19 @@
         <div class="col-4">
           <div class="input-group">
             <label class="input-group-text">€/Un</label>
-            <input
-              type="number"
-              class="form-control"
-              placeholder="Precio por cada unidad"
-              v-model="articulo.precio"
-            />
+            <input type="number" class="form-control" placeholder="Precio por cada unidad" v-model="articulo.precio" />
           </div>
         </div>
         <div class="col-4">
           <div class="input-group">
             <label class="input-group-text">Stock</label>
-            <input
-              type="number"
-              class="form-control"
-              placeholder="Stock actual en almacen"
-              v-model="articulo.stock"
-            />
+            <input type="number" class="form-control" placeholder="Stock actual en almacen" v-model="articulo.stock" />
           </div>
         </div>
         <div class="col-4">
           <div class="input-group">
             <label class="input-group-text label-width">Fecha de alta</label>
-            <input
-              type="date"
-              class="form-control"
-              placeholder="Fecha de alta del artículo"
-              v-model="articulo.alta"
-            />
+            <input type="date" class="form-control" placeholder="Fecha de alta del artículo" v-model="articulo.alta" />
           </div>
         </div>
 
@@ -109,32 +72,19 @@
         <div class="col-12">
           <div class="input-group">
             <label class="input-group-text">Imagen</label>
-            <input
-              type="file"
-              class="form-control"
-              accept=".png, .jpg, .jpeg"
-              ref="fileInput"
-              @change="handleFileChange"
-            />
+            <input type="file" class="form-control" accept=".png, .jpg, .jpeg" ref="fileInput"
+              @change="handleFileChange" />
           </div>
         </div>
 
         <!-- Botones -->
         <div class="d-flex mb-4 gap-4 px-4 mt-5">
-          <button
-            type="button"
-            class="btn btn-primary fs-5 py-2 w-100"
-            @click.prevent="guardarArticulo()"
-          >
+          <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="guardarArticulo()">
             <i class="bi bi-floppy-fill me-2"></i>
             Guardar
           </button>
 
-          <button
-            type="button"
-            class="btn btn-primary fs-5 py-2 w-100"
-            @click.prevent="limpiarFormulario()"
-          >
+          <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="limpiarFormulario()">
             <i class="bi bi-pencil-fill me-1"></i>
             Limpiar
           </button>
@@ -180,16 +130,10 @@
             </td>
             <td class="text-center align-middle pale-yellow">
               <div>
-                <button
-                  class="btn btn-warning m-2"
-                  @click.prevent="seleccionarArticulo(articulo)"
-                >
+                <button class="btn btn-warning m-2" @click.prevent="seleccionarArticulo(articulo)">
                   <i class="bi bi-pencil-fill"></i>
                 </button>
-                <button
-                  class="btn btn-danger m-2"
-                  @click.prevent="eliminarArticulo(articulo)"
-                >
+                <button class="btn btn-danger m-2" @click.prevent="eliminarArticulo(articulo)">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -201,21 +145,14 @@
 
     <!-- Paginación en la tabla -->
     <div class="d-flex justify-content-center">
-      <button
-        class="btn btn-primary"
-        :disabled="paginaActual === 1"
-        @click="paginaAnterior()"
-      >
+      <button class="btn btn-primary" :disabled="paginaActual === 1" @click="paginaAnterior()">
         <i class="bi bi-chevron-left"></i>
       </button>
 
       <span class="mx-3 align-self-center"> Página {{ paginaActual }}</span>
 
-      <button
-        class="btn btn-primary"
-        :disabled="paginaActual * porPagina >= articulos.length"
-        @click="siguientePagina()"
-      >
+      <button class="btn btn-primary" :disabled="paginaActual * porPagina >= articulos.length"
+        @click="siguientePagina()">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>

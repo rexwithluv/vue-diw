@@ -21,22 +21,13 @@
           <td class="text-center align-middle">{{ item.precio }} &euro;</td>
 
           <td>
-            <img
-              :src="`http://localhost:5000/uploads/images/${item.imagen}`"
-              alt="Foto de producto"
-              width="64"
-              height="64"
-              class="img-thumbnail"
-              @click="openModal()"
-            />
+            <img :src="`http://localhost:5000/uploads/images/${item.imagen}`" alt="Foto de producto" width="64"
+              height="64" class="img-thumbnail" @click="openModal()" />
           </td>
           <!-- El modal (ventana emergente) que muestra la imagen expandida -->
           <div v-if="isModalOpen" class="modal" @click="closeModal">
-            <img
-              :src="`http://localhost:5000/uploads/images/${item.imagen}`"
-              alt="Foto expandida"
-              class="modal-content"
-            />
+            <img :src="`http://localhost:5000/uploads/images/${item.imagen}`" alt="Foto expandida"
+              class="modal-content" />
           </div>
           <td class="align-middle">
             <div class="gap-2 d-flex align-items-center justify-content-center">
@@ -44,11 +35,7 @@
                 -
               </button>
               <span class="border bg-white px-2">{{ item.quantity }}</span>
-              <button
-                @click="increase(item)"
-                class="btn btn-primary p-0 px-2"
-                :disabled="item.stock === item.quantity"
-              >
+              <button @click="increase(item)" class="btn btn-primary p-0 px-2" :disabled="item.stock === item.quantity">
                 +
               </button>
             </div>
@@ -70,9 +57,7 @@
     </button>
   </div>
   <div v-else>
-    <div
-      class="d-flex flex-column align-items-center justify-content-center min-vh-100"
-    >
+    <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
       <i class="bi bi-dropbox fs-1"></i>
       <h3>El carrito está vacío</h3>
     </div>

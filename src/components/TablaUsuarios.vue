@@ -15,19 +15,9 @@
         <div class="col-6">
           <div class="input-group">
             <label class="input-group-text">DNI/NIE</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="DNI-NIE"
-              :disabled="bloquearDni"
-              @blur="validarDni(usuario.dni)"
-              v-model="usuario.dni"
-            />
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="buscarDNI(usuario.dni)"
-            >
+            <input type="text" class="form-control" placeholder="DNI-NIE" :disabled="bloquearDni"
+              @blur="validarDni(usuario.dni)" v-model="usuario.dni" />
+            <button type="button" class="btn btn-primary" @click="buscarDNI(usuario.dni)">
               <i class="bi bi-search"></i>
             </button>
           </div>
@@ -35,12 +25,7 @@
         <div class="col-6">
           <div class="input-group">
             <label class="input-group-text label-width">Fecha de alta</label>
-            <input
-              type="date"
-              class="form-control"
-              placeholder="Fecha de alta"
-              v-model="usuario.fechaAlta"
-            />
+            <input type="date" class="form-control" placeholder="Fecha de alta" v-model="usuario.fechaAlta" />
           </div>
         </div>
 
@@ -48,23 +33,13 @@
         <div class="col-6">
           <div class="input-group">
             <label class="input-group-text">Nombre</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Nombre"
-              v-model="usuario.nombre"
-            />
+            <input type="text" class="form-control" placeholder="Nombre" v-model="usuario.nombre" />
           </div>
         </div>
         <div class="col-6">
           <div class="input-group">
             <label class="input-group-text">Apellidos</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Apellidos"
-              v-model="usuario.apellidos"
-            />
+            <input type="text" class="form-control" placeholder="Apellidos" v-model="usuario.apellidos" />
           </div>
         </div>
 
@@ -72,12 +47,7 @@
         <div class="col-12">
           <div class="input-group">
             <label class="input-group-text">Dirección</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Dirección"
-              v-model="usuario.direccion"
-            />
+            <input type="text" class="form-control" placeholder="Dirección" v-model="usuario.direccion" />
           </div>
         </div>
 
@@ -85,25 +55,15 @@
         <div class="col-7">
           <div class="input-group">
             <label class="input-group-text">Email</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Email"
-              @blur="validarCorreo(usuario.email)"
-              v-model="usuario.email"
-            />
+            <input type="text" class="form-control" placeholder="Email" @blur="validarCorreo(usuario.email)"
+              v-model="usuario.email" />
           </div>
         </div>
         <div class="col-5">
           <div class="input-group">
             <label class="input-group-text">Teléfono</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Teléfono"
-              @blur="validarTelefono(usuario.telefono)"
-              v-model="usuario.telefono"
-            />
+            <input type="text" class="form-control" placeholder="Teléfono" @blur="validarTelefono(usuario.telefono)"
+              v-model="usuario.telefono" />
           </div>
         </div>
 
@@ -111,20 +71,10 @@
         <div class="col-lg-4 col-sm-5">
           <div class="input-group">
             <label class="input-group-text">Provincia</label>
-            <select
-              name="provincia"
-              id="provincia"
-              class="form-select"
-              :class="{ 'text-placeholder': usuario.provincia === '' }"
-              v-model="usuario.provincia"
-            >
+            <select name="provincia" id="provincia" class="form-select"
+              :class="{ 'text-placeholder': usuario.provincia === '' }" v-model="usuario.provincia">
               <option value="" disabled>Selecciona</option>
-              <option
-                class="text-black"
-                v-for="provincia in provincias"
-                :key="provincia.id"
-                :value="provincia.id"
-              >
+              <option class="text-black" v-for="provincia in provincias" :key="provincia.id" :value="provincia.id">
                 {{ provincia.nm }}
               </option>
             </select>
@@ -133,20 +83,11 @@
         <div class="col-lg-5 col-sm-7">
           <div class="input-group">
             <label class="input-group-text">Municipio</label>
-            <select
-              name="municipio"
-              id="municipio"
-              class="form-select"
-              v-model="usuario.municipio"
-              :class="{ 'text-placeholder': usuario.municipio === '' }"
-            >
+            <select name="municipio" id="municipio" class="form-select" v-model="usuario.municipio"
+              :class="{ 'text-placeholder': usuario.municipio === '' }">
               <option value="" disabled>Selecciona</option>
-              <option
-                class="text-black"
-                v-for="municipio in municipiosFiltrados"
-                :key="municipio.id"
-                :value="municipio.id"
-              >
+              <option class="text-black" v-for="municipio in municipiosFiltrados" :key="municipio.id"
+                :value="municipio.id">
                 {{ municipio.nm }}
               </option>
             </select>
@@ -155,20 +96,11 @@
         <div class="col-lg-3 col-sm-6">
           <div class="input-group">
             <label class="input-group-text">Tipo de usuario</label>
-            <select
-              name="tipoUsuario"
-              id="tipoUsuario"
-              class="form-select"
-              v-model="usuario.tipoUsuario"
-              :class="{ 'text-placeholder': usuario.tipoUsuario === '' }"
-            >
+            <select name="tipoUsuario" id="tipoUsuario" class="form-select" v-model="usuario.tipoUsuario"
+              :class="{ 'text-placeholder': usuario.tipoUsuario === '' }">
               <option value="" disabled>Selecciona</option>
-              <option
-                v-for="tipoUsuario in tiposUsuario"
-                :key="tipoUsuario.id"
-                :value="tipoUsuario.id"
-                class="text-black"
-              >
+              <option v-for="tipoUsuario in tiposUsuario" :key="tipoUsuario.id" :value="tipoUsuario.id"
+                class="text-black">
                 {{ tipoUsuario.tipo }}
               </option>
             </select>
@@ -178,50 +110,26 @@
         <!-- Checkbox "Histórico" -->
         <div class="col-12 text-center">
           <div class="form-check d-inline-block">
-            <input
-              v-model="verHistorico"
-              type="checkbox"
-              name="historico"
-              id="historico"
-              class="form-check-input"
-            />
-            <label class="form-check-label"
-              >Mostrar usuarios que se han dado de baja</label
-            >
+            <input v-model="verHistorico" type="checkbox" name="historico" id="historico" class="form-check-input" />
+            <label class="form-check-label">Mostrar usuarios que se han dado de baja</label>
           </div>
         </div>
 
         <!-- Botones -->
         <div class="d-flex mb-4 gap-4 px-4 mt-5">
-          <button
-            type="button"
-            class="btn btn-primary fs-5 py-2 w-100"
-            @click.prevent="grabarUsuario()"
-          >
+          <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="grabarUsuario()">
             <i class="bi bi-floppy-fill me-2"></i>
             Alta
           </button>
-          <button
-            type="button"
-            class="btn btn-primary fs-5 py-2 w-100"
-            @click.prevent="modificarUsuario()"
-          >
+          <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="modificarUsuario()">
             <i class="bi bi-pencil-fill me-1"></i>
             Modificar
           </button>
-          <button
-            type="button"
-            class="btn btn-primary fs-5 py-2 w-100"
-            @click.prevent="eliminarUsuario()"
-          >
+          <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="eliminarUsuario()">
             <i class="bi bi-trash-fill me-1"></i>
             Baja
           </button>
-          <button
-            type="button"
-            class="btn btn-primary fs-5 py-2 w-100"
-            @click.prevent="limpiarFormulario()"
-          >
+          <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="limpiarFormulario()">
             <i class="bi bi-eraser-fill me-1"></i>
             Limpiar
           </button>
@@ -244,11 +152,7 @@
             <th scope="col" class="bg-info-subtle text-center">Email</th>
             <th scope="col" class="bg-info-subtle text-center">Teléfono</th>
             <th scope="col" class="bg-info-subtle">Tipo</th>
-            <th
-              v-if="verHistorico"
-              scope="col"
-              class="bg-info-subtle text-center"
-            >
+            <th v-if="verHistorico" scope="col" class="bg-info-subtle text-center">
               Fecha Baja
             </th>
             <th scope="col" class="bg-warning-subtle text-center">Acciones</th>
@@ -271,10 +175,7 @@
             </td>
             <td class="text-center align-middle pale-yellow">
               <div>
-                <button
-                  class="btn btn-warning m-2"
-                  @click.prevent="seleccionarUsuario(usuario)"
-                >
+                <button class="btn btn-warning m-2" @click.prevent="seleccionarUsuario(usuario)">
                   <i class="bi bi-pencil-fill"></i>
                 </button>
               </div>
@@ -286,21 +187,14 @@
 
     <!-- Paginación en la tabla -->
     <div class="d-flex justify-content-center">
-      <button
-        class="btn btn-primary"
-        :disabled="currentPage === 1"
-        @click="paginaAnterior()"
-      >
+      <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior()">
         <i class="bi bi-chevron-left"></i>
       </button>
 
       <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
 
-      <button
-        class="btn btn-primary"
-        :disabled="currentPage * pageSize >= usuariosFiltrados.length"
-        @click="siguientePagina()"
-      >
+      <button class="btn btn-primary" :disabled="currentPage * pageSize >= usuariosFiltrados.length"
+        @click="siguientePagina()">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>

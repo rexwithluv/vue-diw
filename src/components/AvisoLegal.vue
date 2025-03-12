@@ -40,9 +40,7 @@
         por Import-Export Teis, S.L. con la finalidad de gestionar las consultas
         realizadas a través de este sitio web. Para más información, consulte
         nuestra
-        <router-link to="/politica-privacidad" class="link"
-          >Política de privacidad</router-link
-        >.
+        <router-link to="/politica-privacidad" class="link">Política de privacidad</router-link>.
       </li>
       <li>
         <span class="fw-bold">Exención de Responsabilidad</span><br />
@@ -67,7 +65,7 @@ export default {
 </script>
 
 <style scoped>
-ol > li {
+ol>li {
   margin-bottom: 1em;
 }
 
