@@ -62,23 +62,18 @@
                     <i class="bi bi-search"></i>
                 </button>
 
-                <div>
-                    <router-link to="/carrito" class="btn btn-primary align-middle position-relative"
-                        v-if="this.isLogueado">
+                <div class="position-relative d-inline-block">
+                    <router-link to="/carrito" class="btn btn-primary position-relative" v-if="isLogueado">
                         <i class="fas fa-shopping-cart"></i>
+                        <span v-if="cartStore.totalItems >= 1"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger text-white d-flex justify-content-center align-items-center"
+                            style="width: 20px; height: 20px; font-size: 12px;">
+                            {{ cartStore.totalItems }}
+                        </span>
                     </router-link>
-                    <div v-if="this.cartStore.totalItems >= 1"
-                        class="position-absolute bg-danger text-white rounded-circle d-flex align-items-center justify-content-center z-1"
-                        style="
-              top: -5px;
-              right: -5px;
-              width: 20px;
-              height: 20px;
-              font-size: 12px;
-            ">
-                        {{ this.cartStore.totalItems }}
-                    </div>
                 </div>
+
+
 
                 <div class="dropdown ms-auto">
                     <button type="button" class="btn btn-primary dropdown-toggle" id="dropdownMenuButton"
