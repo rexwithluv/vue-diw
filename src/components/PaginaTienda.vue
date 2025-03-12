@@ -1,21 +1,23 @@
 <template>
     <div class="container">
-        <nav class="navbar bg-body-tertiary">
-            <form class="container-fluid justify-content-start">
-                <button class="btn" @click.prevent="seleccionarCategoria(null)">
+        <nav class="navbar bg-body-tertiary mt-3">
+            <div class="container-fluid justify-content-start mt-2">
+
+                <button class="btn btn-primary flex-fill me-2" @click.prevent="seleccionarCategoria(null)">
                     Mostrar todos los artículos
                 </button>
-                <button class="btn" v-for="categoria in categorias" :key="categoria.id"
-                    @click.prevent="seleccionarCategoria(categoria.nombre)">
+                
+                <button type="button" class="btn btn-primary flex-fill me-2" v-for="categoria in categorias"
+                    :key="categoria.id" :value="categoria.id" @click.prevent="seleccionarCategoria(categoria.id)">
                     {{ categoria.nombre }}
                 </button>
-            </form>
+            </div>
         </nav>
         <table class="table mt-2">
             <thead>
                 <tr class="table-primary">
                     <th scope="col" class="w-10 text-center align-middle">Id</th>
-                    <th scope="col" class="w-20 text-start align-middle">Nombre</th>
+                    <th scope="col" class="w-20 text-center align-middle">Nombre</th>
                     <th scope="col" class="w-45 text-center align-middle">Descripción</th>
                     <th scope="col" class="w-10 text-center align-middle">Precio</th>
                     <th scope="col" class="w-10 text-center align-middle">Stock</th>
@@ -37,11 +39,11 @@
                     <td class="text-center align-middle">{{ articulo.stock }}</td>
                     <td>
                         <img :src="`http://localhost:5000/uploads/images/${articulo.imagen}`" alt="Foto de producto"
-                            width="64" height="64" class="img-thumbnail" @click="openModal()" />
+                            width="64" height="64" class="img-thumbnail image-click" @click="openModal()" />
                     </td>
                     <!-- El modal (ventana emergente) que muestra la imagen expandida -->
                     <div v-if="isModalOpen" class="modal" @click="closeModal">
-                        <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto expandida"
+                        <img :src="`http://localhost:5000/uploads/images/${articulo.imagen}`" alt="Foto expandida"
                             class="modal-content" />
                     </div>
                     <td class="text-center align-middle table-info" v-if="this.isLogueado">
@@ -106,47 +108,29 @@ export default {
     },
 
     methods: {
-        // Métodos para la paginación
-        siguientePagina() {
-            if (this.currentPage * this.pageSize < this.articulos.length) {
-                this.currentPage++;
-            }
-        },
-
-        paginaAnterior() {
-            if (this.currentPage > 1) {
-                this.currentPage--;
-            }
-        },
 
         async getCategorias() {
             try {
-                console.log(1);
-                const response = await fetch(
-                    "http://localhost:3000/categoriasArticulos"
-                );
+                const response = await fetch("http://localhost:3000/categoriasArticulos");
+
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud${response.statusText}`);
                 }
-                console.log(this.categorias);
+
                 this.categorias = await response.json();
-                console.log(this.categorias);
             } catch (error) {
                 console.error(error);
             }
         },
-
         async getArticulos() {
             try {
                 if (!this.categoria) {
                     this.articulos = await obtenerArticulos();
                     return;
                 }
+
                 const articulos = await obtenerArticulos();
-                console.log(articulos);
-                this.articulos = articulos.filter(
-                    (articulo) => articulo.categoria === this.categoria
-                );
+                this.articulos = articulos.filter((articulo) => articulo.categoria === this.categoria);
             } catch (error) {
                 console.error(error);
             }
@@ -156,14 +140,6 @@ export default {
             this.categoria = categoria;
             this.currentPage = 1;
             this.getArticulos();
-        },
-
-        openModal() {
-            this.isModalOpen = true;
-        },
-
-        closeModal() {
-            this.isModalOpen = false;
         },
 
         agregarArticulo(producto) {
@@ -199,6 +175,25 @@ export default {
                 },
             });
         },
+
+        openModal() {
+            this.isModalOpen = true;
+        },
+        closeModal() {
+            this.isModalOpen = false;
+        },
+
+        // Métodos para la paginación
+        siguientePagina() {
+            if (this.currentPage * this.pageSize < this.articulos.length) {
+                this.currentPage++;
+            }
+        },
+        paginaAnterior() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
     },
 };
 </script>
@@ -227,5 +222,9 @@ export default {
 /* Para el estilo del cursor sobre la imagen del modal */
 .modal-content:hover {
     cursor: zoom-out;
+}
+
+.image-click {
+    cursor: pointer;
 }
 </style>
