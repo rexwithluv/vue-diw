@@ -57,8 +57,28 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Ejercicio 1 y 2, descuento con cupones y gastos de envío -->
+    <div class="row">
+      <div class="col-6">
+        <div class="input-group">
+          <label class="input-group-text">Cupón de descuento</label>
+          <input type="text" class="form-control" v-model="this.cuponDescuento" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="input-group">
+          <label class="input-group-text">Gastos de envío</label>
+          <input type="text" class="form-control" :value="this.gastosEnvio" disabled />
+        </div>
+      </div>
+    </div>
+
     <h2 class="text-end">
-      Precio total: {{ cartStore.totalPrice.toFixed(2) }} €
+      Precio total:
+      {{ !descuento ?
+        cartStore.totalPrice.toFixed(2) :
+        cartStore.totalPrice.toFixed(2) - (cartStore.totalPrice.toFixed(2) * 10 / 100) }} €
     </h2>
     <button class="btn btn-primary" @click="finalizarCompra">
       Finalizar compra
@@ -83,12 +103,30 @@ export default {
   data() {
     return {
       cartStore: useCartStore(),
+      cuponDescuento: ""
     };
   },
 
   mounted() {
     console.log("Items del carrito", this.cartStore.getItems);
   },
+
+  computed: {
+    gastosEnvio() {
+      const precioTotal = this.cartStore.totalPrice.toFixed(2);
+
+      if (precioTotal >= 50) {
+        return "0.00€";
+      }
+      return `${(precioTotal * 5 / 100).toFixed(2)}€`;
+    },
+
+    descuento() {
+      const cuponesValidos = ["DESCUENTO"];
+      return cuponesValidos.includes(this.cuponDescuento);
+    }
+  },
+
 
   methods: {
     eliminarArticulo(articulo) {
