@@ -32799,6 +32799,21 @@
       "fechaAlta": "11/03/2025",
       "tipoUsuario": "2",
       "baja": ""
+    },
+    {
+      "id": "d896",
+      "dni": "35608710H",
+      "apellidos": "alonso",
+      "nombre": "aaron",
+      "direccion": "soy tu cosita en mi casita",
+      "email": "aaroncitocaramelito@email.com",
+      "passwd": "$2a$10$.ad9848JrV7fU8ylS6Ie8OwewRpGJdrJ5RxGrGzfBnNBlicX4.Kzi",
+      "telefono": "650788945",
+      "provincia": "03",
+      "municipio": "03004",
+      "fechaAlta": "13/03/2025",
+      "tipoUsuario": "1",
+      "baja": ""
     }
   ],
   "candidatos": [

@@ -38,6 +38,21 @@
       </form>
     </div>
   </div>
+
+  <table class="table mt-5">
+    <tbody>
+      <tr>
+        <td>Usuario normal</td>
+        <td>35608710H</td>
+        <td>abc123</td>
+      </tr>
+      <tr>
+        <td>Usuario administrador</td>
+        <td>55555555K</td>
+        <td>abc123</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
