@@ -95,6 +95,9 @@
                             <router-link to="/registro">Registro</router-link>
                         </li>
                         <li class="dropdown-item">
+                            <router-link to="/usuarios" @click="verPerfil">Perfil</router-link>
+                        </li>
+                        <li class="dropdown-item">
                             <router-link to="/logout" @click="logout">
                                 Cerrar sesión</router-link>
                         </li>
@@ -138,6 +141,12 @@ export default {
     },
 
     methods: {
+        verPerfil(){
+            if (document.location.pathname === "/usuarios"){
+                window.location.reload();
+            }
+        },
+
         toggleDropdown() {
             this.isDropdownVisible = !this.isDropdownVisible;
         },

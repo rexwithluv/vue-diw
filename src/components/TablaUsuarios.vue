@@ -243,6 +243,11 @@ export default {
     this.getUsuarios();
     this.getProvincias();
     this.getMunicipios();
+
+    setTimeout(() =>{
+      const usuario = this.usuarios.find(u => u.email === localStorage.getItem("email"));
+      this.seleccionarUsuario(usuario);
+    }, "300")
   },
 
   // Propiedades computadas que se calculan en tiempo real, reactivas a cambios
