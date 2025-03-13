@@ -1,4 +1,12 @@
 <template>
+  <h2 class="text-center fw-bold py-3">
+    <i class="fas fa-shopping-cart"></i>
+    Carrito
+    <router-link to="/" class="ms-5">
+      <i class="fas fa-reply"></i>
+    </router-link>
+  </h2>
+
   <div class="container" v-if="cartStore.items.length > 0">
     <table class="table mt-2">
       <thead>

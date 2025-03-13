@@ -148,7 +148,7 @@ export default {
                 doc.setFont("helvetica", "normal");
                 doc.text(`Nombre: ${this.cliente.nombre} ${this.cliente.apellidos}`, 10, 55);
                 doc.text(`DNI: ${this.cliente.dni}`, 10, 60);
-                doc.text(`Dirección: ${this.cliente.direccion}, ${this.cliente.municipio}, ${this.cliente.provincia}`, 10, 65);
+                doc.text(`Dirección: ${this.cliente.direccion}, ${this.cliente.municipio} - ${this.cliente.provincia}`, 10, 65);
                 doc.text(`Teléfono: ${this.cliente.telefono}`, 10, 70);
                 doc.text(`Email: ${this.cliente.email}`, 10, 75);
             }
