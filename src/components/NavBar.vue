@@ -26,6 +26,12 @@
                         </router-link>
                     </li>
                     <li class="nav-item" v-if="isAdmin">
+                        <router-link to="/facturas" class="nav-link active"
+                            :class="{ current: currentRoute === '/facturas' }">
+                            Facturas
+                        </router-link>
+                    </li>
+                    <li class="nav-item" v-if="isAdmin">
                         <router-link to="/usuarios" class="nav-link active"
                             :class="{ current: currentRoute === '/usuarios' }">
                             Usuarios

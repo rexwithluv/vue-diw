@@ -10,6 +10,7 @@ import PoliticaPrivacidad from "@/components/PoliticaPrivacidad.vue";
 import RegistroUsuarios from "@/components/RegistroUsuarios.vue";
 import TablaArticulos from "@/components/TablaArticulos.vue";
 import TablaCarrito from "@/components/TablaCarrito.vue";
+import TablaFacturas from "@/components/TablaFacturas.vue";
 import TablaComentarios from "@/components/TablaComentarios.vue";
 import TablaContacto from "@/components/TablaContacto.vue";
 import TablaEmpleo from "@/components/TablaEmpleo.vue";
@@ -53,6 +54,12 @@ const routes = [
     path: "/articulos",
     name: "articulos",
     component: TablaArticulos,
+    meta: { requiresAdmin: true },
+  },
+  {
+    path: "/facturas",
+    name: "facturas",
+    component: TablaFacturas,
     meta: { requiresAdmin: true },
   },
   {
