@@ -3,13 +3,14 @@ import Swal from "sweetalert2";
 const API_URL = "http://localhost:5000/facturas";
 
 export async function obtenerFacturas() {
-  console.log(1);
   try {
     const response = await fetch(API_URL);
+
     if (!response.ok) {
       Swal.fire("Error", "No se pudo obtener el listado de facturas", "error");
       throw new Error("Error al obtener los facturas");
     }
+
     return await response.json();
   } catch (error) {
     console.error("Error en la solicitud:", error);
@@ -20,7 +21,6 @@ export async function obtenerFacturas() {
 
 export async function agregarFactura(datosFactura) {
   try {
-    console.log(datosFactura);
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
@@ -31,7 +31,6 @@ export async function agregarFactura(datosFactura) {
 
     if (!response.ok) {
       Swal.fire("Error", "No se pudo agregar el factura", "error");
-      console.log(response);
       throw new Error("Error al agregar la factura");
     }
 
@@ -76,7 +75,6 @@ export async function actualizarFactura(id, factura) {
 
 export async function eliminarFactura(id) {
   try {
-    console.log("ID recibido para eliminar:", id);
     const response = await fetch(`${API_URL}/${id}`, {
       method: "DELETE",
     });

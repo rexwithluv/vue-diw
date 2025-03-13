@@ -11,18 +11,17 @@
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
             <form class="row m-auto gx-4 gy-3 border rounded bg-light">
-
                 <!-- Nombre y apellidos -->
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre" v-model="usuario.nombre">
+                        <input type="text" class="form-control" placeholder="Nombre" v-model="usuario.nombre" />
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Apellidos</label>
-                        <input type="text" class="form-control" placeholder="Apellidos" v-model="usuario.apellidos">
+                        <input type="text" class="form-control" placeholder="Apellidos" v-model="usuario.apellidos" />
                     </div>
                 </div>
 
@@ -32,14 +31,14 @@
                         <label class="input-group-text">DNI/NIE</label>
                         <input type="text" class="form-control" placeholder="DNI-NIE"
                             :class="{ 'error-field': !this.dniEsValido }" @blur="validarDni(usuario.dni)"
-                            v-model="usuario.dni">
+                            v-model="usuario.dni" />
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Teléfono</label>
                         <input type="text" class="form-control" placeholder="Teléfono"
-                            @blur="validarTelefono(usuario.telefono)" v-model="usuario.telefono">
+                            @blur="validarTelefono(usuario.telefono)" v-model="usuario.telefono" />
                     </div>
                 </div>
 
@@ -47,7 +46,7 @@
                 <div class="col-12">
                     <div class="input-group">
                         <label class="input-group-text">Dirección</label>
-                        <input type="text" class="form-control" placeholder="Dirección" v-model="usuario.direccion">
+                        <input type="text" class="form-control" placeholder="Dirección" v-model="usuario.direccion" />
                     </div>
                 </div>
 
@@ -56,14 +55,14 @@
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="text" class="form-control" placeholder="Email" @blur="validarCorreo(usuario.email)"
-                            v-model="usuario.email">
+                            v-model="usuario.email" />
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">De nuevo</label>
                         <input type="text" class="form-control" placeholder="Repita su email"
-                            @blur="validarCorreo(usuario.email2)" v-model="usuario.email2">
+                            @blur="validarCorreo(usuario.email2)" v-model="usuario.email2" />
                     </div>
                 </div>
 
@@ -71,17 +70,16 @@
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Contraseña</label>
-                        <input type="password" class="form-control" placeholder="Contraseña" v-model="usuario.passwd">
+                        <input type="password" class="form-control" placeholder="Contraseña" v-model="usuario.passwd" />
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">De nuevo</label>
                         <input type="password" class="form-control" placeholder="Repita su contraseña"
-                            v-model="usuario.passwd2">
+                            v-model="usuario.passwd2" />
                     </div>
                 </div>
-
 
                 <!-- Provincia, municipio y tipo de usuario -->
                 <div class="col-lg-5 col-sm-5">
@@ -154,7 +152,7 @@ export default {
 
             provincias: [],
             municipios: [],
-        }
+        };
     },
 
     mounted() {
@@ -167,7 +165,9 @@ export default {
             if (!this.usuario.provincia) {
                 return [];
             }
-            return this.municipios.filter((municipio) => municipio.id.startsWith(this.usuario.provincia));
+            return this.municipios.filter((municipio) =>
+                municipio.id.startsWith(this.usuario.provincia)
+            );
         },
 
         dniEsValido() {
@@ -176,20 +176,22 @@ export default {
             }
 
             const dniPattern = /^[XYZ]?\d{5,8}[A-Z]$/;
-            const dniLetters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+            const dniLetters = "TRWAGMYFPDXBNJZSQVHLCKE";
 
             if (!dniPattern.test(this.usuario.dni)) {
                 return false;
             }
 
             let number = this.usuario.dni.substr(0, this.usuario.dni.length - 1);
-            const letter = this.usuario.dni.substr(this.usuario.dni.length - 1, 1).toUpperCase();
+            const letter = this.usuario.dni
+                .substr(this.usuario.dni.length - 1, 1)
+                .toUpperCase();
 
-            if (this.usuario.dni[0] === 'X') number = number.replace('X', '0');
-            if (this.usuario.dni[0] === 'Y') number = number.replace('Y', '1');
-            if (this.usuario.dni[0] === 'Z') number = number.replace('Z', '2');
+            if (this.usuario.dni[0] === "X") number = number.replace("X", "0");
+            if (this.usuario.dni[0] === "Y") number = number.replace("Y", "1");
+            if (this.usuario.dni[0] === "Z") number = number.replace("Z", "2");
 
-            const calculatedLetter = dniLetters[number % 23]
+            const calculatedLetter = dniLetters[number % 23];
             if (calculatedLetter !== letter) {
                 return false;
             }
@@ -214,7 +216,7 @@ export default {
                 return false;
             }
             return true;
-        }
+        },
     },
 
     methods: {
@@ -242,63 +244,84 @@ export default {
         },
 
         async grabarUsuario() {
-            if (this.usuario.dni && this.usuario.nombre && this.usuario.apellidos && this.usuario.telefono && this.usuario.provincia && this.usuario.municipio && this.usuario.email && this.usuario.email2) {
+            if (!this.usuario.dni || !this.usuario.nombre || !this.usuario.apellidos || !this.usuario.telefono || !this.usuario.provincia || !this.usuario.municipio || !this.usuario.email || !this.usuario.email2) {
+                this.mostrarAlerta(
+                    "Error",
+                    "Por favor completa todos los campos requeridos",
+                    "error"
+                );
+                return;
+            }
 
-                if (this.usuario.email === this.usuario.email2) {
+            if (this.usuario.email !== this.usuario.email2) {
+                this.mostrarAlerta(
+                    "Error",
+                    "Los campos de correo electrónico no coinciden",
+                    "error"
+                );
+            }
 
-                    try {
-                        const response = await fetch("http://localhost:3000/usuarios");
-                        if (!response.ok) {
-                            throw new Error(`Error al obtener los usuarios: ${response.statusText}`);
-                        }
-
-                        const usuariosExistentes = await response.json();
-                        const usuarioExistente = usuariosExistentes.find(usuario => usuario.dni === this.usuario.dni);
-                        if (usuarioExistente && usuarioExistente.baja !== "") {
-                            this.mostrarAlerta("Aviso", "El DNI está registrado pero dado de baja. Contacte con el administrador.", "error");
-
-                        } else if (usuarioExistente) {
-                            this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
-
-                        } else {
-                            this.usuario.fechaAlta = new Date().toLocaleString("es-ES", {
-                                day: "2-digit", month: "2-digit", year: "numeric"
-                            });
-
-                            this.usuario.tipoUsuario = "1";
-                            this.usuario.baja = "";
-                            delete this.usuario.email2;
-                            delete this.usuario.passwd2;
-
-                            const hashedPassword = await encriptarContrasenya(this.usuario.passwd);
-                            this.usuario.passwd = hashedPassword;
-
-                            const crearResponse = await fetch("http://localhost:3000/usuarios", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify(this.usuario)
-                            });
-
-                            if (!crearResponse.ok) {
-                                throw new Error(`Error al guardar el usuario: ${crearResponse.statusText}`);
-                            }
-
-                            this.mostrarAlerta("Aviso", "Usuario guardado", "success");
-                            this.limpiarFormulario();
-                        }
-                    } catch (error) {
-                        console.log(error);
-                        this.mostrarAlerta("Error", "No se pudo grabar el usuario.", "error");
-                    }
-
-                } else {
-                    this.mostrarAlerta("Error", "Los campos de correo electrónico no coinciden", "error");
+            try {
+                const response = await fetch("http://localhost:3000/usuarios");
+                if (!response.ok) {
+                    throw new Error(
+                        `Error al obtener los usuarios: ${response.statusText}`
+                    );
                 }
 
-            } else {
-                this.mostrarAlerta("Error", "Por favor completa todos los campos requeridos", "error");
+                const usuariosExistentes = await response.json();
+                const usuarioExistente = usuariosExistentes.find((usuario) => usuario.dni === this.usuario.dni);
+
+                if (usuarioExistente && usuarioExistente.baja !== "") {
+                    this.mostrarAlerta(
+                        "Aviso",
+                        "El DNI está registrado pero dado de baja. Contacte con el administrador.",
+                        "error"
+                    );
+                } else if (usuarioExistente) {
+                    this.mostrarAlerta("Error", "El DNI ya está registrado", "error");
+                } else {
+                    this.usuario.fechaAlta = new Date().toLocaleString("es-ES", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    });
+
+                    this.usuario.tipoUsuario = "1";
+                    this.usuario.baja = "";
+                    delete this.usuario.email2;
+                    delete this.usuario.passwd2;
+
+                    const hashedPassword = await encriptarContrasenya(this.usuario.passwd);
+                    this.usuario.passwd = hashedPassword;
+
+                    const crearResponse = await fetch(
+                        "http://localhost:3000/usuarios",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(this.usuario),
+                        }
+                    );
+
+                    if (!crearResponse.ok) {
+                        throw new Error(
+                            `Error al guardar el usuario: ${crearResponse.statusText}`
+                        );
+                    }
+
+                    this.mostrarAlerta("Aviso", "Usuario guardado", "success");
+                    this.limpiarFormulario();
+                }
+            } catch (error) {
+                console.log(error);
+                this.mostrarAlerta(
+                    "Error",
+                    "No se pudo grabar el usuario.",
+                    "error"
+                );
             }
         },
 
@@ -327,7 +350,7 @@ export default {
                 telefono: "",
                 provincia: "",
                 municipio: "",
-            }
+            };
         },
 
         // Validaciones
@@ -338,10 +361,10 @@ export default {
             const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             if (!emailPattern.test(email)) {
                 Swal.fire(
-                    'Error',
-                    'El formato del correo electrónico es incorrecto',
-                    'error',
-                )
+                    "Error",
+                    "El formato del correo electrónico es incorrecto",
+                    "error"
+                );
                 return false;
             }
             return true;
@@ -352,23 +375,23 @@ export default {
             }
 
             const dniPattern = /^[XYZ]?\d{5,8}[A-Z]$/;
-            const dniLetters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+            const dniLetters = "TRWAGMYFPDXBNJZSQVHLCKE";
 
             if (!dniPattern.test(dni)) {
-                Swal.fire('Error', 'El formato del DNI/NIE es incorrecto', 'error');
+                Swal.fire("Error", "El formato del DNI/NIE es incorrecto", "error");
                 return false;
             }
 
             let number = dni.substr(0, dni.length - 1);
             const letter = dni.substr(dni.length - 1, 1).toUpperCase();
 
-            if (dni[0] === 'X') number = number.replace('X', '0');
-            if (dni[0] === 'Y') number = number.replace('Y', '1');
-            if (dni[0] === 'Z') number = number.replace('Z', '2');
+            if (dni[0] === "X") number = number.replace("X", "0");
+            if (dni[0] === "Y") number = number.replace("Y", "1");
+            if (dni[0] === "Z") number = number.replace("Z", "2");
 
-            const calculatedLetter = dniLetters[number % 23]
+            const calculatedLetter = dniLetters[number % 23];
             if (calculatedLetter !== letter) {
-                Swal.fire('Error', 'La letra del DNI/NIE no es correcta', 'error');
+                Swal.fire("Error", "La letra del DNI/NIE no es correcta", "error");
                 return false;
             }
 
@@ -377,12 +400,12 @@ export default {
         validarTelefono(telefono) {
             const regex = /^[67]\d{8}$/gi;
             if (!regex.test(telefono)) {
-                Swal.fire('Error', 'El teléfono es incorrecto', 'error');
+                Swal.fire("Error", "El teléfono es incorrecto", "error");
                 return false;
             }
         },
     },
-}
+};
 </script>
 
 <style scoped>

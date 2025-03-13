@@ -1,0 +1,12 @@
+{
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "rules": {
+      "performance": {
+        "noDelete": "off"
+      }
+    }
+  }
+}

@@ -1,12 +1,13 @@
 import "dotenv/config.js";
+import fs from "node:fs";
+import path from "node:path";
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
-import fs from "node:fs";
-import path from "node:path";
 import nodemailer from "nodemailer";
 import Stripe from "stripe";
-import { Articulo, Factura } from "../modelos/modelos.js";
+import { Articulo } from "../modelos/Articulo.js";
+import { Factura } from "../modelos/Factura.js";
 
 const rutas = express.Router();
 
@@ -21,11 +22,9 @@ const storage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    // Usar el candidatoId enviado desde el frontend para nombrar el archivo
-    //const candidatoId = req.body.candidatoId || Date.now();  // Si no se envía candidatoId, usar la fecha actual como nombre
     const fileExtension = path.extname(file.originalname); // Obtener la extensión del archivo
     const originalName = file.originalname.split(".")[0]; // Obtener el nombre original sin la extensión
-    // Concatenar candidatoId + el nombre original del archivo + la extensión
+
     const filename = `${originalName}${fileExtension}`; // Ejemplo: 1234567890-nombreOriginal.pdf
     cb(null, filename); // Guardar el archivo con el nombre generado
   },
@@ -43,29 +42,34 @@ const storageImg = multer.diskStorage({
   filename: (req, file, cb) => {
     const fileExtension = path.extname(file.originalname); // Obtener la extensión del archivo
     const originalName = file.originalname.split(".")[0]; // Obtener el nombre original sin la extensión
-    const filename = `${originalName}${fileExtension}`; // Ejemplo: 1234567890-nombreOriginal.pdf
+
+    const filename = `${originalName}${fileExtension}`; // Ejemplo: 1234567890-nombreOriginal.png
     cb(null, filename); // Guardar el archivo con el nombre generado
   },
 });
 
 const upload = multer({
   storage: storage,
+
   fileFilter: (req, file, cb) => {
     const allowedTypes = ["application/pdf"];
     if (!allowedTypes.includes(file.mimetype)) {
       return cb(new Error("Tipo de archivo no permitido"), false);
     }
+
     cb(null, true);
   },
 });
 
 const uploadImg = multer({
   storage: storageImg,
+
   fileFilter: (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/png"];
     if (!allowedTypes.includes(file.mimetype)) {
       return cb(new Error("Tipo de archivo no permitido"), false);
     }
+
     cb(null, true);
   },
 });
@@ -77,6 +81,7 @@ rutas.post("/subircv", upload.single("archivo"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ mensaje: "No se subió ningún archivo" });
   }
+
   // Responder con el archivo subido y su ubicación
   res.status(200).json({
     mensaje: "Archivo subido con éxito",
@@ -105,6 +110,7 @@ rutas.post("/subirimg", uploadImg.single("img"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ mensaje: "No se subió ninguna imagen" });
   }
+
   // Responder con el archivo subido y su ubicación
   res.status(200).json({
     mensaje: "Imagen subida con éxito",
@@ -142,10 +148,13 @@ rutas.post("/articulos", async (req, res) => {
   try {
     const articulo = new Articulo(req.body);
     await articulo.save();
+
     res.status(201).json(articulo);
+
     console.log("Artículo guardado correctamente");
   } catch (error) {
     res.status(400).json({ message: error.message });
+
     console.log("Error al guardar artículo:", error);
   }
 });
@@ -175,6 +184,7 @@ rutas.put("/articulos/:id", async (req, res) => {
     console.log("Artículo actualizado correctamente");
   } catch (error) {
     res.status(400).json({ message: error.message });
+
     console.log("Error al actualizar artículo:", error);
   }
 });
@@ -202,6 +212,7 @@ rutas.delete("/articulos/:id", async (req, res) => {
     console.log("Artículo eliminado correctamente");
   } catch (error) {
     res.status(400).json({ message: error.message });
+
     console.log("Error al eliminar artículo:", error);
   }
 });
@@ -209,10 +220,12 @@ rutas.delete("/articulos/:id", async (req, res) => {
 // Para el correo
 const transporter = nodemailer.createTransport({
   service: "gmail",
+
   auth: {
     user: process.env.VUE_APP_EMAIL_USER,
     pass: process.env.VUE_APP_EMAIL_PASSWORD,
   },
+
   tls: {
     rejectUnauthorized: false,
   },
@@ -220,22 +233,25 @@ const transporter = nodemailer.createTransport({
 
 rutas.post("/enviar-correo", (req, res) => {
   console.log("Datos recibidos: ", req.body.toString());
-  const { nombre, telefono, email, mensaje } = req.body;
 
+  const { nombre, telefono, email, mensaje } = req.body;
   const mailOptions = {
     from: email,
     to: "nesflaispendejo@gmail.com",
     subject: "Mensaje de contacto",
     text: `Nombre: ${nombre}\nTeléfono: ${telefono}\nEmail: ${email}\nMensaje: ${mensaje}`,
   };
+
   // eslint-disable-next-line no-unused-vars
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Error al enviar el correo", error);
+
       return res.status(500).json({
         error: "Error al enviar el mensaje, por favor inténtelo de nuevo",
       });
     }
+
     console.log("Email enviado");
     return res.status(200).json({ message: "Mensaje enviado correctamente" });
   });
@@ -257,6 +273,7 @@ rutas.post("/facturas", async (req, res) => {
     const factura = new Factura(req.body);
     const facturaGuardada = await factura.save();
     res.status(201).json(facturaGuardada);
+
     console.log("Factura guardado correctamente");
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -316,6 +333,7 @@ rutas.delete("/facturas/:id", async (req, res) => {
     console.log("Factura eliminado correctamente");
   } catch (error) {
     res.status(400).json({ message: error.message });
+
     console.log("Error al eliminar factura:", error);
   }
 });
@@ -355,6 +373,7 @@ rutas.post("/crear-checkout-session", async (req, res) => {
       success_url: "http://localhost:8080/success",
       cancel_url: "http://localhost:8080/cancel",
     });
+
     console.log(session);
     res.json({ id: session.id });
   } catch (error) {

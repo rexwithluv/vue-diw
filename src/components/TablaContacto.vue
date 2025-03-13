@@ -10,19 +10,19 @@
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
             <form class="row gy-3 pb-3 border rounded bg-light">
-
                 <!-- Apellidos y nombre -->
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre" v-model="contacto.nombre" required>
+                        <input type="text" class="form-control" placeholder="Nombre" v-model="contacto.nombre"
+                            required />
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Teléfono</label>
                         <input type="text" class="form-control" placeholder="000000000" v-model="contacto.telefono"
-                            required>
+                            required />
                     </div>
                 </div>
 
@@ -30,7 +30,8 @@
                 <div class="col-12">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
-                        <input type="email" class="form-control" placeholder="Email" v-model="contacto.email" required>
+                        <input type="email" class="form-control" placeholder="Email" v-model="contacto.email"
+                            required />
                     </div>
                 </div>
 
@@ -49,7 +50,6 @@
                         Enviar
                     </button>
                 </div>
-
             </form>
         </div>
     </div>
@@ -65,13 +65,14 @@ export default {
                 nombre: "",
                 telefono: "",
                 email: "",
-                mensaje: ""
+                mensaje: "",
             },
-        }
+            mensajeError: "",
+        };
     },
     computed: {
         esNombreValido() {
-            return this.contacto.nombre.trim() != '';
+            return this.contacto.nombre.trim() !== "";
         },
 
         esTelefonoValido() {
@@ -80,42 +81,69 @@ export default {
         },
 
         esEmailValido() {
-            const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-            return regexEmail.test(this.contacto.email)
-        }
+            const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return regexEmail.test(this.contacto.email);
+        },
     },
     methods: {
         enviarCorreo() {
             if (this.esNombreValido && this.esTelefonoValido && this.esEmailValido) {
-                fetch('http://localhost:5000/enviar-correo', {
-                    method: 'POST',
+                fetch("http://localhost:5000/enviar-correo", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify(this.contacto),
-
-                }).then(response => response.json())
-                    .then(data => {
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
                         if (data.message) {
-                            this.contacto.nombre = "",
-                                this.contacto.telefono = "",
-                                this.contacto.email = "",
-                                this.contacto.mensaje = ""
-                            this.mostrarAlerta("Enviado", "Mensaje enviado con éxito", "success")
+                            this.contacto.nombre = "";
+                            this.contacto.telefono = "";
+                            this.contacto.email = "";
+                            this.contacto.mensaje = "";
+                            this.mostrarAlerta(
+                                "Enviado",
+                                "Mensaje enviado con éxito",
+                                "success"
+                            );
                         } else {
-                            this.mensajeError = "Hubo un problema al enviar el mensaje. Inténtalo de nuevo";
+                            this.mensajeError =
+                                "Hubo un problema al enviar el mensaje. Inténtalo de nuevo";
+                            this.mostrarAlerta(
+                                "Error",
+                                this.mensajeError,
+                                "error"
+                            );
                         }
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error(error);
-                        this.mensajeError = 'Hubo un problema en la conexión del servidor al enviar el mensaje. Intenta de nuevo'
-                    })
+                        this.mensajeError =
+                            "Hubo un problema en la conexión del servidor al enviar el mensaje. Intenta de nuevo";
+                        this.mostrarAlerta(
+                            "Error",
+                            this.mensajeError,
+                            "error"
+                        );
+                    });
             } else {
-                console.log(this.contacto.nombre, this.contacto.telefono, this.contacto.email);
-                console.log(this.esNombreValido, this.esTelefonoValido, this.esEmailValido);
-                this.mostrarAlerta('Error', 'Por favor completa todos los campos correctamente', 'error')
+                console.log(
+                    this.contacto.nombre,
+                    this.contacto.telefono,
+                    this.contacto.email
+                );
+                console.log(
+                    this.esNombreValido,
+                    this.esTelefonoValido,
+                    this.esEmailValido
+                );
+                this.mostrarAlerta(
+                    "Error",
+                    "Por favor completa todos los campos correctamente",
+                    "error"
+                );
             }
-
         },
 
         mostrarAlerta(titulo, mensaje, icono) {
@@ -124,15 +152,14 @@ export default {
                 text: mensaje,
                 icon: icono,
                 customClass: {
-                    container: 'custom-alert-container',
-                    popup: 'custom-alert-popup',
-                    modal: 'custom-alert-modal'
-                }
+                    container: "custom-alert-container",
+                    popup: "custom-alert-popup",
+                    modal: "custom-alert-modal",
+                },
             });
         },
-    }
-
-}
+    },
+};
 </script>
 
 <style></style>

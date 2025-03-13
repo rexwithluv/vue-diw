@@ -10,7 +10,6 @@
 
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
-
             <p v-if="!isLogueado" class="fw-bold">
                 Solo los usuarios registrados pueden comentar.<br />
                 <router-link to="registro">Registrarse</router-link>
@@ -18,22 +17,20 @@
                 <router-link to="login">Iniciar sesión</router-link>
             </p>
 
-
             <form class="row m-auto gx-4 gy-3 border rounded bg-light pb-3">
-
                 <!-- Email y móvil -->
                 <div class="col-7">
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="text" class="form-control" placeholder="Email" required disabled
-                            @blur="validarCorreo(this.comentario.email)" v-model="comentario.email">
+                            @blur="validarCorreo(this.comentario.email)" v-model="comentario.email" />
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="input-group">
                         <label class="input-group-text">Móvil</label>
                         <input type="text" class="form-control" placeholder="Teléfono" required disabled
-                            @blur="validarTelefono(this.comentario.movil)" v-model="comentario.movil">
+                            @blur="validarTelefono(this.comentario.movil)" v-model="comentario.movil" />
                     </div>
                 </div>
 
@@ -51,9 +48,10 @@
                     <div class="input-group">
                         <label class="input-group-text">Valoración</label>
                         <div class="form-control">
-                            <span v-for="n in 5" :key="n"
-                                :class="n <= this.comentario.valoracion ? 'bi bi-star-fill' : 'bi bi-star'"
-                                @click="setValoracion(n)" class="star-icon-pointer"></span>
+                            <span v-for="n in 5" :key="n" :class="n <= this.comentario.valoracion
+                                ? 'bi bi-star-fill'
+                                : 'bi bi-star'
+                                " @click="setValoracion(n)" class="star-icon-pointer"></span>
                         </div>
                     </div>
                 </div>
@@ -66,9 +64,10 @@
                 <!-- Acepta condiciones -->
                 <div class="col-12 text-center">
                     <div class="form-check d-inline-block">
-                        <input class="form-check-input" type="checkbox" v-model="comentario.acepta">
-                        <label class="form-check-label">He leído y acepto las <router-link to="/politica-privacidad"
-                                class="link">Políticas de privacidad</router-link></label>
+                        <input class="form-check-input" type="checkbox" v-model="comentario.acepta" />
+                        <label class="form-check-label">He leído y acepto las
+                            <router-link to="/politica-privacidad" class="link">Políticas de
+                                privacidad</router-link></label>
                     </div>
                 </div>
 
@@ -96,20 +95,22 @@
                         <th scope="col" class="bg-info-subtle text-center">Nombre</th>
                         <th scope="col" class="bg-info-subtle text-center">Mensaje</th>
                         <th scope="col" class="bg-info-subtle text-center">Valoración</th>
-                        <th scope="col" class="bg-warning-subtle text-center" v-if="isAdmin">Gestión</th>
+                        <th scope="col" class="bg-warning-subtle text-center" v-if="isAdmin">
+                            Gestión
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="comentario in comentariosPorPagina" :key="comentario.id">
                         <td class="align-middle text-center">{{ comentario.id }}</td>
                         <td class="align-middle text-center">{{ comentario.fecha }}</td>
-                        <td class="align-middle text-center">{{usuarios.find(u => u.email === comentario.email).nombre
-                            }}</td>
+                        <td class="align-middle text-center">
+                            {{usuarios.find((u) => u.email === comentario.email).nombre}}
+                        </td>
                         <td class="align-middle text-center">{{ comentario.mensaje }}</td>
                         <td class="align-middle text-center">
-                            <span v-for="n in 5" :key="n"
-                                :class="n <= comentario.valoracion ? 'bi bi-star-fill' : 'bi bi-star'"
-                                class="star-icon"></span>
+                            <span v-for="n in 5" :key="n" :class="n <= comentario.valoracion ? 'bi bi-star-fill' : 'bi bi-star'
+                                " class="star-icon"></span>
                         </td>
                         <td class="text-center align-middle pale-yellow" v-if="isAdmin">
                             <div>
@@ -140,11 +141,10 @@
             </button>
         </div>
     </div>
-
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 export default {
     name: "TablaComentarios",
 
@@ -155,7 +155,7 @@ export default {
                 mensaje: "",
                 movil: "",
                 valoracion: 1,
-                acepta: false
+                acepta: false,
             },
 
             usuarios: [],
@@ -166,7 +166,7 @@ export default {
 
             currentPage: 1,
             pageSize: 5,
-        }
+        };
     },
 
     mounted() {
@@ -174,7 +174,7 @@ export default {
         this.getComentarios();
         this.isAdmin = localStorage.getItem("isAdmin") === "true";
         this.isLogueado = localStorage.getItem("isLogueado") === "true";
-        this.cargarDatosPredeterminados()
+        this.cargarDatosPredeterminados();
     },
 
     computed: {
@@ -182,12 +182,14 @@ export default {
             // slice para extraer un fragmento de un array de 5 elementos
             const comentariosFiltrados = this.comentarios;
             const indiceInicial = (this.currentPage - 1) * this.pageSize;
-            return comentariosFiltrados.slice(indiceInicial, indiceInicial + this.pageSize);
+            return comentariosFiltrados.slice(
+                indiceInicial,
+                indiceInicial + this.pageSize,
+            );
         },
     },
 
     methods: {
-
         // Getters
         async getUsuarios() {
             try {
@@ -196,7 +198,6 @@ export default {
                     throw new Error(`Error en la solicitud: ${response.statusText}`);
                 }
                 this.usuarios = await response.json();
-
             } catch (error) {
                 console.log(error);
             }
@@ -206,10 +207,10 @@ export default {
                 const response = await fetch("http://localhost:3000/comentarios");
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.statusText}`);
-
                 }
-                this.comentarios = (await response.json()).sort((a, b) => a.fecha.localeCompare(b.fecha));
-
+                this.comentarios = (await response.json()).sort((a, b) =>
+                    a.fecha.localeCompare(b.fecha),
+                );
             } catch (error) {
                 console.log(error);
             }
@@ -220,14 +221,15 @@ export default {
                 this.comentario.email = email;
 
                 this.comentario.telefono = fetch("http://localhost:3000/usuarios")
-                    .then(response => response.json())
-                    .then(data => {
-                        const usuario = data.find(u => u.email === email);
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const usuario = data.find((u) => u.email === email);
                         const telefono = usuario.telefono;
                         this.comentario.movil = telefono;
                     })
-                    .catch(error => console.error(`Error al obtener los usuarios: ${error}`))
-
+                    .catch((error) =>
+                        console.error(`Error al obtener los usuarios: ${error}`),
+                    );
             }
         },
 
@@ -236,9 +238,9 @@ export default {
             this.comentario = {
                 mensaje: "",
                 valoracion: 1,
-                acepta: false
+                acepta: false,
             };
-            this.cargarDatosPredeterminados()
+            this.cargarDatosPredeterminados();
         },
 
         // Usando estrellas
@@ -269,10 +271,10 @@ export default {
             const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             if (!emailPattern.test(email)) {
                 Swal.fire(
-                    'Error',
-                    'El formato del correo electrónico es incorrecto',
-                    'error',
-                )
+                    "Error",
+                    "El formato del correo electrónico es incorrecto",
+                    "error",
+                );
                 return false;
             }
 
@@ -285,7 +287,7 @@ export default {
 
             const regex = /^[67]\d{8}$/gi;
             if (!regex.test(telefono)) {
-                Swal.fire('Error', 'El teléfono es incorrecto', 'error');
+                Swal.fire("Error", "El teléfono es incorrecto", "error");
                 return false;
             }
         },
@@ -293,55 +295,83 @@ export default {
         // Almacenar la valoración
         async guardarComentario() {
             if (!this.isLogueado) {
-                this.mostrarAlerta("Debe registrarse", "Debe registrarse para poder escribir comentarios.", "error");
+                this.mostrarAlerta(
+                    "Debe registrarse",
+                    "Debe registrarse para poder escribir comentarios.",
+                    "error",
+                );
                 return;
             }
 
             if (this.comentario.acepta === false) {
-                this.mostrarAlerta("Debe aceptar", "Debe aceptar las políticas de privacidad para poder mandar su reseña.", "warning");
+                this.mostrarAlerta(
+                    "Debe aceptar",
+                    "Debe aceptar las políticas de privacidad para poder mandar su reseña.",
+                    "warning",
+                );
                 return;
             }
 
-
             try {
-
-                const comentarioExiste = !!this.comentario.id
+                const comentarioExiste = !!this.comentario.id;
 
                 if (comentarioExiste) {
-                    const editarResponse = await fetch(`http://localhost:3000/comentarios/${this.comentario.id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
+                    const editarResponse = await fetch(
+                        `http://localhost:3000/comentarios/${this.comentario.id}`,
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(this.comentario),
                         },
-                        body: JSON.stringify(this.comentario)
-                    });
+                    );
 
                     if (!editarResponse.ok) {
-                        throw new Error(`Error al guardar el comentario: ${editarResponse.statusText}`);
+                        throw new Error(
+                            `Error al guardar el comentario: ${editarResponse.statusText}`,
+                        );
                     }
 
-                    this.mostrarAlerta("Aviso", "Comentario editado correctamente", "success");
+                    this.mostrarAlerta(
+                        "Aviso",
+                        "Comentario editado correctamente",
+                        "success",
+                    );
                     this.limpiarFormulario();
                 } else {
                     this.comentario.fecha = new Date().toLocaleDateString("es-ES");
-                    const guardarResponse = await fetch('http://localhost:3000/comentarios', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
+                    const guardarResponse = await fetch(
+                        "http://localhost:3000/comentarios",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(this.comentario),
                         },
-                        body: JSON.stringify(this.comentario)
-                    });
+                    );
 
                     if (!guardarResponse.ok) {
-                        throw new Error(`Error al guardar el comentario: ${guardarResponse.statusText}`);
+                        throw new Error(
+                            `Error al guardar el comentario: ${guardarResponse.statusText}`,
+                        );
                     }
 
-                    this.mostrarAlerta("Aviso", "Comentario guardado correctamente", "success");
+                    this.mostrarAlerta(
+                        "Aviso",
+                        "Comentario guardado correctamente",
+                        "success",
+                    );
                     this.limpiarFormulario();
                 }
             } catch (error) {
                 console.log(error);
-                this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
+                this.mostrarAlerta(
+                    "Error",
+                    "No se pudo guardar el candidato.",
+                    "error",
+                );
             }
 
             // Recargamos la tabla al finalizar la operación
@@ -359,15 +389,25 @@ export default {
 
                 // Usuarios
                 const comentarios = await response.json();
-                const comentarioEncontrado = comentarios.find(c => c.id === comentario.id);
+                const comentarioEncontrado = comentarios.find(
+                    (c) => c.id === comentario.id,
+                );
                 if (comentarioEncontrado) {
                     this.comentario = { ...comentarioEncontrado };
                 } else {
-                    this.mostrarAlerta('Error', 'Comentario no encontrado en el servidor.', 'error');
+                    this.mostrarAlerta(
+                        "Error",
+                        "Comentario no encontrado en el servidor.",
+                        "error",
+                    );
                 }
             } catch (error) {
                 console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
+                this.mostrarAlerta(
+                    "Error",
+                    "No se pudo cargar el usuario desde el servidor.",
+                    "error",
+                );
             }
         },
         async eliminarComentario(comentario) {
@@ -380,28 +420,39 @@ export default {
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#3085d6",
                 confirmButtonText: "Aceptar",
-                cancelButtonText: "Cancelar"
+                cancelButtonText: "Cancelar",
             });
 
             if (result.isConfirmed) {
                 try {
-                    const response = await fetch(`http://localhost:3000/comentarios/${comentario.id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json",
+                    const response = await fetch(
+                        `http://localhost:3000/comentarios/${comentario.id}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
                         },
-                    });
+                    );
 
                     if (!response.ok) {
                         throw new Error(`Error en la solicitud: ${response.statusText}`);
                     }
                 } catch (error) {
                     console.error(error);
-                    this.mostrarAlerta('Error', 'No se pudo cargar el comentario desde el servidor.', 'error');
+                    this.mostrarAlerta(
+                        "Error",
+                        "No se pudo cargar el comentario desde el servidor.",
+                        "error",
+                    );
                 }
 
                 // Avisamos y recargamos la tabla al finalizar la operación
-                this.mostrarAlerta('Comentario eliminado', 'Comentario eliminado correctamente.', 'success');
+                this.mostrarAlerta(
+                    "Comentario eliminado",
+                    "Comentario eliminado correctamente.",
+                    "success",
+                );
                 this.getComentarios();
             }
         },
@@ -416,9 +467,9 @@ export default {
             if (this.currentPage > 1) {
                 this.currentPage--;
             }
-        }
+        },
     },
-}
+};
 </script>
 
 <style scoped>

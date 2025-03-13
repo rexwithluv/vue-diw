@@ -120,15 +120,17 @@ router.beforeEach((to, from, next) => {
     const isLogueado = localStorage.getItem("isLogueado") === "true";
     const isAdmin = localStorage.getItem("isAdmin") === "true";
 
+    // Si no es admin, redirígue al inicio
     if (!isLogueado || !isAdmin) {
-      // Si no es admin, redirígue a otra ruta
       next({ name: "inicio" });
-    } else {
-      next(); // Permite el acceso a la ruta
     }
-  } else {
-    next(); // Si no es necesaria la verificación
+
+    // Si es admin permite acceso a la ruta solicitada
+    next();
   }
+
+  // Si no necesita verificación permite acceso
+  next();
 });
 
 export default router;

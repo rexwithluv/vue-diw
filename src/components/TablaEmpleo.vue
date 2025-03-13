@@ -10,20 +10,19 @@
     <div class="container-fluid px-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
             <form class="row gy-3 pb-3 border rounded bg-light">
-
                 <!-- Apellidos y nombre -->
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Apellidos</label>
                         <input type="text" class="form-control" placeholder="Apellidos" v-model="candidato.apellidos"
-                            required>
+                            required />
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Nombre</label>
                         <input type="text" class="form-control" placeholder="Nombre" v-model="candidato.nombre"
-                            required>
+                            required />
                     </div>
                 </div>
 
@@ -32,14 +31,14 @@
                     <div class="input-group">
                         <label class="input-group-text">Email</label>
                         <input type="email" class="form-control" placeholder="Email" v-model="candidato.email"
-                            @blur="validarCorreo(this.candidato.email)" required>
+                            @blur="validarCorreo(this.candidato.email)" required />
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="input-group">
                         <label class="input-group-text">Móvil</label>
                         <input type="text" class="form-control" placeholder="Móvil" v-model="candidato.telefono"
-                            @blur="validarTelefono(this.candidato.telefono)" required>
+                            @blur="validarTelefono(this.candidato.telefono)" required />
                     </div>
                 </div>
 
@@ -62,15 +61,15 @@
                         <label class="input-group-text">Modalidad</label>
                         <div class="btn-group form-control" role="group">
                             <input type="radio" class="btn-check" name="modalidad" id="remoto" value="Remoto"
-                                autocomplete="off" v-model="candidato.modalidad">
+                                autocomplete="off" v-model="candidato.modalidad" />
                             <label class="btn btn-outline-secondary" for="remoto">Remoto</label>
 
                             <input type="radio" class="btn-check" name="modalidad" id="hibrido" value="Híbrido"
-                                autocomplete="off" v-model="candidato.modalidad">
+                                autocomplete="off" v-model="candidato.modalidad" />
                             <label class="btn btn-outline-secondary" for="hibrido">Híbrido</label>
 
                             <input type="radio" class="btn-check" name="modalidad" id="presencial" value="Presencial"
-                                autocomplete="off" v-model="candidato.modalidad">
+                                autocomplete="off" v-model="candidato.modalidad" />
                             <label class="btn btn-outline-secondary" for="presencial">Presencial</label>
                         </div>
                     </div>
@@ -90,16 +89,17 @@
                     <div class="input-group">
                         <label class="input-group-text">CV (PDF)</label>
                         <input type="file" class="form-control" placeholder="CV en formato PDF"
-                            accept=".pdf, .jpg, .jpeg" @change="handleFileChange" ref="fileInput">
+                            accept=".pdf, .jpg, .jpeg" @change="handleFileChange" ref="fileInput" />
                     </div>
                 </div>
 
                 <!-- Acepta condiciones -->
                 <div class="col-12 text-center">
                     <div class="form-check d-inline-block">
-                        <input class="form-check-input" type="checkbox" v-model="candidato.acepta">
-                        <label class="form-check-label">He leído y acepto las <router-link to="/politica-privacidad"
-                                class="link">Políticas de privacidad</router-link></label>
+                        <input class="form-check-input" type="checkbox" v-model="candidato.acepta" />
+                        <label class="form-check-label">He leído y acepto las
+                            <router-link to="/politica-privacidad" class="link">Políticas de
+                                privacidad</router-link></label>
                     </div>
                 </div>
 
@@ -109,7 +109,6 @@
                         Mandar CV
                     </button>
                 </div>
-
             </form>
         </div>
     </div>
@@ -137,8 +136,12 @@
                         <td class="align-middle text-start">{{ candidato.nombre }}</td>
                         <td class="align-middle text-center">{{ candidato.telefono }}</td>
                         <td class="align-middle text-center">{{ candidato.email }}</td>
-                        <td class="align-middle text-center">{{departamentos.find(dep => dep.id ===
-                            candidato.departamento).nombre}} </td>
+                        <td class="align-middle text-center">
+                            {{
+                                departamentos.find((dep) => dep.id === candidato.departamento)
+                                    .nombre
+                            }}
+                        </td>
                         <td class="align-middle text-center">{{ candidato.modalidad }}</td>
                         <td class="text-center align-middle pale-yellow">
                             <button class="btn btn-warning m-2" @click.prevent="seleccionarCandidato(candidato)">
@@ -170,7 +173,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 export default {
     name: "TablaEmpleo",
 
@@ -197,7 +200,7 @@ export default {
             // Para la paginación
             currentPage: 1,
             pageSize: 5,
-        }
+        };
     },
 
     mounted() {
@@ -209,12 +212,14 @@ export default {
     computed: {
         candidatosPorPagina() {
             const indiceInicial = (this.currentPage - 1) * this.pageSize;
-            return this.candidatos.slice(indiceInicial, indiceInicial + this.pageSize);
-        }
+            return this.candidatos.slice(
+                indiceInicial,
+                indiceInicial + this.pageSize
+            );
+        },
     },
 
     methods: {
-
         // Getters
         async getDepartamentos() {
             try {
@@ -264,7 +269,7 @@ export default {
                 modalidad: "",
                 comentarios: "",
                 acepta: false,
-            }
+            };
         },
 
         // Validaciones
@@ -276,10 +281,10 @@ export default {
             const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             if (!emailPattern.test(email)) {
                 Swal.fire(
-                    'Error',
-                    'El formato del correo electrónico es incorrecto',
-                    'error',
-                )
+                    "Error",
+                    "El formato del correo electrónico es incorrecto",
+                    "error"
+                );
                 return false;
             }
 
@@ -292,7 +297,7 @@ export default {
 
             const regex = /^[67]\d{8}$/gi;
             if (!regex.test(telefono)) {
-                Swal.fire('Error', 'El teléfono es incorrecto', 'error');
+                Swal.fire("Error", "El teléfono es incorrecto", "error");
                 return false;
             }
         },
@@ -300,61 +305,95 @@ export default {
         // Enviar candidatura
         handleFileChange(event) {
             this.archivo = event.target.files[0];
-            console.log(this.archivo)
+            console.log(this.archivo);
         },
         async guardarCandidato() {
             if (this.candidato.acepta === false) {
-                this.mostrarAlerta("Debe aceptar", "Debe aceptar las políticas de privacidad para poder mandar su CV", "warning");
+                this.mostrarAlerta(
+                    "Debe aceptar",
+                    "Debe aceptar las políticas de privacidad para poder mandar su CV",
+                    "warning"
+                );
             } else {
-                if (this.candidato.apellidos && this.candidato.nombre && this.candidato.email && this.candidato.telefono && this.candidato.departamento && this.candidato.modalidad) {
+                if (
+                    this.candidato.apellidos &&
+                    this.candidato.nombre &&
+                    this.candidato.email &&
+                    this.candidato.telefono &&
+                    this.candidato.departamento &&
+                    this.candidato.modalidad
+                ) {
                     try {
                         // Si el candidato lo traemos de la base de datos tendrá ID, nos aseguramos de eliminarlo para evitar duplicados
-                        // biome-ignore lint/performance/noDelete: <explanation>
                         delete this.candidato.id;
 
-                        const guardarResponse = await fetch('http://localhost:3000/candidatos', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(this.candidato)
-                        });
+                        const guardarResponse = await fetch(
+                            "http://localhost:3000/candidatos",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(this.candidato),
+                            }
+                        );
 
                         if (!guardarResponse.ok) {
-                            throw new Error(`Error al guardar la candidatura: ${guardarResponse.statusText}`);
+                            throw new Error(
+                                `Error al guardar la candidatura: ${guardarResponse.statusText}`
+                            );
                         }
 
                         // Guardamos el PDF
                         if (this.archivo) {
                             const formData = new FormData();
-                            const candidatoId = this.candidato.telefono || 'default';
-                            const nuevoArchivo = new File([this.archivo], `${candidatoId}.pdf`, { type: this.archivo.type });
-                            formData.append('archivo', nuevoArchivo);
-                            formData.append('candidatoId', this.candidato.telefono)
-                            console.log(nuevoArchivo)
-                            const fileResponse = await fetch('http://localhost:5000/subircv', {
-                                method: 'POST',
-                                body: formData,
-                                credentials: 'include'
-                            });
+                            const candidatoId = this.candidato.telefono || "default";
+                            const nuevoArchivo = new File(
+                                [this.archivo],
+                                `${candidatoId}.pdf`,
+                                { type: this.archivo.type }
+                            );
+                            formData.append("archivo", nuevoArchivo);
+                            formData.append("candidatoId", this.candidato.telefono);
+                            console.log(nuevoArchivo);
+                            const fileResponse = await fetch(
+                                "http://localhost:5000/subircv",
+                                {
+                                    method: "POST",
+                                    body: formData,
+                                    credentials: "include",
+                                }
+                            );
 
                             if (!fileResponse.ok) {
-                                throw new Error('Error al subir el archivo');
+                                throw new Error("Error al subir el archivo");
                             }
-                            console.log('Hubo respuesta:', fileResponse);
+                            console.log("Hubo respuesta:", fileResponse);
 
                             const fileData = await fileResponse.json();
-                            console.log('Archivo subido correctamente:', fileData);
+                            console.log("Archivo subido correctamente:", fileData);
                         }
 
-                        this.mostrarAlerta("Aviso", "Candidatura guardada correctamente", "success");
+                        this.mostrarAlerta(
+                            "Aviso",
+                            "Candidatura guardada correctamente",
+                            "success"
+                        );
                         this.limpiarFormulario();
                     } catch (error) {
                         console.log(error);
-                        this.mostrarAlerta("Error", "No se pudo guardar el candidato.", "error");
+                        this.mostrarAlerta(
+                            "Error",
+                            "No se pudo guardar el candidato.",
+                            "error"
+                        );
                     }
                 } else {
-                    this.mostrarAlerta("Error", "Por favor completa todos los campos", "error");
+                    this.mostrarAlerta(
+                        "Error",
+                        "Por favor completa todos los campos",
+                        "error"
+                    );
                 }
 
                 // Recargamos la tabla al finalizar la operación
@@ -373,15 +412,25 @@ export default {
                 }
 
                 const candidatos = await response.json();
-                const candidatoEncontrado = candidatos.find(c => c.id === candidato.id);
+                const candidatoEncontrado = candidatos.find(
+                    (c) => c.id === candidato.id
+                );
                 if (candidatoEncontrado) {
                     this.candidato = { ...candidatoEncontrado };
                 } else {
-                    this.mostrarAlerta('Error', 'Candidato no encontrado en el servidor.', 'error');
+                    this.mostrarAlerta(
+                        "Error",
+                        "Candidato no encontrado en el servidor.",
+                        "error"
+                    );
                 }
             } catch (error) {
                 console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo cargar el candidato desde el servidor.', 'error');
+                this.mostrarAlerta(
+                    "Error",
+                    "No se pudo cargar el candidato desde el servidor.",
+                    "error"
+                );
             }
         },
         // Eliminar
@@ -395,25 +444,32 @@ export default {
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#3085d6",
                 confirmButtonText: "Aceptar",
-                cancelButtonText: "Cancelar"
+                cancelButtonText: "Cancelar",
             });
 
             if (result.isConfirmed) {
                 try {
-                    const response = await fetch(`http://localhost:3000/candidatos/${candidato.id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(candidato),
-                    });
+                    const response = await fetch(
+                        `http://localhost:3000/candidatos/${candidato.id}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(candidato),
+                        }
+                    );
 
                     if (!response.ok) {
                         throw new Error(`Error en la solicitud: ${response.statusText}`);
                     }
                 } catch (error) {
                     console.error(error);
-                    this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
+                    this.mostrarAlerta(
+                        "Error",
+                        "No se pudo cargar el usuario desde el servidor.",
+                        "error"
+                    );
                 }
 
                 // Recargamos la tabla al finalizar la operación
@@ -433,7 +489,7 @@ export default {
             }
         },
     },
-}
+};
 </script>
 
 <style coped>
