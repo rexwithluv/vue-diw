@@ -23,12 +23,15 @@
             <label class="input-group-text label-width">Categoría</label>
             <select name="provincia" id="provincia" class="form-select"
               :class="{ 'text-placeholder': articulo.categoria === '' }" v-model="articulo.categoria">
-              <option value="" disabled>Selecciona</option>
+              <option value="0">Todas</option>
               <option class="text-black" v-for="categoria in categoriasArticulos" :key="categoria.id"
                 :value="categoria.id">
                 {{ categoria.nombre }}
               </option>
             </select>
+            <button type="button" class="btn btn-primary" @click="buscarCategoria(articulo.categoria)">
+              <i class="bi bi-search"></i>
+            </button>
           </div>
         </div>
 
@@ -456,6 +459,49 @@ export default {
       if (this.paginaActual > 1) {
         this.paginaActual--;
       }
+    },
+
+    // Examen
+    async buscarCategoria(categoria) {
+
+      if (categoria === "") {
+        this.mostrarAlerta("Error", "No se ha seleccionado ninguna categoría.", "error");
+        return;
+      }
+
+      if (categoria === "0"){
+        this.articulos = await obtenerArticulos();
+        return;
+      }
+
+      try {
+          const response = await fetch("http://localhost:3000/categoriasArticulos");
+          if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+          }
+
+          const categorias = await response.json();
+          const categoriaEncontrada = categorias.find((c) => c.id === categoria);
+          if (categoriaEncontrada) {
+
+            const articulos = await obtenerArticulos();
+
+            this.articulos = articulos.filter(art => art.categoria === categoria);
+          } else {
+            this.mostrarAlerta(
+              "Error",
+              "Categoría no encontrada en el servidor.",
+              "error"
+            );
+          }
+        } catch (error) {
+          console.error(error);
+          this.mostrarAlerta(
+            "Error",
+            "No se pudo cargar la categoría desde el servidor",
+            "error"
+          );
+        }
     },
   },
 };
