@@ -94,7 +94,7 @@
                         <li class="dropdown-item">
                             <router-link to="/registro">Registro</router-link>
                         </li>
-                        <li class="dropdown-item" v-if="this.isAdmin">
+                        <li class="dropdown-item" >
                             <router-link to="/usuarios" @click="verPerfil">Perfil</router-link>
                         </li>
                         <li class="dropdown-item">
@@ -110,7 +110,6 @@
 
 <script>
 import { useCartStore } from "@/store/carts";
-import Swal from "sweetalert2";
 
 export default {
     name: "NavBar",
@@ -143,10 +142,6 @@ export default {
 
     methods: {
         verPerfil(){
-            if (!this.isAdmin){
-                Swal.fire("Error", "No puedes ver tu usuario si no eres administrador.","error")
-            }
-
             if (document.location.pathname === "/usuarios"){
                 window.location.reload();
             }

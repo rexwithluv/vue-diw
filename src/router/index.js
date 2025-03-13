@@ -38,7 +38,6 @@ const routes = [
     path: "/usuarios",
     name: "usuarios",
     component: TablaUsuarios,
-    meta: { requiresAdmin: true },
   },
   {
     path: "/carrito",

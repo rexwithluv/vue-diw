@@ -108,7 +108,7 @@
         </div>
 
         <!-- Checkbox "Histórico" -->
-        <div class="col-12 text-center">
+        <div class="col-12 text-center" v-if="isAdmin">
           <div class="form-check d-inline-block">
             <input v-model="verHistorico" type="checkbox" name="historico" id="historico" class="form-check-input" />
             <label class="form-check-label">Mostrar usuarios que se han dado de baja</label>
@@ -116,7 +116,7 @@
         </div>
 
         <!-- Botones -->
-        <div class="d-flex mb-4 gap-4 px-4 mt-5">
+        <div class="d-flex mb-4 gap-4 px-4 mt-5" v-if="isAdmin">
           <button type="button" class="btn btn-primary fs-5 py-2 w-100" @click.prevent="grabarUsuario()">
             <i class="bi bi-floppy-fill me-2"></i>
             Alta
@@ -139,9 +139,9 @@
   </div>
 
   <!-- Tabla -->
-  <h2 class="text-center fw-bold mt-4">Tabla usuarios</h2>
+  <h2 class="text-center fw-bold mt-4" v-if="isAdmin">Tabla usuarios</h2>
 
-  <div class="my-3 mx-2">
+  <div class="my-3 mx-2" v-if="isAdmin">
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>
@@ -247,7 +247,7 @@ export default {
     setTimeout(() =>{
       const usuario = this.usuarios.find(u => u.email === localStorage.getItem("email"));
       this.seleccionarUsuario(usuario);
-    }, "300")
+    }, "500")
   },
 
   // Propiedades computadas que se calculan en tiempo real, reactivas a cambios
@@ -275,6 +275,10 @@ export default {
         municipio.id.startsWith(this.usuario.provincia)
       );
     },
+
+    isAdmin(){
+      return localStorage.getItem("isAdmin");
+    }
   },
 
   // Métodos de los de toda la vida
